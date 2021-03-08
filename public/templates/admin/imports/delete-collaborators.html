@@ -1,0 +1,28 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12 title-wrapper">
+            <h4>Importación de archivos</h4>
+        </div>
+        <form name="importForm" class="col-md-12 col-sm-12 col-lg-12">
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <div class="form-group">
+                        <h3 for="collaboratorCsv">Bajas</h3>
+                        <input type="file" class="form-control" id="collaboratorCsv" name="collaboratorCsv" file-collaborators="files">
+                    </div>
+                    <div class="btn-admin-wrapper">
+                        <button type="button" class="btn btn-admin" ng-click="deleteCollaborators()">Enviar</button>
+                    </div>
+                    <div ng-show="result">
+                        <h4>Resultado de la baja</h4>
+                        <p>Del documento: {{result.filename}}, se eliminaron exitosamente {{result.inserted}}</p>
+                        <p>Los siguientes números de empleado no puedieron darse de baja:</p>
+                        <ul>
+                            <li ng-repeat="invalid in result.skipped track by $index">{{invalid}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

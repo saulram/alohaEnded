@@ -1,0 +1,45 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12 title-wrapper">
+            <h4>Importación de datos</h4>
+        </div>
+        <form name="importForm" class="col-md-12 col-sm-12 col-lg-12">
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <div class="form-group">
+                        <h3 for="upgrade">Importación de datos Upgrade</h3>
+                        <input type="file" class="form-control" id="upgrade" name="upgrade" file-upgrade="files">
+                    </div>
+                    <div class="btn-admin-wrapper">
+                        <button type="button" class="btn btn-admin" ng-click="importUpgrade()">Importación de datos Upgrade</button>
+                    </div>
+                    <div ng-show="upgradeRes">
+                        <h4>Resultado de la carga</h4>
+                        <p>Del documento: {{upgradeRes.filename}}, se cargaron exitosamente {{upgradeRes.columns}} columnas de un total de {{upgradeRes.totalColumns}}</p>
+                        <p>Los siguientes números de empleado no puedieron importarse:</p>
+                        <ul>
+                            <li ng-repeat="invalid in upgradeRes.errorRows">{{invalid['employee']}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <div class="form-group">
+                        <h3 for="performance">Importación de datos Evaluación de desempeño</h3>
+                        <input type="file" class="form-control" id="performance" name="performance" file-performance="performanceFiles">
+                    </div>
+                    <div class="btn-admin-wrapper">
+                        <button type="button" class="btn btn-admin" ng-click="importPerformance()">Importación de datos Evaluación de desempeño</button>
+                    </div>
+                    <div ng-show="response">
+                        <h4>Resultado de la carga</h4>
+                        <p>Del documento: {{response.filename}}, se cargaron exitosamente {{response.columns}} columnas de un total de {{response.totalColumns}}.</p>
+                        <p>Los siguientes números de empleado no puedieron importarse:</p>
+                        <ul>
+                            <li ng-repeat="invalid in response.errorRows">{{invalid['numero de empleado']}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

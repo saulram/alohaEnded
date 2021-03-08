@@ -1,0 +1,93 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Administración de administradores</h4>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 form-title">
+            <h4>Asignar nuevo administrador</h4>
+        </div>
+        <form name="roleForm" class="col-md-12 col-lg-12 col-sm-12">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="location">Localidad</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <select ng-model="collaborator.location" id="location">
+                                    <option value="">Todas</option>
+                                    <option value="BALLESOL">Ballesol</option>
+                                    <option value="CELAYA">Celaya</option>
+                                    <option value="Corporativo">Corporativo</option>
+                                    <option value="MEXICO">Cd. De México</option>
+                                    <option value="Santa Fe">Santa Fe</option>
+                                    <option value="Puebla">Puebla</option>
+                                    <option value="Guadalajara">Guadalajara</option>
+                                    <option value="Ixtapa">Ixtapa</option>
+                                    <option value="Los Cabos">Los Cabos</option>
+                                    <option value="MERIDA">Mérida</option>
+                                    <option value="Cancun">Cancun</option>
+                                    <option value="Cozumel">Cozumel</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="completeName">Nombre del colaborador</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <input type="text" id="completeName" ng-model="collaborator.completeName">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4"></div>
+                        <div class="col-sm-8 col-md-8 col-lg-8"></div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12 col-sm-12 btn-admin-wrapper">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Listado de colaboradores</h4>
+        </div>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Nombre</th>
+            <th>Rol</th>
+            <th>Localidad</th>
+            <th>Área</th>
+            <th>Puesto</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="collaborator in collaborators | filter:collaborator">
+            <td class="numeration"><strong>{{$index + 1}}</strong></td>
+            <td><p>{{collaborator.completeName}}</p></td>
+            <td><p>{{collaborator.roles}}</p></td>
+            <td><p>{{collaborator.location}}</p></td>
+            <td><p>{{collaborator.area}}</p></td>
+            <td><p>{{collaborator.position}}</p></td>
+            <td>
+                <p>
+                    <a class="btn-options" ng-click="assignAdmin(collaborator._id)">Asignar administrador</a> |
+                    <a class="btn-options" ng-click="deleteAdmin(collaborator._id)">Destituir administrador</a>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="btn-admin-wrapper" colspan="5"><button class="btn btn-admin" ng-click="viewMore()">Ver más</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

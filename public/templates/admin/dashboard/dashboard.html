@@ -1,0 +1,367 @@
+<div class="dashboard container admin">
+    <div class="row">
+        <div class="dashboard col-sm-12 tabs-wrapper">
+            <ul class="tabs" ng-init="tab='users'">
+                <li ng-class="{selected: tab == 'users'}" ng-click="tab='users'">Usuarios activos</li>
+                <li ng-class="{selected: tab == 'metrics'}" class="" ng-click="tab='metrics'">Insignias por zona o localidad</li>
+                <li ng-class="{selected: tab == 'embassies'}" ng-click="tab='embassies'">Embajadas</li>
+            </ul>
+        </div>
+<!-- usuarios activos -->
+        <div class="container-fluid">
+            <div class="row " ng-if="tab=='users'">
+                <div class="no-gutter-left col-sm-12 col-md-2 mt-2">
+                    <div id="generalMetrics">
+                        <div class="dashboard_title">
+                            <h3 class="mt-0">Métricas generales</h3>
+                        </div>
+                        <h4>Mayo 2020</h4>
+                        <span class="small">Al día de hoy</span>
+        
+                        <div class="counter bg_aloha_blue mb-5">
+                            <span class="big_number">9,800</span>
+                            <span class="label">Usuarios activos</span>
+                        </div>
+                        <div class="counter bg_aloha_melon margin-top-md">
+                            <span class="big_number">14,570</span>
+                            <span class="label">Insignias recibidas</span>
+                        </div>
+                        <div class="counter bg_primary_green">
+                            <span class="big_number">23,630</span>
+                            <span class="label">Puntos acumulados</span>
+                        </div>
+                        <div class="counter bg_secondary_yellow">
+                            <span class="big_number">213</span>
+                            <span class="label">Usuarios activos</span>
+                        </div>
+                        <select name="month" id="" class="mt-3">
+                            <option value="">Meses anteriores</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-10  mt-2">
+    
+                    <div class="row">
+                        <div id="activeUsers" class="section col-sm-12">
+                            <div class="dashboard_title">
+                                <h3 class="mt-0">Usuarios Activos</h3>
+                            </div>
+                            <h4>Últimos 6 meses</h4>
+                            <canvas id="chartActiveUsers" chartactiveusers width="900" height="260"
+                                style="max-width: 900px;"></canvas>
+                            <div class="buttons-container">
+                                <a class="btn-download" href="" ng-click="downloadPNG('chartActiveUsers')" download="ChartImage.png"><button>Exportar PNG</button></a>
+                                <button ng-click="getData()">Generar CSV</button>
+                            </div>
+                        </div>
+                        <div id="activeUsersZone" class="section col-sm-12 mt-3">
+                            <div class="dashboard_title">
+                                <h3 class="mt-0">Usuarios activos por zona o localidad
+                                </h3>
+                            </div>
+                            <h4 class="d-inlineblock mt-3">Mayo 2020</h4>
+                            <span class="small">Al día de hoy</span>
+                            <select name="month" id="" class="mt-3">
+                                <option value="">Meses anteriores</option>
+                            </select>
+                            <div class="filter_zone">
+                                <div class="selected">Por Zona</div>
+                                <div>Por Localidad</div>
+                            </div>
+        
+                            <canvas id="chartZones" chartzones width="900" height="200" style="max-width: 900px;"></canvas>
+        
+                            <div class="buttons-container">
+                                <a class="btn-download" href="" ng-click="downloadPNG('chartZones')" download="ChartImage.png"><button >Exportar PNG</button></a>
+                                <button>Generar CSV</button>
+                            </div>
+        
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
+    
+        <!-- insignias -->
+    
+        <div class="row row-no-gutters" ng-if="tab=='metrics'">
+            <div class="no-gutter col-sm-12 mt-2">
+
+                   <div id="activeUsersZone" class="section">
+                    <div class="dashboard_title">
+                        <h3 class="mt-0">Métricas por insignia</h3>
+                    </div>
+                    <h4 class="d-inlineblock mt-3">Mayo 2020</h4>
+                    <span class="small">Al día de hoy</span>
+                    <select name="month" id="" class="mt-3">
+                        <option value="">Meses anteriores</option>
+                    </select>
+                    <div class="filter_zone">
+                        <div class="selected">Por Zona</div>
+                        <div>Por Localidad</div>
+                    </div>
+    
+                    <canvas id="chartinsignia" chartinsignia width="1200" height="240" style="max-width: 1200px;"></canvas>
+    
+                    <div class="buttons-container">
+                        <a class="btn-download" href="" ng-click="downloadPNG('chartinsignia')" download="ChartImage.png"><button >Exportar PNG</button></a>
+                        <button>Generar CSV</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    
+        <div class="row row-no-gutters" ng-if="tab=='metrics'">
+            
+            <div id="" class="col-sm-12 col-md-4 mt-3 no-gutter-left">
+                <div class="section">
+                    <div class="dashboard_title">
+                        <h3 class="mt-0">Valores</h3>
+                    </div>
+                    <h4 class="d-inlineblock mt-3">Mayo 2020</h4>
+                    <span class="small">Al día de hoy</span>
+                    <select name="month" id="" class="mt-3">
+                        <option value="">Meses anteriores</option>
+                    </select>
+                    <canvas id="chartvalues" chartvalues width="345" height="250" style="max-width: 345px;"></canvas>
+    
+                    <div class="buttons-container">
+                        <a class="btn-download" href="" ng-click="downloadPNG('chartvalues')" download="ChartImage.png"><button >Exportar PNG</button></a>
+                        <button>Generar CSV</button>
+                    </div>
+                </div>
+            </div>
+    
+            <div id="" class="col-sm-12 col-md-4 mt-3">
+                <div class="section">
+                    <div class="dashboard_title">
+                        <h3 class="mt-0">Competencias</h3>
+                    </div>
+                    <h4 class="d-inlineblock mt-3">Mayo 2020</h4>
+                    <span class="small">Al día de hoy</span>
+                    <select name="month" id="" class="mt-3">
+                        <option value="">Meses anteriores</option>
+                    </select>
+                    <canvas id="chartcompetences" chartcompetences width="345" height="250"
+                        style="max-width: 345px;"></canvas>
+                    <div class="buttons-container">
+                        <a class="btn-download" href="" ng-click="downloadPNG('chartcompetences')" download="ChartImage.png"><button >Exportar PNG</button></a>
+                        <button>Generar CSV</button>
+                    </div>
+                </div>
+            </div>
+    
+            <div id="" class="col-sm-12 col-md-4 mt-3 no-gutter-right">
+                <div class="section">
+                    <div class="dashboard_title">
+                        <h3 class="mt-0">Especiales</h3>
+                    </div>
+                    <h4 class="d-inlineblock mt-3">Mayo 2020</h4>
+                    <span class="small">Al día de hoy</span>
+                    <select name="month" id="" class="mt-3">
+                        <option value="">Meses anteriores</option>
+                    </select>
+                    <canvas id="chartspecials" chartspecials width="345" height="250" style="max-width: 345px;"></canvas>
+                    <div class="buttons-container">
+                        <a class="btn-download" href="" ng-click="downloadPNG('chartspecials')" download="ChartImage.png"><button >Exportar PNG</button></a>
+                        <button>Generar CSV</button>
+                    </div>
+                </div>
+    
+    
+            </div>
+        </div>
+    
+    
+        <!-- enbajadas -->
+        <div class="dashboard container embassies no-gutter-left" ng-if="tab=='embassies'">
+            <div id="embassies" class="row row-no-gutters">
+                <div class="no-gutter-left col-sm-12 col-md-6 mt-2">
+                    <div class="section">
+                        <div class="dashboard_title">
+                            <h3 class="mt-0">Valores</h3>
+                            <h4 class="d-inlineblock mt-3">Mayo 2020</h4>
+                            <span class="small">Al día de hoy</span>
+                        </div>
+            
+                        <select name="month" id="" class="mt-3">
+                            <option value="">Meses anteriores</option>
+                        </select>
+            
+            
+                        <ul class="values mt-4 mb-4">
+                            <li class="valueItem ">
+                                <div class="value red">Actitud Ganadora</div>
+                                <div class="description">
+                                    <div class="avatar red">JM</div>
+                                    <div class="person">
+                                        <span class="bold">Juan Manuel Gutiérrez</span>
+                                        <span>Mesero - Merida Centro</span>
+                                    </div>
+                                    <div class="number">45</div>
+                                </div>
+                            </li>
+                            <li class="valueItem">
+                                <div class="value orange">Liderazgo Involucrado</div>
+                                <div class="description">
+                                    <div class="avatar orange">MB</div>
+                                    <div class="person">
+                                        <span class="bold">María Benitez López</span>
+                                        <span>Mesera - Guadalajara Centro</span>
+                                    </div>
+                                    <div class="number">34</div>
+                                </div>
+                            </li>
+                            <li class="valueItem">
+                                <div class="value brown">Servicio Sorprendente</div>
+                                <div class="description">
+                                    <div class="avatar brown">AF</div>
+                                    <div class="person">
+                                        <span class="bold">Aline Fuentes Gómez</span>
+                                        <span>Call Center - CDMX</span>
+                                    </div>
+                                    <div class="number">56</div>
+                                </div>
+                            </li>
+                            <li class="valueItem">
+                                <div class="value light_green">Espíritu Colaborativo</div>
+                                <div class="description">
+                                    <div class="avatar light_green">JM</div>
+                                    <div class="person">
+                                        <span class="bold">Rebeca Estrada Juárez</span>
+                                        <span>Mesera - Villahermosa Sur</span>
+                                    </div>
+                                    <div class="number">38</div>
+                                </div>
+                            </li>
+                            <li class="valueItem">
+                                <div class="value yellow">Atención al detalle</div>
+                                <div class="description">
+                                    <div class="avatar yellow">IV</div>
+                                    <div class="person">
+                                        <span class="bold">Ignacio Vázquez Fuentes</span>
+                                        <span>Garrotero - Perisur</span>
+                                    </div>
+                                    <div class="number">44</div>
+                                </div>
+                            </li>
+                            <li class="valueItem">
+                                <div class="value green">Celebra y diviértete</div>
+                                <div class="description">
+                                    <div class="avatar green">JM</div>
+                                    <div class="person">
+                                        <span class="bold">Carlos Gómez García</span>
+                                        <span>Mesero - Mérida Centro</span>
+                                    </div>
+                                    <div class="number">52</div>
+                                </div>
+                            </li>
+                        </ul>
+            
+            
+                        <div class="buttons-container">
+                            <button>Exportar PNG</button>
+                            <button>Generar CSV</button>
+                        </div>
+                    </div>
+
+        
+                </div>
+                <div id="" class=" col-sm-12 col-md-6 mt-2">
+                    <div class="section">
+                        <div class="dashboard_title">
+                            <h3 class="mt-0">Competencias</h3>
+                            <h4 class="d-inlineblock mt-3">Mayo 2020</h4>
+                            <span class="small">Al día de hoy</span>
+                        </div>
+        
+        
+                        <select name="month" id="" class="mt-3">
+                            <option value="">Meses anteriores</option>
+                        </select>
+        
+        
+                        <ul class="values mt-4 mb-4">
+                            <li class="valueItem ">
+                                <div class="value light_green">Estrategia del mes</div>
+                                <div class="description">
+                                    <div class="avatar light_green">JM</div>
+                                    <div class="person">
+                                        <span class="bold">Dennise Flores</span>
+                                        <span>Comunicación y Cultura - Corporativo</span>
+                                    </div>
+                                    <div class="number">49</div>
+                                </div>
+                            </li>
+                            <li class="valueItem">
+                                <div class="value orange">Creatividad en equipo</div>
+                                <div class="description">
+                                    <div class="avatar orange">JM</div>
+                                    <div class="person">
+                                        <span class="bold">Gerardo Domínguez</span>
+                                        <span>Director - Corporativo</span>
+                                    </div>
+                                    <div class="number">48</div>
+                                </div>
+                            </li>
+                            <li class="valueItem">
+                                <div class="value yellow">Comunicación Efectiva</div>
+                                <div class="description">
+                                    <div class="avatar yellow">JM</div>
+                                    <div class="person">
+                                        <span class="bold">Paula Pérez Pérez</span>
+                                        <span>Ventas - Puebla</span>
+                                    </div>
+                                    <div class="number">57</div>
+                                </div>
+                            </li>
+                            <li class="valueItem">
+                                <div class="value brown">Visión a futuro</div>
+                                <div class="description">
+                                    <div class="avatar brown">JM</div>
+                                    <div class="person">
+                                        <span class="bold">Alejandro López López</span>
+                                        <span>Mesero - Pachuca Centro</span>
+                                    </div>
+                                    <div class="number">23</div>
+                                </div>
+                            </li>
+                            <li class="valueItem">
+                                <div class="value green">Responsable Socialmente</div>
+                                <div class="description">
+                                    <div class="avatar green">JM</div>
+                                    <div class="person">
+                                        <span class="bold">José Miguel Ramírez</span>
+                                        <span>Desarrollo - CDMX</span>
+                                    </div>
+                                    <div class="number">55</div>
+                                </div>
+                            </li>
+        
+                        </ul>
+        
+        
+                        <div class="buttons-container">
+                            <button>Exportar PNG</button>
+                            <button>Generar CSV</button>
+                        </div>
+        
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+</div>

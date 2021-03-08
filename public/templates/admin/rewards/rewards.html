@@ -1,0 +1,160 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Administración de Recompensa</h4>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 form-title">
+            <h4>Crear nueva recompensa</h4>
+        </div>
+        <form name="rewardForm" class="col-md-12 col-lg-12 col-sm-12">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <input type="hidden" name="id" ng-model="id">
+                            <label for="category">Categoría</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <select ng-model="category" id="category">
+                                    <option value="accesorios">Accesorios</option>
+                                    <option value="ropa">Ropa</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="name">Nombre</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="name" ng-model="name" name="name" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="description">Descripción</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" id="description" ng-model="description" name="description" ng-maxlength="140" required></textarea>
+                                <span class="error" ng-show="rewardForm.description.$error.maxlength">Máximo 140 caracteres</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="points">Puntos</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <input type="number" class="form-control" id="points" ng-model="points" name="points" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4" ng-show="category == 'ropa'">
+                            <label>Tallas disponibles</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group" ng-show="category == 'ropa'">
+                                <p ng-repeat="size in sizes"><input type="checkbox" ng-model="size.selected" value="{{size.name}}"> {{size.name}}</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4" ng-show="category == 'ropa'">
+                            <label>Género</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group" ng-show="category == 'ropa'">
+                                <p ng-repeat="gender in genders"><input type="checkbox" ng-model="gender.selected" value="{{gender.name}}"/> {{gender.name}}</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4" ng-show="category == 'ropa'">
+                            <label>Colores</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8" ng-show="category == 'ropa'">
+                            <div class="form-group">
+                                <textarea placeholder="Colores separados por coma: Rojo, Negro, Blanco" ng-model="colors" name="colors" ng-list></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <p ng-show="imageSrc">Imagen de insignia</p>
+                            <i ng-hide="imageSrc">Imagen no seleccionada</i>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <img class="img-thumbnail" ng-src="{{imageSrc}}" /><br/>
+                                <input type="file" id="image" ng-file-select="onFileSelect($files)">
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <p>Fecha de expiración</p>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <div class="datepicker" style="display:inline-block; min-height:252px;">
+                                    <pre><em>{{expiresAt | date:'fullDate' }}</em></pre>
+                                    <div uib-datepicker ng-model="expiresAt" class="well well-sm" datepicker-options="options"></div>
+                                </div>
+                                <hr>
+                                <button type="button" class="btn btn-sm btn-info" ng-click="today()">Fecha de hoy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12 col-sm-12 btn-admin-wrapper">
+                    <button type="button" id="addReward" class="btn btn-admin" ng-click="addReward()" ng-disabled="rewardForm.$invalid">Crear</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Listado de recompensas</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <p>Nombre</p>
+        </div>
+        <div class="col-md-3">
+            <p>Descripción</p>
+        </div>
+        <div class="col-md-1">
+            <p>Puntos</p>
+        </div>
+        <div class="col-md-2">
+            <p>Expira el</p>
+        </div>
+        <div class="col-md-3">
+            <p>Opciones</p>
+        </div>
+    </div>
+    <div class="row" ng-repeat="reward in rewards">
+        <div class="col-md-3">
+            <p><strong class="numeration">{{$index + 1}}.</strong> {{reward.name}}</p>
+        </div>
+        <div class="col-md-3">
+            <p>{{reward.description}}</p>
+        </div>
+        <div class="col-md-1">
+            <p>{{reward.points}}</p>
+        </div>
+        <div class="col-md-2">
+            <p>{{reward.expiresAt}}</p>
+        </div>
+        <div class="col-md-3">
+            <p>
+                <a class="btn-options" ui-sref="admin.editRewards({id: reward._id})">Editar</a> |
+                <a class="btn-options" ng-click="deleteReward(reward._id)">Eliminar</a>
+            </p>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 reward-comments">
+            <p><strong>Comentarios</strong>:</p>
+            <div class="comments-list" ng-repeat="document in reward.comments">
+                <p>
+                    <span class="collaboratorName">{{document.collaborator.completeName}}:</span> {{document.comment}}
+                    <button class="btn-admin" ng-click="deleteComment(reward._id, document._id)">Borrar comentario</button>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

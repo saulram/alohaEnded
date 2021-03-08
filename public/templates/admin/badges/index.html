@@ -1,0 +1,106 @@
+<div class="container admin gp-badges">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Administración de Insignias</h4>
+            <h4><span class="pink-font">></span> <strong>VALORES Y COMPETENCIAS</strong></h4>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 form-title">
+            <h4>Crear nueva insignia de<strong> Valor o Competencia</strong></h4>
+        </div>
+        <form name="badgeForm" class="col-sm-12 col-lg-12 col-md-12">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="category">Categoría</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <input type="hidden" name="id" ng-model="id">
+                            <div class="form-group">
+                                <select id="category" ng-model="category" required>
+                                    <option value="valor">Valor</option>
+                                    <option value="competencias">Competencia</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="badgeName">Nombre</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-lg-8">
+                            <div class="form-group">
+                                <select ng-model="badgeName" id="badgeName" name="badgeName" ng-options="defaultBadges.name for defaultBadges in defaultBadges | filter:category" required></select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="points">Puntos</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <input type="number" id="points" min="0" ng-model="points" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <p ng-show="imageSrc">Imagen de insignia</p>
+                            <i ng-hide="imageSrc">Imagen no seleccionada</i>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <img class="img-thumbnail" ng-src="{{imageSrc}}" /><br/>
+                                <input type="file" id="image" ng-file-select="onFileSelect($files)" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12 col-sm-12 btn-admin-wrapper">
+                    <button type="button" class="btn btn-admin" ng-click="addBadge()" ng-disabled="badgeForm.$invalid">Crear</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Listado de insignias de valores y competencias</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <p><strong>Nombre</strong></p>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2">
+            <p><strong>Expira el</strong></p>
+        </div>
+        <div class="col-md-3">
+            <p><strong>Puntos</strong></p>
+        </div>
+        <div class="col-md-2">
+            <p><strong>Thumbnail</strong></p>
+        </div>
+        <div class="col-md-2">
+            <p><strong>Opciones</strong></p>
+        </div>
+    </div>
+    <div class="row" ng-repeat="badge in badges">
+        <div class="col-md-3">
+            <p><strong class="numeration">{{$index + 1}}.</strong> {{badge.name}}</p>
+        </div>
+        <div class="col-md-2">
+            <p>{{badge.expiresAt}}</p>
+        </div>
+        <div class="col-md-3">
+            <p>{{badge.points}}</p>
+        </div>
+        <div class="col-md-2">
+            <img class="img-thumbnail img-responsive" src="{{badge.image}}" alt="{{badge.name}}">
+        </div>
+        <div class="col-md-2">
+            <p>
+                <a class="btn-options" ui-sref="admin.edit-badges({id: badge._id})">Editar</a> |
+                <a class="btn-options" ng-click="deleteBadge(badge._id)">Eliminar</a>
+            </p>
+        </div>
+    </div>
+</div>

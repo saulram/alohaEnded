@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="valora">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aloha</title>
+    <link rel="shortcut icon" href="assets/images/aloha/ico_aloha.ico">
+    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/toastr/toastr.min.css">
+    <link type="text/css" rel="stylesheet" href="assets/dist/aloha.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+</head>
+<body ng-controller="HomeCtrl">
+    <ng-include src="'templates/common/menu.html'"></ng-include>
+    <ng-include ng-show="isAdmin()" src="'templates/common/admin-menu.html'"></ng-include>
+    <ng-include ng-hide="isAdmin() || !identity.isAuthenticated()" src="'templates/common/carousel-banner.html'"></ng-include>
+    <section class="container-fluid main-container">
+        <div class="row">
+            <div ng-cloak ng-hide="isAdmin() || !identity.isAuthenticated()" class="col-md-3 col-lg-3 col-sm-3 left-column">
+                <div class="profile-block">
+                    <div class="profile-img-block">
+                        <div class="img-circle" style="background-image: url('{{myInfo.profileImage}}')"></div>
+                        <a class="add-profile-img" href="#" data-toggle="modal" data-target="#profileImageModal"></a>
+                    </div>
+                    <div class="info">
+                        <p class="name">{{myInfo.completeName}}</p>
+                        <p class="location">{{myInfo.location}}</p>
+                        <p ng-cloak class="points">{{myInfo.points.current}} pts</p>
+                    </div>
+                </div>
+                <ul class="left-menu">
+                    <li><span class="arrow-right"></span> <a ui-sref="myActivity">Mi actividad</a> <span ng-show="myActivitiesCount.length" class="badge badge-warning">{{myActivitiesCount.length}}</span></li>
+                    <li><span class="arrow-right"></span> <a ui-sref="rewards">Recompensas</a></li>
+                    <li><span class="arrow-right"></span> <a ui-sref="account-status">Estado de cuenta</a></li>
+                    <li><span class="arrow-right"></span> <a ui-sref="myBadges">Insignias Aloha!</a></li>
+                    <li><span class="arrow-right"></span> <a ui-sref="training.course">Capacitación</a></li>
+                </ul>
+                <ng-include src="'templates/common/aside-badges.html'"></ng-include>
+                <div class="row mentions">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <h4 class="title">Noticias de la semana</h4>
+                        <div class="mention-wrapper" ng-repeat="mention in mentions">
+                            <p class="mention">{{mention.description}}</p>
+                            <p class="date">{{mention.updatedAt}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-cloak class="dynamic-content {{isLogin() == true ? 'loginActive' : ''}} {{identity.isAuthenticated() == false ? 'col-lg-12 col-md-12 col-sm-12' : (isAdmin() == true ? 'col-lg-12 col-md-12 col-sm-12' : 'col-lg-9 col-md-9 col-sm-9')}}">
+                <ui-view ng-cloak></ui-view>
+            </div>
+        </div>
+    </section>
+    <footer ng-cloak ng-show="identity.isAuthenticated()">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 col-md-7 col-sm-7 logo-wrapper">
+                    <div class="logo"></div>
+                </div>
+                <ul class="col-lg-5 col-md-5 col-sm-5">
+                    <li  ng-hide="isAdmin()"><a ui-sref="myActivity">Mi actividad</a></li>
+                    <li  ng-hide="isAdmin()"><a ui-sref="rewards">Recompensas</a></li>
+                    <li  ng-hide="isAdmin()"><a ui-sref="account-status">Estado de cuenta</a></li>
+                    <li  ng-hide="isAdmin()"><a ui-sref="myBadges">Insignias Aloha!</a></li>
+                    <li ng-show="isAdmin()"><a ui-sref="home">Ir a Aloha!</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <!-- Modal -->
+    <div class="modal fade" id="profileImageModal" tabindex="-1" role="dialog" aria-labelledby="profileImageLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="profileImageLabel">Foto de perfil</h4>
+                    <p>Para subir tu nueva foto de perfil o actualizarla, selecciónala desde aquí:</p>
+                    <p>*Para una óptima carga te recomendamos que pese menos de 1 MB</p>
+                </div>
+                <form class="modal-body" name="profileForm">
+                    <label for="profileImage">Vista previa</label>
+                    <div class="form-group">
+                        <img class="img-thumbnail" ng-src="{{imageSrc}}" />
+                        <input type="file" name="profileImage" id="profileImage" ng-file-select="onFileSelect($files)">
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn" ng-click="changeImg()">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="loader"></div>
+    <div id="loaderBackground"></div>
+    <!-- Libraries -->
+    <script src="vendor/jquery/dist/jquery.min.js"></script>
+    <script src="vendor/angular/angular.min.js"></script>
+    <script src="vendor/ng-idle/angular-idle.js"></script>
+    <script src="vendor/angular-resource/angular-resource.min.js"></script>
+    <script src="vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="assets/js/angular-locale_es-mx.js"></script>
+    <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="assets/js/ui-bootstrap-tpls.min.js"></script>
+    <script src="vendor/angular-animate/angular-animate.min.js"></script>
+    <script type="text/javascript" src="vendor/toastr/toastr.js"></script>
+    <script type="text/javascript" src="assets/js/valora.js"></script>
+    <script src="vendor/chart.js/dist/Chart.min.js"></script>
+    <script src="vendor/chartjs-plugin-labels/build/chartjs-plugin-labels.min.js"></script>
+    <script src="vendor/angular-chart.js/dist/angular-chart.min.js"></script>
+    <script src="vendor/angular-google-analytics/dist/angular-google-analytics.js"></script>
+    <!-- Angular app-->
+    <script type="text/javascript" src="/app.js"></script>
+    <!-- Controllers -->
+    <script type="text/javascript" src="templates/common/HomeCtrl.js"></script>
+    <script type="text/javascript" src="templates/common/AsideBadgesCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/banner/BannersCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/rewards/RewardsAdminCtrl.js"></script>
+    <script type="text/javascript" src="templates/common/CarouselBannerCtrl.js"></script>
+    <script type="text/javascript" src="templates/common/mvNotifier.js"></script>
+    <script type="text/javascript" src="templates/account/LoginCtrl.js"></script>
+    <script type="text/javascript" src="templates/account/AuthToken.js"></script>
+    <script type="text/javascript" src="templates/account/mvIdentity.js"></script>
+    <script type="text/javascript" src="templates/account/mvUser.js"></script>
+    <script type="text/javascript" src="templates/rewards/RewardsCtrl.js"></script>
+    <script type="text/javascript" src="templates/rewards/WishListCtrl.js"></script>
+    <script type="text/javascript" src="templates/rewards/CheckoutCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/imports/ImportsAdminCtrl.js"></script>
+    <script type="text/javascript" src="templates/acknowledgment/AcknowledgmentCtrl.js"></script>
+    <script type="text/javascript" src="templates/account-status/AccountStatusCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/account/AdminAccountCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/badges/BadgesAdminCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/imports/TempPointsAdminCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/badges/EditBadgeAdminCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/account/AdminAccountStatusCtrl.js"></script>
+    <script type="text/javascript" src="templates/account/ProfileImgCtrl.js"></script>
+    <script type="text/javascript" src="templates/account/ProfileCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/badges/SpecialBadgesAdminCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/badges/gpBadgeAdminCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/badges/EditGPBadgeCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/badges/AcknowledgmentGPAdminCtrl.js"></script>
+    <script type="text/javascript" src="templates/my-badges/MyBadgesCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/rewards/EditRewardAdminCtrl.js"></script>
+    <script type="text/javascript" src="templates/my-activity/MyActivityCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/roles/RoleAdminCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/badges/SpecialBadgesEditAdminCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/account/AdminAccountStatusLocationCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/reports/badgeAcknowledgmentsCtrl.js"></script>
+    <script type="text/javascript" src="templates/common/PassChangeCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/reports/UserLogsReportCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/reports/UserGeneralReportCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/reports/IWebServiceLogCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/reports/badgeGroupsPointsCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/reports/historyPointsCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/imports/AddCollaboratorsCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/imports/DeleteCollaboratorsCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/feeds/FeedsCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/mentions/AdminMentionListCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/mentions/AdminMentionEditCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/feedMessage/AdminFeedMessageListCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/reports/ActiveCollaboratorsCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/reports/ExchangedRewarsCtrl.js"></script>
+    <script type="text/javascript" src="templates/policy/PolicyCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/account/TemporalPassCtrl.js"></script>
+    <script type="text/javascript" src="templates/admin/dashboard/dashboardCtrl.js"></script>
+    <script type="text/javascript" src="templates/common/AsideBadgesCtrl.js"></script>
+    <script type="text/javascript" src="templates/common/FeedBlockCtrl.js"></script>
+    <script type="text/javascript" src="templates/my-activity/MyActivityDetailsCtrl.js"></script>
+    <script type="text/javascript" src="templates/training/course/CourseListCtrl.js"></script>
+    <script type="text/javascript" src="templates/training/course/CourseDetailCtrl.js"></script>
+    <script type="text/javascript" src="templates/training/evaluation/EvaluationCtrl.js"></script>
+    <script type="text/javascript" src="templates/training/history/HistoryCtrl.js"></script>
+    <script type="text/javascript" src="templates/training/careers/CareersCtrl.js"></script>
+    <script type="text/javascript" src="templates/training/material/MaterialCtrl.js"></script>
+    <!-- Services -->
+    <script type="text/javascript" src="services/AuthService.js"></script>
+    <script type="text/javascript" src="services/AccountStatusService.js"></script>
+    <script type="text/javascript" src="services/BannerService.js"></script>
+    <script type="text/javascript" src="services/RewardService.js"></script>
+    <script type="text/javascript" src="services/WishListService.js"></script>
+    <script type="text/javascript" src="services/RewardsLikeService.js"></script>
+    <script type="text/javascript" src="services/ImportService.js"></script>
+    <script type="text/javascript" src="services/BadgeService.js"></script>
+    <script type="text/javascript" src="services/fileReader.js"></script>
+    <script type="text/javascript" src="services/AcknowledgmentService.js"></script>
+    <script type="text/javascript" src="services/FeedService.js"></script>
+    <script type="text/javascript" src="services/LogService.js"></script>
+    <script type="text/javascript" src="services/MentionService.js"></script>
+    <script type="text/javascript" src="services/UserRolService.js"></script>
+    <script type="text/javascript" src="services/FeedMessageService.js"></script>
+    <script type="text/javascript" src="services/UserService.js"></script>
+    <script type="text/javascript" src="services/LocationService.js"></script>
+    <script type="text/javascript" src="services/NotificationService.js"></script>
+    <script type="text/javascript" src="services/DashboardService.js"></script>
+   
+</body>
+</html>

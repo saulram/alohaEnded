@@ -1,0 +1,57 @@
+<nav class="navbar navbar-default admin-nav">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar">
+                <li class="dropdown" ng-show="identity.isAuthorized('superAdmin')">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administración<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a ui-sref="admin.roles">Roles de Usuarios</a></li>
+                        <li><a ui-sref="admin.feeds">Publicaciones</a></li>
+                        <li><a ui-sref="admin.mention">Menciones</a></li>
+                        <li><a ui-sref="admin.feedMessageList">Mensajes del feed</a></li>
+                        <li><a ui-sref="admin.temporal-pass">Contraseña temporal</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown" ng-show="identity.isAuthorized('superAdmin')">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administración de Insignias <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a ui-sref="admin.badges">Valores y competencias</a></li>
+                        <li><a ui-sref="admin.specialBadges">Especiales</a></li>
+                        <li><a ui-sref="admin.gpBadges">Aloha</a></li>
+                        <li><a ui-sref="admin.acknowledgmentGP">Reconocimiento Aloha</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown" ng-show="identity.isAuthorized('superAdmin')">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Importación de Datos <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a ui-sref="admin.import">Evaluación y Upgrade</a></li>
+                        <li><a ui-sref="admin.import-collaborator">Actualización colaboradores</a></li>
+                        <li><a ui-sref="admin.delete-collaborator">Baja colaboradores</a></li>
+                    </ul>
+                </li>
+                <li ng-show="identity.isAuthorized('admin')"><a ui-sref="admin.account-location">Seguimiento de Canje</a></li>
+                <li ng-show="identity.isAuthorized('admin')"><a ui-sref="admin.badges-group">Reporte puntos por insignia</a></li>
+                <li ng-show="identity.isAuthorized('admin')"><a ui-sref="admin.history-points">Reporte puntos totales</a></li>
+                <li ng-show="identity.isAuthorized('admin')"><a ui-sref="admin.badgeAcknowledgments">Insignias otorgadas</a></li>
+                <li ng-show="identity.isAuthorized('admin')"><a ui-sref="admin.activeCollaborators">Colaboradores por localidad</a></li>
+                <li ng-show="identity.isAuthorized('admin')"><a ui-sref="admin.users-log-report">Log de colaboradores</a></li>
+                <li ng-show="identity.isAuthorized('superAdmin')"><a ui-sref="admin.rewards">Administración de Recompensas</a></li>
+                <li ng-show="identity.isAuthorized('superAdmin')"><a ui-sref="admin.banner">Administración de Banners</a></li>
+                <li ng-show="identity.isAuthorized('superAdmin')"><a ui-sref="admin.account">Seguimiento de Canje</a></li>
+                <li class="dropdown" ng-show="identity.isAuthorized('superAdmin')">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reportes <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a ui-sref="admin.badges-group">Puntos por insignia</a></li>
+                        <li><a ui-sref="admin.history-points">Puntos totales</a></li>
+                        <li><a ui-sref="admin.badgeAcknowledgments">Insignias otorgadas</a></li>
+                        <li><a ui-sref="admin.exchangedRewards">Recompensas canjeadas</a></li>
+                        <li><a ui-sref="admin.activeCollaborators">Colaboradores por localidad</a></li>
+                        <li><a ui-sref="admin.users-log-report">Log de colaboradores</a></li>
+                        <li><a ui-sref="admin.intelexion-logs">Intelexion logs</a></li>
+                    </ul>
+                </li>
+                <li ng-show="identity.isAuthorized('superAdmin')"><a ui-sref="admin.dashboard">Dashboard</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

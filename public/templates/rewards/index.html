@@ -1,0 +1,97 @@
+<div class="row rewards-header">
+    <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+        <h3>Recompensas</h3>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 description-wrapper">
+        <p>Consula aqui las recompensas que puedes canjear por tus puntos.</p>
+        <p class="filters">Ordenar por:
+            <a class="btn-filter" ng-class="{active: isSelected('points')}" ng-click="setOrder('points')" href="#">
+                <span class="{{sortOrder == true ? 'down' : 'up'}}" aria-hidden="true"></span>
+                Puntos
+            </a>
+            <a class="btn-filter" ng-class="{active: isSelected('category')}" ng-click="setOrder('category')"><span class="{{sortOrder == true ? 'down' : 'up'}}" aria-hidden="true"></span> Categoría</a>
+            <a class="btn-filter" ng-class="{active: isSelected('createdAt')}" ng-click="setOrder('createdAt')"><span class="{{sortOrder == true ? 'down' : 'up'}}" aria-hidden="true"></span> Fecha</a>
+        </p>
+    </div>
+</div>
+<div class="row rewards-blocks">
+    <div class="col-md-4 col-lg-4 col-sm-4 block-wrapper" ng-repeat="reward in rewards | orderBy : orderByModel : sortOrder">
+        <div class="block">
+            <div class="block-header">
+                <div class="select">
+                    <p ng-show="reward.lockStatus == 'active'">
+                        <input type="checkbox" id="{{reward._id}}" ng-click="addToCart(reward)">
+                        <label for="{{reward._id}}">Seleccionar <span></span></label>
+                    </p>
+                </div>
+            </div>
+            <a class="content-wrapper" href="#" data-toggle="modal" ng-click="openDetails(reward)">
+                <div class="block-content" style="background-image: url({{reward.image}})">
+                    <p class="details"><span class="{{reward.lockStatus}}"></span></p>
+                    <div class="new {{reward.new}}"></div>
+                </div>
+                <p class="reward-description">{{reward.description}}</p>
+            </a>
+            <div class="block-footer">
+                <div class="description">
+                    <p class="pts">{{reward.points}} pts
+                        <a href="#" class="comments-icon" ng-class="{active: openComments}" ng-click="openComments = ! openComments"></a>
+                        <span class="comments-count">{{reward.comments.length}}</span>
+                        <a href="#" class="like {{reward.likeStatus}}" ng-click="reward.likeStatus == '' ? addToLikes(reward._id) : removeFromLikes(reward._id)"></a>
+                        <span class="count">{{reward.likes > 0 ? reward.likes : ''}}</span>
+                    </p>
+                </div>
+                <p>Válido hasta el {{reward.expiresAt}}</p>
+            </div>
+            <div ng-class="{active: openComments}" class="comments-wrapper">
+                <div class="new-comment">
+                    <div class="profile-thumb" style="background-image: url('{{myInfo.profileImage}}')"></div>
+                    <input
+                            type="text"
+                            name="myComment"
+                            ng-model="myComment"
+                            ng-maxlength="114"
+                            enter-pressed-reward placeholder="Escribe un comentario:">
+                </div>
+                <div class="comments-list" ng-repeat="document in reward.comments">
+                    <p><span class="collaboratorName">{{document.collaborator.completeName}}</span> {{document.comment}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pagination-wrapper">
+    <div class="col-md-10 col-sm-10 col-lg-10 pagination-col">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a href="#" aria-label="Previous" ng-click="previousId()" class="prev">
+                        <span aria-hidden="true">❮</span>
+                    </a>
+                </li>
+                <li ng-repeat="page in totalPageArray track by $index">
+                    <a href="#" ng-click="changePage($index + 1)"><span class="circle">{{$index + 1}}</span></a>
+                </li>
+                <li>
+                    <a href="#" aria-label="Next" ng-click="nextId()" class="next">
+                        <span aria-hidden="true">❯</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="col-lg-2 col-sm-2 col-md-2 pagination-col">
+        <button type="button" class="btn btn-default" ng-click="checkout()">Canjear</button>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="rewardDetails" tabindex="-1" role="dialog" aria-labelledby="rewardDetailsLabel">
+    <div class="modal-dialog" role="document" style="background-image: url({{rewardDetails.image}})">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="modal-header">
+                <p>{{rewardDetails.description}}</p>
+            </div>
+        </div>
+    </div>
+</div>

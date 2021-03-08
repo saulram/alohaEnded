@@ -1,0 +1,45 @@
+<div class="valores row" ng-controller="AsideBadgesCtrl">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+        <h4 class="valores-title">Insignias Aloha!</h4>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12" ng-repeat="embassy in myEmbassysColumn">
+        <div class="embajador-wrapper">
+            <div class="img-wrapper">
+                <img ng-src={{embassy.image}}>
+            </div>
+            <p class="embajador active">Embajador</p>
+            <p class="name">{{embassy.badgeName}}</p>
+            <p class="count">{{embassy.count}} insignias</p>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4" ng-repeat="myBadge in myBadgesColumn">
+        <div class="insignia-wrapper">
+            <p class="count">
+                <a href="#" ng-click="openSenderModal(myBadge.badgeSlug)">{{myBadge.count}}</a>
+            </p>
+            <div class="img-wrapper" style="background-image: url({{myBadge.image}})"></div>
+            <p class="name">{{myBadge.badgeName}}</p>
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12 col-lg-12">
+        <p class="ver-mas"><a ui-sref="myBadges">Ver más</a></p>
+    </div>
+    <!-- Senders modal -->
+    <div class="modal fade" id="senderModal" tabindex="-1" role="dialog" aria-labelledby="senderModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button ng-click="closeSenderModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="senderModalLabel">Colaboradores que te otorgaron la insignia <span class="heart"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li ng-repeat="sender in senders track by $index">{{sender}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

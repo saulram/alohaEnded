@@ -1,0 +1,74 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Reporte de insignias otorgadas</h4>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 panel panel-default">
+            <div class="panel-heading">
+                Opciones:
+            </div>
+            <div class="row panel-body">
+                <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <p>Apartir de: </p>
+                        <div class="datepicker" style="display:inline-block; min-height:252px;">
+                            <pre><em>{{fromDate | date:'fullDate' }}</em></pre>
+                            <div uib-datepicker ng-model="fromDate" class="well well-sm" datepicker-options="options"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <p>Hasta el: </p>
+                        <div class="datepicker" style="display:inline-block; min-height:252px;">
+                            <pre><em>{{toDate | date:'fullDate' }}</em></pre>
+                            <div uib-datepicker ng-model="toDate" class="well well-sm" datepicker-options="options"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-admin-wrapper col-md-12 col-lg-12 col-sm-12">
+                    <button class="btn btn-admin" ng-click="badgeAcknowledgments()">Buscar</button>
+                    <button class="btn btn-admin btn-csv" ng-click="csvBadgeAcknowledgments()">Generar CSV</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Receptor</th>
+            <th>Número</th>
+            <th>Localidad</th>
+            <th>Área</th>
+            <th>Posición</th>
+            <th>Insignia</th>
+            <th>Emisor</th>
+            <th>Número</th>
+            <th>Localidad</th>
+            <th>Área</th>
+            <th>Posición</th>
+            <th>Puntos</th>
+            <th>Fecha</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="acknowledgment in acknowledgments">
+            <td><strong class="numeration">{{$index + 1}}.</strong></td>
+            <td>{{acknowledgment.receiverName}}</td>
+            <td>{{acknowledgment.receiverEmployeeNumber}}</td>
+            <td>{{acknowledgment.receiverLocation}}</td>
+            <td>{{acknowledgment.receiverArea}}</td>
+            <td>{{acknowledgment.receiverPosition}}</td>
+            <td>{{acknowledgment.badgeSlug}}</td>
+            <td>{{acknowledgment.senderName}}</td>
+            <td>{{acknowledgment.senderEmployeeNumber}}</td>
+            <td>{{acknowledgment.senderLocation}}</td>
+            <td>{{acknowledgment.senderArea}}</td>
+            <td>{{acknowledgment.senderPosition}}</td>
+            <td>{{acknowledgment.badgePoints}}</td>
+            <td>{{acknowledgment.createdAt}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

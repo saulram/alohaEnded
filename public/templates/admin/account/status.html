@@ -1,0 +1,35 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Administración canjeos</h4>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 form-title">
+            <h4>Editar canjeo</h4>
+        </div>
+        <form name="statusForm" class="col-sm-12 col-lg-12 col-md-12">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="status">Estado</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-lg-8">
+                            <div class="form-group">
+                                <select id="status" name="status" ng-model="status" required>
+                                    <option value="En espera">En espera</option>
+                                    <option value="Recibido">Recibido</option>
+                                    <option value="Entregado">Entregado</option>
+                                    <option value="Devolución">Devolución</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6"></div>
+                <div class="col-md-12 col-lg-12 col-sm-12 btn-admin-wrapper">
+                    <button type="button" class="btn btn-admin" ng-click="editStatus()" ng-disabled="statusForm.$invalid">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

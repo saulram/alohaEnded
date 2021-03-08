@@ -1,0 +1,93 @@
+<section class="myBadges">
+    <div class="row rewards-header">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h3>Insignias Aloha</h3>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 description-wrapper">
+            <p>Consulta el estatus de tus insignias.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-md-12">
+            <div class="values-tab">
+                <p>Mis Valores y Competencias</p>
+            </div>
+            <div class="myValuesBadges">
+                <div class="row myValuesBadges-wrapper">
+                    <div class="col-lg-4 col-md-4 col-sm-4 myEmbassy" ng-repeat="embassy in myEmbassys">
+                        <div class="insignia-wrapper">
+                            <h2>Embajador</h2>
+                            <p class="badgeName">{{embassy.badgeName}}</p>
+                            <div class="images-wrapper">
+                                <div class="img-wrapper" style="background-image: url({{embassy.image}})"></div>
+                            </div>
+                            <p class="count"><strong>{{embassy.count}} insignias</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2 valBadges-wrapper" ng-repeat="myBadge in myBadges">
+                        <div class="insignia-wrapper {{myBadge.count == 0 ? 'blur': ''}}">
+                            <p class="count"><strong>{{myBadge.count}}</strong></p>
+                            <div class="img-wrapper" style="background-image: url({{myBadge.image}})"></div>
+                            <p class="name">{{myBadge.badgeName}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row other-wrapper">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="others-tab">
+                        <p>Insignias especiales</p>
+                    </div>
+                    <div class="otherBadges">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4" ng-repeat="myOthers in gpBadges">
+                                <div class="insignia-wrapper">
+                                    <p class="count"><strong>{{myOthers.count}}</strong></p>
+                                    <div class="img-wrapper" style="background-image: url({{myOthers.image}})"></div>
+                                    <p class="name">{{myOthers.badgeName}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="gp-tab">
+                        <p>Insignias del sistema</p>
+                    </div>
+                    <div class="gpBadges">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4" ng-repeat="myOthers in myOtherBadges">
+                                <div class="insignia-wrapper">
+                                    <p class="count"><strong>{{myOthers.count}}</strong></p>
+                                    <div class="img-wrapper" style="background-image: url({{myOthers.image}})"></div>
+                                    <p class="name">{{myOthers.badgeName}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ambassadors-tab">
+                <p>Top Nacional Embajadores</p>
+            </div>
+            <div class="ambassadorsBadges">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4" ng-repeat="ambassador in myAmbassadors">
+                        <div class="insignia-wrapper">
+                            <p class="count"><strong>{{ambassador.count}}</strong></p>
+                            <p class="collaboratorName">{{ambassador.completeName}}</p>
+                            <p>{{ambassador.location}}</p>
+                            <div class="images-wrapper">
+                                <div class="profile-img" style="background-image: url({{ambassador.profileImage}})"></div>
+                                <div class="img-wrapper" style="background-image: url({{ambassador.image}})"></div>
+                            </div>
+                            <p class="badgeName">{{ambassador.badgeName}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

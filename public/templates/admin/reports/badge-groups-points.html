@@ -1,0 +1,78 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Reportes de puntos por insignia</h4>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 panel panel-default">
+            <div class="panel-heading">
+                Opciones:
+            </div>
+            <div class="row panel-body">
+                <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <p>Apartir de: </p>
+                        <div class="datepicker" style="display:inline-block; min-height:252px;">
+                            <pre><em>{{fromDate | date:'fullDate' }}</em></pre>
+                            <div uib-datepicker ng-model="fromDate" class="well well-sm" datepicker-options="options"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <p>Hasta el: </p>
+                        <div class="datepicker" style="display:inline-block; min-height:252px;">
+                            <pre><em>{{toDate | date:'fullDate' }}</em></pre>
+                            <div uib-datepicker ng-model="toDate" class="well well-sm" datepicker-options="options"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-admin-wrapper col-md-12 col-lg-12 col-sm-12">
+                    <button class="btn btn-admin" ng-click="getData()">Buscar</button>
+                    <button class="btn btn-admin btn-csv" ng-click="csvGroupPoints()">Generar CSV</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-condensed large-table">
+        <thead>
+        <tr class="orderBy">
+            <th></th>
+            <th><a ng-click="setOrder('receiverName')" href="#">Receptor</a></th>
+            <th><a ng-click="setOrder('receiverNumber')" href="#">No. Empleado</a></th>
+            <th><a ng-click="setOrder('receiverLocation')" href="#">Localidad</a></th>
+            <th><a ng-click="setOrder('receiverArea')" href="#">Área</a></th>
+            <th><a ng-click="setOrder('receiverDepartment')" href="#">Departamento</a></th>
+            <th><a ng-click="setOrder('receiverPosition')" href="#">Posición</a></th>
+            <th>Pts. Valores</th>
+            <th>Pts. Competencias</th>
+            <th>Pts. Especiales</th>
+            <th><a ng-click="setOrder('senderName')" href="#">Emisor</a></th>
+            <th><a ng-click="setOrder('senderNumber')" href="#">No. Empleado</a></th>
+            <th><a ng-click="setOrder('senderLocation')" href="#">Localidad</a></th>
+            <th><a ng-click="setOrder('senderArea')" href="#">Área</a></th>
+            <th><a ng-click="setOrder('senderDepartment')" href="#">Departamento</a></th>
+            <th><a ng-click="setOrder('senderPosition')" href="#">Posición</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="acknowledgment in acknowledgments | orderBy : orderByModel : sortAscDesc">
+            <td><strong class="numeration">{{$index + 1}}.</strong></td>
+            <td>{{acknowledgment.receiverName}}</td>
+            <td>{{acknowledgment.receiverNumber}}</td>
+            <td>{{acknowledgment.receiverLocation}}</td>
+            <td>{{acknowledgment.receiverArea}}</td>
+            <td>{{acknowledgment.receiverDepartment}}</td>
+            <td>{{acknowledgment.receiverPosition}}</td>
+            <td>{{acknowledgment.values}}</td>
+            <td>{{acknowledgment.competences}}</td>
+            <td>{{acknowledgment.specials}}</td>
+            <td>{{acknowledgment.senderName}}</td>
+            <td>{{acknowledgment.senderNumber}}</td>
+            <td>{{acknowledgment.senderLocation}}</td>
+            <td>{{acknowledgment.senderArea}}</td>
+            <td>{{acknowledgment.senderDepartment}}</td>
+            <td>{{acknowledgment.senderPosition}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,77 @@
+<section class="account-status">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h3>Estado de cuenta</h3>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 description-wrapper">
+            <p>Revisa el balance de los puntos que has recibido y canjeado por recompensas.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-md-12">
+            <div class="label-header">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 col-sm-4">
+                        <p><strong>Criterio</strong></p>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-sm-4">
+                        <p><strong>Fecha</strong></p>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-sm-4">
+                        <p class="points-label"><strong>Puntos</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="previous-balance">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 col-sm-4">
+                        <p><strong>Saldo mes anterior</strong></p>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-sm-4"></div>
+                    <div class="col-md-4 col-lg-4 col-sm-4">
+                        <p class="total">{{previousPoints}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="account-list" ng-repeat="account in accounts track by $index">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 col-sm-4">
+                        <p ng-show="account.earnedReason">{{account.earnedReason}}</p>
+                        <p ng-show="account.rewardName">{{account.rewardName}}</p>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-sm-4">
+                        <p>{{account.createdAt}}</p>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-sm-4">
+                        <p ng-show="account.earnedPoints" class="earned-points">+ {{account.earnedPoints}}</p>
+                        <p ng-show="account.expendedPoints" class="expended-points">- {{account.expendedPoints}}</p>
+                    </div>
+                </div>
+            </div>
+            <p>{{account.createdAt}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="total-points">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 col-sm-4">
+                        <p>Total</p>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-sm-4"></div>
+                    <div class="col-md-4 col-lg-4 col-sm-4">
+                        <p class="total">{{currentPoints}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

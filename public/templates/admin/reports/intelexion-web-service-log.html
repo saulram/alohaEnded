@@ -1,0 +1,68 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Reporte de la actualización con Intelexion</h4>
+        </div>
+    </div>
+    <div class="row general-report">
+        <div class="col-md-3 col-lg-3 col-sm-3"></div>
+        <form class="col-md-6 col-lg-6 col-sm-6">
+            <div class="form-group">
+                <div class="datepicker" style="display:inline-block; min-height:252px;">
+                    <pre><em>{{dateFrom | date:'fullDate' }}</em></pre>
+                    <div uib-datepicker ng-model="dateFrom" class="well well-sm" datepicker-options="options"></div>
+                </div>
+                <hr>
+                <button type="button" class="btn btn-sm btn-info" ng-click="today()">Fecha de hoy</button>
+            </div>
+        </form>
+        <div class="col-md-3 col-lg-3 col-sm-3"></div>
+        <div class="col-md-12 col-lg-12 col-sm-12 btn-admin-wrapper">
+            <button type="button" class="btn btn-admin" ng-click="searchLog()">Buscar</button>
+        </div>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr class="orderBy">
+            <th><a ng-click="setOrder('completeName')" href="#">Nombre</a></th>
+            <th><a ng-click="setOrder('employeeNumber')" href="#">Número de empleado</a></th>
+            <th>Categoría</th>
+            <th>Fecha de actualización</th>
+            <th>Campos actualizados</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="info in logs | orderBy : orderByModel">
+            <td><strong class="numeration">{{$index + 1}}.</strong> {{info.completeName}}</td>
+            <td>{{info.employeeNumber}}</td>
+            <td ng-if="!info.error">{{info.category}}</td>
+            <td ng-if="info.error">{{info.error}}</td>
+            <td>{{info.updatedAt}}</td>
+            <td>
+                <table>
+                    <thead>
+                    <tr>
+                        <th ng-show="info.seniority">Antigüedad</th>
+                        <th ng-show="info.isActive">Estatus</th>
+                        <th ng-show="info.location">Localidad</th>
+                        <th ng-show="info.position">Puesto</th>
+                        <th ng-show="info.department">Departamento</th>
+                        <th ng-show="info.area">Área</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td ng-show="info.seniority">{{info.seniority}}</td>
+                        <td ng-show="info.isActive">{{info.isActive == true ? 'Activo' : 'Baja'}}</td>
+                        <td ng-show="info.location">{{info.location}}</td>
+                        <td ng-show="info.position">{{info.position}}</td>
+                        <td ng-show="info.department">{{info.department}}</td>
+                        <td ng-show="info.area">{{info.area}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,88 @@
+<div class="container admin gp-badges">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Administración de Insignias</h4>
+            <h4><span class="pink-font">></span> <strong>Touché!</strong></h4>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 form-title">
+            <h4>Crear nueva insignia <strong>Touché!</strong></h4>
+        </div>
+        <form name="gpForm" class="col-sm-12 col-lg-12 col-md-12">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="name">Nombre</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <input type="text" ng-model="name" id="name" name="name" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="points">Puntos</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <input type="number" ng-model="points" id="points" name="points" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <p ng-show="imageSrc">Imagen de insignia</p>
+                            <i ng-hide="imageSrc">Imagen no seleccionada</i>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <img class="img-thumbnail" ng-src="{{imageSrc}}" /><br/>
+                                <input type="file" id="image" ng-file-select="onFileSelect($files)" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12 col-sm-12 btn-admin-wrapper">
+                    <button type="button" class="btn btn-admin" ng-click="addBadge()" ng-disabled="gpForm.$invalid">Crear</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Listado de insignias Touché!</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <p><strong>Nombre</strong></p>
+        </div>
+        <div class="col-md-3">
+            <p><strong>Puntos</strong></p>
+        </div>
+        <div class="col-md-2">
+            <p><strong>Thumbnail</strong></p>
+        </div>
+        <div class="col-md-2">
+            <p><strong>Opciones</strong></p>
+        </div>
+    </div>
+    <div class="row" ng-repeat="badge in badges">
+        <div class="col-md-3">
+            <p><strong class="numeration">{{$index + 1}}.</strong> {{badge.name}}</p>
+        </div>
+        <div class="col-md-3">
+            <p>{{badge.points}}</p>
+        </div>
+        <div class="col-md-2">
+            <img class="img-thumbnail img-responsive" src="{{badge.image}}" alt="{{badge.name}}">
+        </div>
+        <div class="col-md-2">
+            <p>
+                <a class="btn-options" ui-sref="admin.editGPBadges({id: badge._id})">Editar</a> |
+                <a class="btn-options" ng-click="deleteBadge(badge._id)">Eliminar</a>
+            </p>
+        </div>
+    </div>
+</div>

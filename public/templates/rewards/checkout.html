@@ -1,0 +1,105 @@
+<div class="row checkout-header">
+    <div class="col-md-12 col-lg-12 title-wrapper">
+        <h3>Recompensas / Canjear</h3>
+    </div>
+</div>
+<div class="row titles">
+    <div class="col-md-8 col-lg-8 col-sm-8 col-wrapper">
+        <p>Recompensa</p>
+    </div>
+    <div class="col-md-4 col-lg-4 col-sm-4 col-wrapper">
+        <p class="balance-title"><strong>Balance</strong></p>
+    </div>
+</div>
+<form name="checkoutForm">
+    <div class="row wish-list checkout" ng-repeat="reward in rewards track by $index">
+        <div class="col-md-12 col-lg-12 col-sm-12 block-wrapper">
+            <div class="reward-img" style="background-image: url({{reward.image}})"></div>
+            <div class="cloths" ng-show="reward.size.length > 0">
+                <p>
+                    <label>Talla: </label>
+                    <select ng-model="sizeList[$index]" name="sizeList" ng-options="size for size in reward.size" ng-required="reward.size.length > 0"></select>
+                    <span class="error" ng-show="checkoutForm.sizeList.$error.required">*</span>
+                </p>
+                <p>
+                    <label>Genero:</label>
+                    <select ng-model="genderList[$index]" name="genderList" ng-options="gender for gender in reward.gender" ng-required="reward.size.length > 0"></select>
+                    <span class="error" ng-show="checkoutForm.genderList.$error.required">*</span>
+                </p>
+                <p>
+                    <label>Color:</label>
+                    <select ng-model="colorList[$index]" name="colorList" ng-options="color for color in reward.color" ng-required="reward.color.length > 0"></select>
+                    <span class="error" ng-show="checkoutForm.colorList.$error.required">*</span>
+                </p>
+            </div>
+            <div class="reward-title">
+                <p>{{reward.description}}</p>
+            </div>
+            <div class="delete-reward">
+                <a class="delete-btn" ng-click="removeFromList(reward)">
+                    <span>X</span><br>Borrar
+                </a>
+            </div>
+            <div class="balance-pts">
+                <p>- {{reward.points}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row balance">
+        <div class="col-md-8 col-lg-8 col-sm-8 col-wrapper">
+            <p>Total de puntos en tu estado de cuenta:</p>
+        </div>
+        <div class="col-md-4 col-sm-4 col-lg-4 col-wrapper">
+            <p class="total-points">{{totalPoints}}</p>
+        </div>
+    </div>
+    <div class="row btn-actions">
+        <div class="col-md-8 col-lg-8 col-sm-8"></div>
+        <div class="col-lg-2 col-md-2 col-sm-2">
+            <button type="button" class="btn cancel" ui-sref="rewards">Cancelar</button>
+        </div>
+        <div class="col-md-2 col-sm-2 col-lg-2">
+            <button type="button" class="btn confirm" data-toggle="modal" ng-disabled="checkoutForm.$invalid" ng-click="validatePoints()">Confirmar</button>
+        </div>
+    </div>
+</form>
+<!-- Modal -->
+<div class="modal fade checkout-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">IMPORTANTE</h4>
+            </div>
+            <div class="modal-body">
+                <p>Acabas de seleccionar {{rewards.length}} {{rewards.length > 1 ? 'productos' : 'producto'}} para canjear por tus puntos.</p>
+                <p>Al dar click al botón CONFIRMAR se generará un CÓDIGO que restará automáticamente {{sumRewardPoints}} puntos de tu estado de cuenta, lo cual es irreversible.</p>
+                <p>¿Estás seguro de los premios que quieres canjear?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="checkout" type="button" class="btn" ng-click="checkout()">Confirmar</button>
+                <button type="button" class="btn" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade checkout-modal" id="ticket" tabindex="-1" role="dialog" aria-labelledby="ticketLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="ticketLabel">¡FELICIDADES!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Has canjeado tus puntos de reconocimiento por recompensas que hemos elegido especialmente para ti.</p>
+                <p>Para recogerlas, imprime este comprobante o copia el CÓDIGO que aparece a continuación y preséntalo al área de Recursos Humanos de tu localidad.</p>
+                <h4>{{code}}</h4>
+                <p>La entrega tardará entre 30 y 45 días.</p>
+                <p>¡Gracias por tu esfuerzo y disfruta de tus premios!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="printCode()">Imprimir</button>
+            </div>
+        </div>
+    </div>
+</div>

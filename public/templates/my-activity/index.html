@@ -1,0 +1,43 @@
+<section class="my-activity">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h3>Mi actividad</h3>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 description-wrapper">
+            <p>A continuación podrás ver toda tu interacción en Valora: cuando recibes puntos a través de las insignias, cuando te dan “me gusta”  y/o cuando intercambias tus puntos por alguna recompensa.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-md-12">
+            <div class="label-header">
+                <div class="row">
+                    <div class="col-md-9 col-lg-9 col-sm-9">
+                        <p>Concepto</p>
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-sm-3">
+                        <p class="date-title">Fecha</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="activity-list" ng-repeat="notification in notifications" ng-class="{ 'active': notification.isRead }">
+                <div class="row">
+                    <a href="#" ng-click="viewDetails(notification)">
+                        <div class="col-md-9 col-lg-9 col-sm-9">
+                            <div class="content">
+                                <p class="title">{{notification.message}}</p>
+                                <p><span ng-show="notification.type === 'like'" class="heart"></span> {{notification.content}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-lg-3 col-sm-3">
+                            <p class="content">{{notification.createdAt}}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

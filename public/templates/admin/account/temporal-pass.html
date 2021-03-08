@@ -1,0 +1,77 @@
+<div class="container admin temporal-pass">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Reporte de contraseñas temporales</h4>
+        </div>
+        <form name="temporalForm" class="col-md-12 col-lg-12 col-sm-12 panel panel-default">
+            <div class="panel-heading">
+                Opciones:
+            </div>
+            <div class="row panel-body">
+                <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label for="completeName">Nombre</label>
+                        <input type="text" class="form-control" id="completeName" ng-model="completeName" name="completeName">
+                        <!--<span class="label-danger" ng-show="temporalForm.completeName.$error.required">* Requerido</span>-->
+                    </div>
+                    <div class="form-group">
+                        <label for="employeeNumber">Número de empleado</label>
+                        <input type="text" class="form-control" id="employeeNumber" ng-model="employeeNumber" name="employeeNumber">
+                        <!--<span class="label-danger" ng-show="temporalForm.completeName.$error.required">* Requerido</span>-->
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <label for="selectedLocation">Localidades</label>
+                    <select ng-model="selectedLocation" id="selectedLocation" name="selectedLocation">
+                        <option value="">Todos</option>
+                        <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+                    </select>
+                </div>
+                <div class="col-md-12 col-lg-12 col-sm-12 tips">
+                    <h4>Puntos importantes a considerar antes de enviar la contraseña temporal. El usuario:</h4>
+                    <ul>
+                        <li class="label label-warning">Debe estar activo</li>
+                        <li class="label label-warning">No tuvo que haber cambiado la contraseña, de lo contrario, solicitar una nueva</li>
+                        <li class="label label-warning">Debe de contar con un correo electrónico</li>
+                        <li class="label label-warning">La antigüedad debe de ser 0 años para Upgrade y 1 año en adelante para Valora</li>
+                    </ul>
+                </div>
+                <div class="btn-admin-wrapper col-md-12 col-lg-12 col-sm-12">
+                    <button class="btn btn-admin" ng-click="searchUser()">Buscar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Nombre</th>
+            <th>Número de empleado</th>
+            <th>Localidad</th>
+            <th>Contraseña temporal</th>
+            <th>Contraseña cambiada</th>
+            <th>Correo electrónico</th>
+            <th>Activo</th>
+            <th>Antigüed</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="user in users">
+            <td><strong class="numeration">{{$index + 1}}.</strong></td>
+            <td>{{user.completeName}}</td>
+            <td>{{user.employeeNumber}}</td>
+            <td>{{user.location}}</td>
+            <td>{{user.temporal ? user.temporal : 'Sin solicitar'}}</td>
+            <td>{{user.passChanged ? 'Cambiada' : 'Sin cambiar'}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.isActive ? 'Activo' : 'No activo'}}</td>
+            <td>{{user.seniority}}</td>
+            <td>
+                <button class="btn" ng-click="activate(user._id)">Activar</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

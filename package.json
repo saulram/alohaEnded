@@ -1,0 +1,57 @@
+{
+  "name": "valora",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha test/* --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/josleugim/valora-gp.git"
+  },
+  "author": "@josleugim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/josleugim/valora-gp/issues"
+  },
+  "homepage": "https://github.com/josleugim/valora-gp",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "crypto": "0.0.3",
+    "dotenv": "^4.0.0",
+    "express": "^4.13.4",
+    "fast-csv": "^2.3.0",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.2.0",
+    "json2csv": "^3.7.2",
+    "jsonwebtoken": "^7.1.9",
+    "mailcomposer": "^4.0.1",
+    "mailgun-js": "^0.8.1",
+    "moment": "^2.15.1",
+    "mongoose": "^5.5.3",
+    "mongoose-timestamp": "^0.6.0",
+    "multer": "^1.2.0",
+    "nib": "^1.1.0",
+    "node-cron": "^1.1.2",
+    "path": "^0.12.7",
+    "q": "^1.4.1",
+    "shortid": "^2.2.6",
+    "soap": "^0.18.0",
+    "speakingurl": "^10.0.0",
+    "stylus": "^0.54.5",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "assert": "^1.4.1",
+    "browser-sync": "^2.18.8",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-csso": "^3.0.0",
+    "gulp-jshint": "^2.0.4",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1",
+    "mocha": "^4.0.1"
+  }
+}

@@ -1,0 +1,19 @@
+<div class="row rewards-header">
+    <div class="col-md-12 col-lg-12 title-wrapper">
+        <h3>Mi lista</h3>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 section-title">
+        <p>A continuación encontrarás la lista de tus recompensas favoritas.</p>
+    </div>
+</div>
+<div class="row wish-list">
+    <div class="col-md-12 col-lg-12 col-sm-12 block-wrapper" ng-repeat="reward in myRewards">
+        <div class="block" style="background-image: url({{reward.image}})"></div>
+        <div class="description">
+            <p>{{reward.description}}</p>
+        </div>
+        <div class="delete">
+            <p><a class="delete-btn" ng-click="removeFromWishList(reward._id)"><span>X</span><br>Borrar</a></p>
+        </div>
+    </div>
+</div>

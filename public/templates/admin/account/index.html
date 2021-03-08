@@ -1,0 +1,45 @@
+<div class="container account-admin admin">
+    <div class="row title-wrapper">
+        <div class="col-md-12">
+            <h4>Administración de canjeos</h4>
+        </div>
+    </div>
+    <div class="row">
+        <form name="accountForm">
+
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Listado de canjeos</h4>
+        </div>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr class="orderBy">
+            <th><a ng-click="setOrder('collaboratorName')" href="#">Colaborador</a></th>
+            <th><a ng-click="setOrder('rewardName')" href="#">Recompensa</a></th>
+            <th><a ng-click="setOrder('exchangeCode')" href="#">Código</a></th>
+            <th><a ng-click="setOrder('status')" href="#">Estado</a></th>
+            <th>Talla</th>
+            <th>Género</th>
+            <th>Color</th>
+            <th><a ng-click="setOrder('createdAt')" href="#">Fecha de canje</a></th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="account in accounts | orderBy : orderByModel">
+            <td><strong class="numeration">{{$index + 1}}.</strong> {{account.collaboratorName}}</td>
+            <td>{{account.rewardName}}</td>
+            <td>{{account.exchangeCode}}</td>
+            <td>{{account.status}}</td>
+            <td>{{account.size}}</td>
+            <td>{{account.gender}}</td>
+            <td>{{account.color}}</td>
+            <td>{{account.createdAt}}</td>
+            <td><a ui-sref="admin.account-status({id: account._id})">Editar status</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

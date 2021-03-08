@@ -1,0 +1,121 @@
+<section class="recognize-badges" ng-controller="AcknowledgmentCtrl">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 brownBox">
+            <div class="description">
+                <p>Tienes <strong class="highlight-text"> {{myInfo.points.temporal == undefined ? 0 : myInfo.points.temporal}} puntos</strong> para reconocer a tus compañeros.</p>
+                <p>Elige entre los 3 tipos de insignia y decide que tipo de reconocimiento quieres otorgar.</p>
+                <hr>
+            </div>
+        </div>
+    </div>
+    <div class="row categories">
+        <div class="col-lg-3 col-md-3 col-sm-3 badge-category {{valuesActive == true ? 'active' : ''}}">
+            <a href="#" class="block-wrapper" ng-click="categories('values')">
+                <div class="values">
+                    <div class="line"></div>
+                </div>
+                <p class="badge-name">Valores</p>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 badge-category {{competencesActive == true ? 'active' : ''}}">
+            <a href="#" class="block-wrapper" ng-click="categories('competences')">
+                <div class="competences"></div>
+                <p class="badge-name">Competencias</p>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 badge-category {{specialActive == true ? 'active' : ''}}">
+            <a href="#" class="block-wrapper" ng-click="categories('special')">
+                <div class="special">
+                    <div class="line"></div>
+                </div>
+                <p class="badge-name">Especiales</p>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-md-12 badges-container">
+            <div class="values-carousel-wrapper" ng-show="valuesActive">
+                <div class="values-carousel">
+                    <a class="badge-wrapper" ng-repeat="value in values" ng-click="openPopup(value)">
+                        <div class="badge-img-wrapper">
+                            <div class="badge-img" style="background-image: url({{value.image}})"></div>
+                        </div>
+                        <div class="badge-description">
+                            <p>{{value.name}}</p>
+                            <p class="pts">{{value.points}} pts</p>
+                            <p>{{value.expiresAt}}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="competences-carousel-wrapper" ng-show="competencesActive">
+                <div class="competences-carousel">
+                    <a class="badge-wrapper" ng-repeat="competence in competences" ng-click="openPopup(competence)">
+                        <div class="badge-img-wrapper">
+                            <div class="badge-img" style="background-image: url({{competence.image}})"></div>
+                        </div>
+                        <div class="badge-description">
+                            <p>{{competence.name}}</p>
+                            <p class="pts">{{competence.points}} pts</p>
+                            <p>{{competence.expiresAt}}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="special-carousel-wrapper" ng-show="specialActive">
+                <div class="special-carousel">
+                    <a class="badge-wrapper" ng-repeat="special in specialBadges" ng-click="openPopup(special)">
+                        <div class="badge-img-wrapper">
+                            <div class="badge-img" style="background-image: url({{special.image}})"></div>
+                        </div>
+                        <div class="badge-description">
+                            <p>{{special.name}}</p>
+                            <p class="pts">{{special.points}} pts</p>
+                            <p>{{special.expiresAt}}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form name="acknowledgmentForm" class="col-lg-12 col-md-12 col-sm-12" ng-show="!!modalBadge">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 choose-collaborator-title">
+                <p>Elige al colaborador que quieres reconocer:</p>
+            </div>
+        </div>
+        <div class="row choose-collaborator-wrapper">
+            <div class="choose-collaborator-border">
+                <div class="col-md-3 col-sm-12 col-lg-3 preview-badge">
+                    <div class="badge">
+                        <div class="badge-img" style="background-image: url({{modalBadge.image}})"></div>
+                        <div class="badge-description">
+                            <p>{{modalBadge.name}}</p>
+                            <p class="pts">{{modalBadge.points}} pts</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-12 col-lg-9 choose-collaborator">
+                    <div class="badge-form">
+                        <input type="text" ng-model="collaborator" ng-model-options="{debounce: 1000}" value="collaborator" ng-change="searchCollaborator(collaborator)" required>
+                        <div class="collaborators-wrapper">
+                            <span ng-repeat="optCollaborator in collaborators" ng-click="selectCollaborator(optCollaborator)">{{optCollaborator.completeName}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row comment-wrapper">
+            <div class="col-lg-12 col-sm-12 col-md-12 choose-collaborator-title">
+                <p>Escribe un comentario o los motivos por los cuales lo(a) estás reconociendo (140 caracteres):</p>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 personal-message">
+                <textarea name="senderMessage" ng-model="senderMessage" ng-maxlength="140"></textarea>
+                <span class="error" ng-show="acknowledgmentForm.senderMessage.$error.maxlength">140 caracteres máximo</span>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <button class="btn btn-acknowledgment" type="button" ng-click="recognize()" ng-disabled="acknowledgmentForm.$invalid && !!modalBadge">Reconocer</button>
+            </div>
+        </div>
+    </form>
+</section>

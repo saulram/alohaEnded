@@ -1,0 +1,70 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Reportes de puntos totales</h4>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 panel panel-default">
+            <div class="panel-heading">
+                Opciones:
+            </div>
+            <div class="row panel-body">
+                <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <p>Apartir de: </p>
+                        <div class="datepicker" style="display:inline-block; min-height:252px;">
+                            <pre><em>{{fromDate | date:'fullDate' }}</em></pre>
+                            <div uib-datepicker ng-model="fromDate" class="well well-sm" datepicker-options="options"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <p>Hasta el: </p>
+                        <div class="datepicker" style="display:inline-block; min-height:252px;">
+                            <pre><em>{{toDate | date:'fullDate' }}</em></pre>
+                            <div uib-datepicker ng-model="toDate" class="well well-sm" datepicker-options="options"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-admin-wrapper col-md-12 col-lg-12 col-sm-12">
+                    <button class="btn btn-admin" ng-click="getData()">Buscar</button>
+                    <button class="btn btn-admin btn-csv" ng-click="csvTotalPoints()">Generar CSV</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr class="orderBy">
+            <th></th>
+            <th><a ng-click="setOrder('completeName')" href="#">Nombre</a></th>
+            <th><a ng-click="setOrder('employeeNumber')" href="#">No. Empleado</a></th>
+            <th><a ng-click="setOrder('location')" href="#">Localidad</a></th>
+            <th><a ng-click="setOrder('area')" href="#">Área</a></th>
+            <th><a ng-click="setOrder('department')" href="#">Departamento</a></th>
+            <th><a ng-click="setOrder('position')" href="#">Posición</a></th>
+            <th>Pts. Insignias</th>
+            <th>Pts. Evaluación de desempeño</th>
+            <th>Pts. Upgrade</th>
+            <th>Pts. Antigüedad</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="user in users | orderBy : orderByModel : sortAscDesc">
+            <td><strong class="numeration">{{$index + 1}}.</strong></td>
+            <td>{{user.completeName}}</td>
+            <td>{{user.employeeNumber}}</td>
+            <td>{{user.location}}</td>
+            <td>{{user.area}}</td>
+            <td>{{user.department}}</td>
+            <td>{{user.position}}</td>
+            <td>{{user.badge}}</td>
+            <td>{{user.performance}}</td>
+            <td>{{user.upgrade}}</td>
+            <td>{{user.seniority}}</td>
+            <td>{{user.total}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

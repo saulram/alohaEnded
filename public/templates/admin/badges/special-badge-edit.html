@@ -1,0 +1,78 @@
+<div class="container admin gp-badges">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Administración de Insignias</h4>
+            <h4><span class="pink-font">></span> <strong>ESPECIALES</strong></h4>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 form-title">
+            <h4>Editar insignia <strong>especial</strong></h4>
+        </div>
+        <form name="badgeForm" class="col-sm-12 col-lg-12 col-md-12">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="category">Categoría</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <input type="hidden" name="id" ng-model="id">
+                            <div class="form-group">
+                                <select id="category" name="category" ng-model="category" required>
+                                    <option value="valor">Valor</option>
+                                    <option value="competencias">Competencia</option>
+                                    <option value="especial">Especial</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="badgeName">Nombre</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-lg-8">
+                            <div class="form-group">
+                                <input type="text" id="badgeName" ng-model="badgeName" name="badgeName">
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="points">Puntos</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <input type="number" name="points" id="points" min="0" ng-model="points" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <p ng-show="imageSrc">Imagen de insignia</p>
+                            <i ng-hide="imageSrc">Imagen no seleccionada</i>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <img class="img-thumbnail" ng-src="{{imageSrc}}" /><br/>
+                                <input type="file" id="image" ng-file-select="onFileSelect($files)" >
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <p>Fecha de expiración</p>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <div class="datepicker" style="display:inline-block; min-height:290px;">
+                                    <pre><em>{{expiresAt | date:'fullDate' }}</em></pre>
+                                    <div uib-datepicker name="expiresAt" ng-model="expiresAt" class="well well-sm" datepicker-options="options"></div>
+                                </div>
+                                <hr>
+                                <button type="button" class="btn btn-sm btn-info" ng-click="today()">Fecha de hoy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12 col-sm-12 btn-admin-wrapper">
+                    <button type="button" class="btn btn-admin" ng-click="editBadge()" ng-disabled="badgeForm.$invalid">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Administración de publicaciones</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Listado de publicaciones</h4>
+        </div>
+    </div>
+    <div class="row orderBy">
+        <div class="col-md-3 col-lg-3 col-sm-3">
+            <p><a ng-click="setOrder('receiverName')" href="#"><strong>Recibe</strong></a></p>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3">
+            <p><a ng-click="setOrder('senderName')" href="#"><strong>Otorga</strong></a></p>
+        </div>
+        <div class="col-md-2 col-sm-2 col-lg-2">
+            <p><strong>Razón</strong></p>
+        </div>
+        <div class="col-md-2 col-sm-2 col-lg-2">
+            <p><a ng-click="setOrder('createdAt')" href="#"><strong>Fecha</strong></a></p>
+        </div>
+        <div class="col-md-2 col-lg-2 col-sm-2">
+            <p><strong>Opciones</strong></p>
+        </div>
+    </div>
+    <div class="row dynamic-content" ng-repeat="feed in feeds | orderBy : orderByModel">
+        <div class="col-md-3 col-lg-3 col-sm-3">
+            <p><strong class="numeration">{{$index + 1}}.</strong> {{feed.receiverName}}</p>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3">
+            <p ng-show="feed.senderName">{{feed.senderName}}</p>
+        </div>
+        <div class="col-md-2 col-sm-2 col-lg-2">
+            <p ng-show="feed.type === 'badge' || feed.badgeSlug && feed.message !== 'ambassador'">Se otorgó la siguiente insignia: {{feed.badgeSlug}}</p>
+            <p ng-show="feed.earnedReason === 'seniority' || feed.type === 'seniority'">Cumplió un año más</p>
+            <p ng-show="feed.message === 'ambassador' || feed.type === 'ambassador'">Se convirtió en embajador de {{feed.badgeName}}</p>
+            <p ng-show="feed.earnedReason === 'upgrade' || feed.type === 'upgrade'">Obtuvo puntos por Upgrade</p>
+            <p ng-show="feed.earnedReason === 'performance' || feed.type === 'performance'">Obtuvo puntos por Evaluación de desempeño</p>
+            <p ng-show="feed.type === 'New reward'">Se creó una nueva recompensa, {{feed.rewardName}}</p>
+            <p ng-show="feed.type === 'Reward exchanged'">El colaborador canjeó una recompensa, {{feed.rewardName}}</p>
+        </div>
+        <div class="col-md-2 col-sm-2 col-lg-2">
+            {{feed.createdAt}}
+        </div>
+        <div class="col-md-2 col-lg-2 col-sm-2 btn-admin-wrapper">
+            <button class="btn-admin" ng-click="deletePublication(feed._id)">Borrar</button>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 feed-comments">
+            <p><strong>Comentarios</strong>:</p>
+            <div class="comments-list" ng-repeat="document in feed.comments">
+                <p>
+                    <span class="collaboratorName">{{document.collaborator.completeName}}:</span> {{document.comment}}
+                    <button class="btn-admin" ng-click="deleteComment(feed._id, document._id)">Borrar comentario</button>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row general-report">
+        <div class="col-lg-12 col-md-12 col-sm-12 btn-admin-wrapper">
+            <button type="button" class="btn btn-admin" ng-click="moreData()">Mostrar más</button>
+        </div>
+    </div>
+</div>

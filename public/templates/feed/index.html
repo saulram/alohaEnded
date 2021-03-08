@@ -1,0 +1,48 @@
+<ng-include src="'templates/acknowledgment/badges.html'"></ng-include>
+<div class="row feed">
+    <!--<div class="col-lg-12 col-sm-12 col-md-12 btn-filter-wrapper">
+        <div>
+            <p class="description">Ahora puedes filtrar las actividades en Valora por localidad:</p>
+            <span class="btn-filter" ng-class="{active: isSelected('BALLESOL')}" ng-click="setLocationValue('BALLESOL')">Ballesol</span>
+            <span class="btn-filter" ng-class="{active: isSelected('CANCUN')}" ng-click="setLocationValue('CANCUN')">Cancún</span>
+            <span class="btn-filter" ng-class="{active: isSelected('CELAYA')}" ng-click="setLocationValue('CELAYA')">Celaya</span>
+            <span class="btn-filter" ng-class="{active: isSelected('CORPORATIVO')}" ng-click="setLocationValue('CORPORATIVO')">Corporativo</span>
+            <span class="btn-filter" ng-class="{active: isSelected('COZUMEL')}" ng-click="setLocationValue('COZUMEL')">Cozumel</span>
+            <span class="btn-filter" ng-class="{active: isSelected('GUADALAJARA')}" ng-click="setLocationValue('GUADALAJARA')">Guadalajara</span>
+            <span class="btn-filter" ng-class="{active: isSelected('IRAPUATO')}" ng-click="setLocationValue('IRAPUATO')">Irapuato</span>
+            <span class="btn-filter" ng-class="{active: isSelected('IXTAPA')}" ng-click="setLocationValue('IXTAPA')">Ixtapa</span>
+            <span class="btn-filter" ng-class="{active: isSelected('LOS CABOS')}" ng-click="setLocationValue('LOS CABOS')">Los Cabos</span>
+            <span class="btn-filter" ng-class="{active: isSelected('MERIDA')}" ng-click="setLocationValue('MERIDA')">Merida</span>
+            <span class="btn-filter" ng-class="{active: isSelected('MIYANA')}" ng-click="setLocationValue('MIYANA')">Miyana</span>
+            <span class="btn-filter" ng-class="{active: isSelected('POLANCO')}" ng-click="setLocationValue('POLANCO')">Polanco</span>
+            <span class="btn-filter" ng-class="{active: isSelected('PIC PUEBLA')}" ng-click="setLocationValue('PIC PUEBLA')">PIC Puebla</span>
+            <span class="btn-filter" ng-class="{active: isSelected('HIEX PUEBLA')}" ng-click="setLocationValue('HIEX PUEBLA')">HIEX Puebla</span>
+            <span class="btn-filter" ng-class="{active: isSelected('PUEBLA')}" ng-click="setLocationValue('PUEBLA')">Puebla</span>
+            <span class="btn-filter" ng-class="{active: isSelected('SANTA FE')}" ng-click="setLocationValue('SANTA FE')">Santa Fe</span>
+            <span class="btn-filter" ng-class="{active: isSelected('SILAO')}" ng-click="setLocationValue('SILAO')">Silao</span>
+            <span class="btn-filter" ng-class="{active: isSelected(undefined)}" ng-click="setLocationValue(undefined)">Todos</span>
+        </div>
+    </div>-->
+    <div class="col-lg-12 col-sm-12 col-md-12 feed-wrapper" ng-repeat="(key, feed) in feeds | filter:locationFilter" ng-controller="FeedBlockCtrl">
+        <ng-include src="'templates/common/feed-block.html'"></ng-include>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 viewMore">
+        <p><a href="#" ng-click="viewMore()">Ver más</a></p>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="likeModal" tabindex="-1" role="dialog" aria-labelledby="likeModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button ng-click="closeLikeModal()" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="likeModalLabel">Me gusta <span class="heart"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li ng-repeat="collaborator in likeCollaborators">{{collaborator.completeName}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

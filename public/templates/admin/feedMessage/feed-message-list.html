@@ -1,0 +1,54 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Administración de mesajes del Feed</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Listado de mesajes</h4>
+        </div>
+        <form name="feedMessageForm" class="col-md-12 col-lg-12 col-sm-12">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="type">Tipo</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <select id="type" name="type" ng-model="type" required>
+                                    <option value="" selected disabled>Selecciona una opción</option>
+                                    <option value="seniority">Antigüedad</option>
+                                    <option value="acknowledgment">Insignia otorgada</option>
+                                    <option value="upgrade">Upgrade</option>
+                                </select>
+                                <span class="label label-warning" ng-show="feedMessageForm.type.$error.required">*Requerido</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="message">Mensaje</label>
+                            <div class="alert-info">
+                                <p ng-show="type === 'upgrade'">Para el texto de Upgrade, se debe definir el valor dinámico de <span>receiverName</span> y <span>badgeName</span></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <input class="form-control" id="message" ng-model="message" name="message" ng-maxlength="200" required>
+                                <span class="label label-warning" ng-show="feedMessageForm.message.$error.maxlength">Máximo 200 caracteres</span>
+                                <span class="label label-warning" ng-show="feedMessageForm.message.$error.required">*Requerido</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12 col-sm-12 btn-admin-wrapper">
+                    <button type="button" class="btn btn-admin" ng-click="saveMessage()" ng-disabled="feedMessageForm.$invalid">Crear</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

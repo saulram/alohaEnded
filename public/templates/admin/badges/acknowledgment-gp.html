@@ -1,0 +1,62 @@
+<div class="container admin gp-badges">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Administración de Insignias</h4>
+            <h4><span class="pink-font">></span> <strong>RECONOCIMIENTO Touché!</strong></h4>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 form-title">
+            <h4>Asignación de insignia <strong>Touché!</strong></h4>
+        </div>
+        <form name="badgeForm" class="col-sm-12 col-lg-12 col-md-12">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="location">Localidad</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <select ng-model="location" id="location">
+                                    <option value="">Todas</option>
+                                    <option value="Corporativo">Corporativo</option>
+                                    <option value="MEXICO">Polanco</option>
+                                    <option value="Santa Fe">Santa Fe</option>
+                                    <option value="Puebla">Puebla</option>
+                                    <option value="Guadalajara">Guadalajara</option>
+                                    <option value="Ixtapa">Ixtapa</option>
+                                    <option value="Los Cabos">Los Cabos</option>
+                                    <option value="MERIDA">Mérida</option>
+                                    <option value="Cancun">Cancun</option>
+                                    <option value="Cozumel">Cozumel</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="collaborator">Colaborador</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <select id="collaborator" ng-model="collaboratorSelected" ng-options="collaborator.completeName for collaborator in collaborators | filter: location track by collaborator._id" required></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="badge">Insignias</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <select id="badge" ng-model="badgeSelected" ng-options="badge.name for badge in badges track by badge._id" required></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12 col-sm-12 btn-admin-wrapper">
+                    <button type="button" class="btn btn-admin" ng-click="acknowledge()" ng-disabled="badgeForm.$invalid">Crear</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

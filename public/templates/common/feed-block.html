@@ -1,0 +1,71 @@
+<div class="feed-content">
+    <div class="img-wrapper">
+        <div ng-show="feed.reward_id" class="img-logo"></div>
+        <div ng-show="feed.type == 'rewardRedeemed'" class="img-logo"></div>
+        <div ng-show="feed.badgeName" class="img" style="background-image: url({{feed.badgeImage}})"></div>
+        <div ng-show="feed.earnedReason == 'upgrade'" class="img" style="background-image: url({{feed.badgeImage}})"></div>
+        <div ng-show="feed.earnedReason == 'Desempeño'" class="img" style="background-image: url({{feed.badgeImage}})"></div>
+        <div ng-show="feed.earnedReason == 'seniority'" class="img  {{feed.seniority == 1 ? 'oneYear' : 'seniority'}}" style="background-image: url({{feed.badgeImage}})"></div>
+    </div>
+    <div class="feed-text" ng-show="feed.type == 'badgeAcknowledge'">
+        <p ng-show="feed.badgeName">
+            <strong class="text-capitalize">{{feed.receiverName}}</strong> de
+            <strong class="text-capitalize">{{feed.location}}</strong> ha recibido una insignia de <strong>
+            {{feed.badgeName}}</strong> de parte de <strong class="text-capitalize">{{feed.senderName}}</strong>
+        </p>
+        <p ng-show="feed.senderMessage" class="personal-message">Mensaje de <span class="text-capitalize">{{feed.senderName}}</span>: "{{feed.senderMessage}}"</p>
+    </div>
+    <div class="feed-text" ng-show="feed.type == 'ambassador'">
+        <p ng-show="feed.badgeName"><strong class="text-capitalize">{{feed.receiverName}}</strong> de <strong class="text-capitalize">{{feed.location}}</strong> obtuvo la Embajada de "<strong>{{feed.badgeName}}</strong>" gracias al reconocimiento de todos. ¡Disfruta del trono que pronto te pueden desbancar!</p>
+    </div>
+    <div class="feed-text" ng-show="feed.type == 'rewardRedeemed'">
+        <p ng-show="feed.receiverName"><strong class="text-capitalize">{{feed.receiverName}}</strong> de <strong class="text-capitalize">{{feed.location}}</strong> acaba de canjear una recompensa: <strong>{{feed.rewardName}}</strong> con valor de <strong>{{feed.rewardPoints}} pts</strong> ¡Su esfuerzo se ha visto recompensado!</p>
+        <div class="reward-img" style="background-image: url({{feed.rewardImage}});"></div>
+    </div>
+    <div class="feed-text" ng-show="feed.type == 'imports'">
+        <p ng-show="feed.earnedReason == 'Desempeño'"><strong class="text-capitalize">{{feed.receiverName}}</strong> de <strong class="text-capitalize">{{feed.location}}</strong> ha obtenido una insignia de Desempeño.</p>
+        <p ng-show="feed.earnedReason == 'upgrade'" class="upgrade"><strong class="text-capitalize">{{feed.receiverName}}</strong> de <strong class="text-capitalize">{{feed.location}}</strong> ha obtenido una insignia Upgrade <span class="upgradeBadge">{{feed.message}}</span>.</p>
+        <p ng-show="feed.earnedReason == 'seniority'">
+            <strong class="text-capitalize">{{feed.receiverName}}</strong> de <strong class="text-capitalize">{{feed.location}}</strong> {{feed.seniority == 1 ? 'acaba de entrar a Aloha por haber cumplido ' + feed.seniority + ' año en Aloha, y recibir la insignia de Antigüedad ¡Todos en Aloha te damos la bienvenida!': 'acaba de cumplir ' + feed.seniority + ' años en Aloha y recibir la insignia de Antigüedad. ¡Felicidades!'}}
+        </p>
+    </div>
+    <div class="feed-text" ng-show="feed.type == 'rewardCreated'">
+        <p ng-show="feed.reward_id"><a ui-sref="rewards">¡Nueva recompensa! {{feed.rewardName}} <span>{{feed.rewardPoints}} pts.</span></a></p>
+        <p ng-show="feed.reward_id">Válido hasta {{feed.rewardExpiresAt}}</p>
+        <div ng-show="feed.reward_id" class="reward-img" style="background-image: url({{feed.rewardImage}});"></div>
+    </div>
+    <div class="comment">
+        <span class="comment-icon" ng-class="{active: openComments}" ng-click="openComments = ! openComments" ng-show="feed.comments"></span>
+        <span class="text" ng-click="openComments = ! openComments">Comentarios</span>
+        <span class="count">{{feed.comments.length}}</span>
+    </div>
+    <div class="like">
+        <span class="heart {{feed.likeStatus}}" ng-click="feed.likeStatus == undefined ? addToLikes(feed._id) : removeFromLikes(feed._id)"></span>
+        <span class="count" ng-click="openLikeModal(feed._id)"><strong>{{feed.count > 0 ? feed.count : ''}}</strong></span>
+    </div>
+</div>
+<p class="createdAt">{{feed.createdAt}}</p>
+<div ng-class="{active: openComments}" class="comments-wrapper">
+    <div class="new-comment">
+        <div class="profile-thumb" style="background-image: url('{{myInfo.profileImage}}')"></div>
+        <input type="text"
+               id="newComment[key]"
+               name="newComment[key]"
+               ng-model="feed.newComment"
+               enter-pressed
+               placeholder="Escribe un comentario:"
+               ng-model-options="{debounce: 1000}"
+               ng-change="searchCollaborator(feed.newComment, feed, $index)">
+        <span class="comment-warning" ng-show="feed.newComment.length > 114">Máximo 114 caracteres</span>
+        <a class="push-comment" ng-hide="feed.newComment.length > 114 || feed.newComment.length < 2" href="#" ng-click="pushComment(feed._id, feed.newComment, feed)">Comentar</a>
+    </div>
+    <div class="comments-list" ng-repeat="document in feed.comments">
+        <p><span class="collaboratorName">{{document.collaborator.completeName}}</span> {{document.comment}}</p>
+    </div>
+</div>
+<div class="collaboratorsModal" ng-show="feed.usersModalActive && collaborators.length">
+    <p class="close-popup-wrapper"><span class="close-popup" ng-click="closeCollaboratorsList(feed)">X</span></p>
+    <ul>
+        <li ng-repeat="collaborator in collaborators" ng-click="pasteCollaborator(collaborator)">{{collaborator.completeName}}</li>
+    </ul>
+</div>

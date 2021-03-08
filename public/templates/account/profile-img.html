@@ -1,0 +1,11 @@
+<div class="row profile-image">
+    <div class="col-sm-3 col-lg-3 col-md-3"></div>
+    <div class="col-md-6 col-sm-6 col-lg-6 form-wrapper">
+        <h5 ng-show="imageSrc">Imagen de perfil</h5>
+        <p>En este formulario puedes cambiar tu imagen de perfil.</p>
+        <img class="img-thumbnail" ng-src="{{imageSrc}}" />
+        <p><input type="file" ng-file-select="onFileSelect($files)"></p>
+        <p><button type="button" class="btn" ng-click="changeImg()">Cambiar</button></p>
+    </div>
+    <div class="col-sm-3 col-lg-3 col-md-3"></div>
+</div>

@@ -1,0 +1,64 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Reporte de logs de colaboradores</h4>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 panel panel-default">
+            <div class="panel-heading">
+                Opciones:
+            </div>
+            <div class="row panel-body">
+                <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <p>Apartir de: </p>
+                        <div class="datepicker" style="display:inline-block; min-height:252px;">
+                            <pre><em>{{fromDate | date:'fullDate' }}</em></pre>
+                            <div uib-datepicker ng-model="fromDate" class="well well-sm" datepicker-options="options"></div>
+                        </div>
+                        <hr>
+                        <button type="button" class="btn btn-sm btn-info" ng-click="today()">Fecha de hoy</button>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <p>Hasta el: </p>
+                        <div class="datepicker" style="display:inline-block; min-height:252px;">
+                            <pre><em>{{toDate | date:'fullDate' }}</em></pre>
+                            <div uib-datepicker ng-model="toDate" class="well well-sm" datepicker-options="options"></div>
+                        </div>
+                        <hr>
+                        <button type="button" class="btn btn-sm btn-info" ng-click="today()">Fecha de hoy</button>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 btn-admin-wrapper">
+                    <button type="button" class="btn btn-admin" ng-click="searchLogs()">Buscar</button>
+                    <button class="btn btn-admin btn-csv" ng-click="csvLogs()">Generar CSV</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>Nombre de colaborador</th>
+            <th>Número de colaborador</th>
+            <th>Localidad</th>
+            <th>Área</th>
+            <th>Puesto</th>
+            <th>Accesos</th>
+            <th>Plataforma</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="info in logs">
+            <td><strong class="numeration">{{$index + 1}}.</strong> {{info.completeName}}</td>
+            <td>{{info.employeeNumber}}</td>
+            <td>{{info.location}}</td>
+            <td>{{info.area}}</td>
+            <td>{{info.position}}</td>
+            <td>{{info.total}}</td>
+            <td>{{info.platform}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

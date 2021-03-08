@@ -1,0 +1,50 @@
+<section class="preferences">
+    <div class="row preferences-header">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h3>Preferencias</h3>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 description-wrapper">
+            <p>En esta sección puedes editar tu correo electrónico para recuperar tu contraseña y decidir cuáles notificaciones deseas recibir en esa misma cuenta.</p>
+        </div>
+    </div>
+    <div class="row preferences-body">
+        <div class="col-lg-3 col-md-3 col-sm-3"></div>
+        <form name="preferencesForm" class="col-lg-6 col-md-6 col-sm-6 form-wrapper">
+            <div class="form-group">
+                <label class="notification" for="email">Correo electrónico</label>
+                <p>Recuerda escribir una cuenta de correo electrónico que revises con frecuencia y no olvides ponerla completa y sin errores, esto con el fin de poder recuperar tu contraseña y recibir las notificaciones de manera correcta.</p>
+                <input type="email" ng-model="email" name="email" id="email">
+            </div>
+            <p class="notification-points"><strong>Notificaciones por correo electrónico</strong></p>
+            <p>Selecciona las actividades con las que interactúas y desees recibir en tu correo como notificación. Te recomendamos que mantengas todas activas con la finalidad de estar siempre al tanto de lo que pasa en Valora.</p>
+            <div class="form-group">
+                <input type="checkbox" ng-model="badge" name="badge" id="badge">
+                <label for="badge"><span></span>Cuando recibes cualquier Insignia</label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" ng-model="upgrade" name="upgrade" id="upgrade">
+                <label class="notification" for="upgrade"><span></span>Cuando obtienes puntos por Capacitación</label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" ng-model="performance" name="performance" id="performance">
+                <label class="notification" for="performance"><span></span>Cuando obtienes puntos por Evaluación de desempeño</label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" ng-model="feedLike" name="feedLike" id="feedLike">
+                <label class="notification" for="feedLike"><span></span>Cuando una publicación relacionada contigo recibe un "me gusta"</label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" ng-model="seniority" name="seniority" id="seniority">
+                <label class="notification" for="seniority"><span></span>Cuando obtienes un año más de antigüedad en la Empresa</label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" ng-model="ambassador" name="ambassador" id="ambassador">
+                <label class="notification" for="ambassador"><span></span>Cuando te conviertes en Embajador</label>
+            </div>
+            <div class="form-group">
+                <input type="button" ng-click="saveChanges()" value="Guardar cambios">
+            </div>
+        </form>
+        <div class="col-lg-3 col-md-3 col-sm-3"></div>
+    </div>
+</section>

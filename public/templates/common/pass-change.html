@@ -1,0 +1,44 @@
+<section class="passChange">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h3>Cambio de contraseña</h3>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 section-title">
+            <p>Es importante que cambies tu contraseña, para evitar malos usos por parte de otros usuarios.</p>
+            <p>Te recomendamos proporciones un correo electrónico personal, en el supuesto de que olvides tu contraseña para recuperarla.</p>
+        </div>
+        <form class="col-lg-12 col-sm-12 col-md-12" name="passChangeForm">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label for="password">Nueva contraseña</label>
+                        <input type="password" class="form-control" id="password" ng-model="password" name="password" required>
+                        <span class="error" ng-show="passChangeForm.password.$error.required">* Requerido</span>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Repetir nueva contraseña</label>
+                        <input type="password" class="form-control" id="newPass" ng-model="newPass" name="newPass" pw-check="password" required>
+                        <span class="error" ng-show="passChangeForm.newPass.$error.required">* Requerido</span>
+                        <span class="error no-match" ng-show="passChangeForm.newPass.$error.pwmatch">Las contraseñas no coinciden</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <p class="label label-info">Proporciona un correo electrónico válido o verifica que el que tengas sea correcto.</p>
+                        <input class="form-control" type="email" id="email" ng-model="email" name="email"
+                               ng-pattern = '/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i'
+                               required>
+                        <span class="error" ng-show="passChangeForm.email.$error.required">* Requerido</span>
+                        <span class="error" ng-show="passChangeForm.email.$error.email">* Formato invalido</span>
+                        <span class="error" ng-show="passChangeForm.email.$error.pattern">* Formato invalido</span>
+                    </div>
+                    <div class="form-group btn-wrapper">
+                        <button type="submit" class="btn" ng-click="changePass()" ng-disabled="passChangeForm.$invalid">Cambiar</button>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4"></div>
+            </div>
+        </form>
+    </div>
+</section>

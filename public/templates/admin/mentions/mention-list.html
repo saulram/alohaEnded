@@ -1,0 +1,62 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Administrar cuadro de menciones</h4>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 form-title">
+            <h4>Crear nueva mención</h4>
+        </div>
+        <form name="mentionForm" class="col-md-12 col-lg-12 col-sm-12">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="description">Mención</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <input class="form-control" id="description" ng-model="description" name="description" ng-maxlength="200" required>
+                                <span class="label label-warning" ng-show="mentionForm.description.$error.maxlength">Máximo 200 caracteres</span>
+                                <span class="label label-warning" ng-show="mentionForm.description.$error.required">*Requerido</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="draft">Borrador</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <input class="form-control" type="checkbox" name="draft" id="draft" ng-model="draft" checked>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12 col-sm-12 btn-admin-wrapper">
+                    <button type="button" class="btn btn-admin" ng-click="saveMention()" ng-disabled="mentionForm.$invalid">Crear</button>
+                </div>
+            </div>
+        </form>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Mención</th>
+                <th>Estado</th>
+                <th>Publicada</th>
+                <th>Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="mention in mentions">
+                <td>{{mention.description}}</td>
+                <td>{{mention.draft ? 'Borrador' : 'Publicado'}}</td>
+                <td>{{mention.updatedAt}}</td>
+                <td>
+                    <a href="#" class="btn btn-warning" ui-sref="admin.mentionEdit({id: mention._id})">Modificar</a>
+                    <a href="#" class="btn btn-danger" ng-click="deleteMention(mention._id)">Borrar</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

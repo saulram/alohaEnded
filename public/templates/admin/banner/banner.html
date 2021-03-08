@@ -1,0 +1,81 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Administrar banners</h4>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 form-title">
+            <h4>Crear nuevo banner</h4>
+        </div>
+        <form name="bannerForm" class="col-md-12 col-lg-12 col-sm-12">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <input type="hidden" name="id" ng-model="id">
+                            <label for="name">Nombre</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="name" ng-model="name" name="name" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <label for="description">Descripción</label>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="description" ng-model="description" name="description">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <p ng-show="imageSrc">Imagen de banner</p>
+                            <i ng-hide="imageSrc">Imagen no seleccionada</i>
+                        </div>
+                        <div class="col-sm-8 col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <img class="img-thumbnail" ng-src="{{imageSrc}}" /><br/>
+                                <input type="file" id="image" ng-file-select="onFileSelect($files)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12 col-sm-12 btn-admin-wrapper">
+                    <button type="button" id="addBanner" class="btn btn-admin" ng-click="addBanner()" ng-disabled="bannerForm.$invalid">Agregar Banner</button>
+                    <button type="button" id="editBanner" class="btn btn-admin" ng-click="saveUpdate()">Guardar cambios</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Listado de banners</h4>
+        </div>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Nombre</th>
+            <th>Imagen</th>
+            <th>descripción</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="banner in banners">
+            <td><strong class="numeration">{{$index + 1}}.</strong></td>
+            <td>{{banner.name}}</td>
+            <td><img src="{{banner.image}}" class="img-thumbnail img-responsive"></td>
+            <td>{{banner.description}}</td>
+            <td>
+                <a class="btn-options" ng-click="editBanner(banner._id)">Editar</a>
+                <a class="btn-options" ng-click="deleteBanner(banner._id)">Borrar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

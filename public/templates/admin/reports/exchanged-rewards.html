@@ -1,0 +1,60 @@
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 title-wrapper">
+            <h4>Reporte de recompensas canjeadas</h4>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 panel panel-default">
+            <div class="panel-heading">
+                Opciones:
+            </div>
+            <div class="row panel-body">
+                <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <p>Apartir de: </p>
+                        <div class="datepicker" style="display:inline-block; min-height:252px;">
+                            <pre><em>{{fromDate | date:'fullDate' }}</em></pre>
+                            <div uib-datepicker ng-model="fromDate" class="well well-sm" datepicker-options="options"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <p>Hasta el: </p>
+                        <div class="datepicker" style="display:inline-block; min-height:252px;">
+                            <pre><em>{{toDate | date:'fullDate' }}</em></pre>
+                            <div uib-datepicker ng-model="toDate" class="well well-sm" datepicker-options="options"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-admin-wrapper col-md-12 col-lg-12 col-sm-12">
+                    <button class="btn btn-admin" ng-click="getRewards()">Buscar</button>
+                    <button class="btn btn-admin btn-csv" ng-click="csvRewards()">Generar CSV</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>Recompensa</th>
+            <th>Código</th>
+            <th>Fecha de canje</th>
+            <th>Número de empleado</th>
+            <th>Localidad</th>
+            <th>Área</th>
+            <th>Puesto</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="reward in rewards">
+            <td><strong class="numeration">{{$index + 1}}.</strong> {{reward.rewardName}}</td>
+            <td>{{reward.exchangeCode}}</td>
+            <td>{{reward.createdAt}}</td>
+            <td>{{reward.employeeNumber}}</td>
+            <td>{{reward.location}}</td>
+            <td>{{reward.area}}</td>
+            <td>{{reward.position}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

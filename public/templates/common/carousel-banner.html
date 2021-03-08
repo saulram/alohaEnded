@@ -1,0 +1,15 @@
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" ng-controller="CarouselBannerCtrl">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li ng-repeat="(n, banner) in banners" data-target="#carousel-example-generic" data-slide-to="{{n}}" class="{{n === 0 ? 'active' : ''}}"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+        <div ng-repeat="(n, banner) in banners" class="item {{n === 0 ? 'active' : ''}}" style="background-image: url({{banner.image}});"></div>
+    </div>
+
+    <!-- Controls -->
+    <a class="left carousel-control" data-target="#carousel-example-generic" role="button" data-slide="prev"></a>
+    <a class="right carousel-control" data-target="#carousel-example-generic" role="button" data-slide="next"></a>
+</div>
