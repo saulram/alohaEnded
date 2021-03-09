@@ -150,7 +150,7 @@ exports.post = function (req, res) {
         }
     }
 
-    function //sendEmailNotification(emailData) {
+    function sendEmailNotification(emailData) {
         let html = "";
         if(emailData === 'ambassador')
             html = "<p>¡Tenemos embajador nuevo! ¡Muchas felicidades! Te has convertido en el embajador de " + emailData.badgeName + " gracias a la insignia que has recibido por parte de " + emailData.senderName + ". Entra a <a href='https://valora-gp.com/' style='text-decoration: none'>Valora</a>, en la sección “Insignias Valora” y revisa el Top Nacional de Embajadores y ¡vé que bien te ves ahí! </p>"
