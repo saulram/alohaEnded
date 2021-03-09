@@ -77,7 +77,7 @@ exports.post = function (req, res) {
                                             receiverName: user.completeName,
                                             category: 'performance'
                                         };
-                                        sendEmailNotification(emailData);
+                                        //sendEmailNotification(emailData);
                                     }
                                 }
 
@@ -153,7 +153,7 @@ exports.post = function (req, res) {
                                         category: 'upgrade'
                                     };
 
-                                    sendEmailNotification(emailData);
+                                    //sendEmailNotification(emailData);
                                 }
                             }
                             next(null, true);
@@ -217,7 +217,7 @@ exports.post = function (req, res) {
         res.end();
     }
 
-    function sendEmailNotification(emailData) {
+    function //sendEmailNotification(emailData) {
         let html = "";
         if(emailData.category === 'upgrade')
             html = "<p>Acabas de recibir una insignia de " + emailData.badgeName + ", puedes ver el total de puntos en tu estado de cuenta de <a href='https://valora-gp.com/' style='text-decoration: none'>Valora</a>.</p>";
