@@ -566,7 +566,7 @@ exports.putFeedLike = function (req, res) {
                 })
                 .done(function (emailData) {
                     if(emailData) {
-                     //   //sendEmailNotification(emailData);
+                        //sendEmailNotification(emailData);
                     }
                 });
         }
@@ -652,7 +652,7 @@ exports.putFeedLike = function (req, res) {
         return dfd.promise;
     }
 
-    function //sendEmailNotification(emailData) {
+    function sendEmailNotification(emailData) {
         let html = "<p>Has recibido un &quot;me gusta&quot; en un post relacionado contigo:</p>" +
             "<p>A " + emailData.likeSenderName + " le gusta tu actividad.</p>" +
             "<p>¿Deseas contestarle o agradecerle? Entra a la sección de &quot;Mi actividad&quot; y ahi podrás ver tus nuevas interacciones con los demás y desde ahi mismo podrás contestarles por medio de comentarios o un &quot;me gusta&quot;.</p>";

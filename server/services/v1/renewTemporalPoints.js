@@ -334,7 +334,7 @@ exports.intelexion = function () {
         });
     }
 
-    function //sendEmailNotification(emailData) {
+    function sendEmailNotification(emailData) {
         const html = "<p>¡Felicidades! " + emailData.completeName + " has cumplido un año más en Grupo Presidente y para festejarlo, ¡Valora te dá puntos extras! Entra <a href='https://valora-gp.com/' style='text-decoration: none'>aquí</a> y checa cuántos has recibido en tu estado de cuenta.</p>";
         console.log('Sending email notification for seniority');
         mailgunEmail.send(emailData.email, 'Tu actividad en Valora', html);
