@@ -73,7 +73,7 @@ exports.post = function (req, res) {
                                                 { $group: { _id: { receiver_id: "$receiver_id", badgeSlug: "$badgeSlug" }, count: { $sum: 1 }}}
                                             ];
 
-                                            isBecomingAmbassador(query, req.body.badgeCategory, req.body.receiver_id, senderUser_id, req.body.badgeSlug);
+                                            isBecomingAmbassador(query, req.body.badgeCategory, req.body.receiver_id, senderUser_id, req.body.badgeId);
                                             GenerateAccountRecord(req.body.receiver_id, req.body.badgePoints, 'Recibiste una insignia de ' + req.body.badgeSlug);
 
                                             // send email notification if collaborator has enabled it in their preferences
@@ -277,6 +277,7 @@ exports.post = function (req, res) {
 
                                 }
                             } else {
+                                console.log('Creando feed');
                                 //feedCtrl.createFeed(senderUser_id, senderUser.completeName, receiver_id, receiverUser.completeName, badgeId, '', '', '', '', 'badge');
                                 feedCtrl.createBadgeAcknowledgment(badgeId, '', receiver_id, receiverUser.completeName, senderUser_id, senderUser.completeName, senderMessage, 'badge', receiverUser.location, senderUser.location);
                             }
