@@ -157,6 +157,7 @@ let createFeedPromise = data => {
 };
 
 function createFeed(data) {
+    console.log(data);
     const feed = new Feed(data);
     feed.save(function(err, doc) {
         if(err) {

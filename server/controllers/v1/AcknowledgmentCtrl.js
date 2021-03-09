@@ -300,12 +300,15 @@ exports.post = function (req, res) {
                 // create a document in account
                 const acknowledgment = new Acknowledgment(data);
                 acknowledgment.save(function(err, doc) {
+                    console.log('Creando feed... pt1');
+
+
                     if(err) {
                         console.log(err);
                     } else {
                         // add document to feed model
-                        console.log('Creando feed...')
-                        feedCtrl.createFeed( data.sender_id,data.senderName, receiver_id, receiverUser.completeName, doc._id, '', '', '', '', 'GP badge', receiverUser.location);
+                        console.log('Creando feed...pt2');
+                        feedCtrl.createFeed( data.sender_id,data.senderName, receiver_id, receiverUser.completeName, doc.badgeSlug, '', '', '', '', 'GP badge', receiverUser.location);
                         // add a document to account model
                         accountCtrl.postBadge(receiver_id, points, 'Recibiste una insignia del administrator', function (success) {
                             if(success) {
