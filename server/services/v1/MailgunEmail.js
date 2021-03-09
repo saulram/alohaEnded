@@ -3,7 +3,7 @@
  */
 'use strict';
 const config = require('../../config/configuration'),
-    mailgun = require('mailgun-js')({apiKey: config.staging.api_key, domain: 'sandbox9b7c437a8cc54e199de2e912d73ff446.mailgun.org'}),
+    mailgun = require('mailgun-js')({apiKey: config.development.api_key, domain: 'sandbox9b7c437a8cc54e199de2e912d73ff446.mailgun.org'}),
     mailcomposer = require('mailcomposer');
 
 exports.send = function (email, subject, html) {

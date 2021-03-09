@@ -1,0 +1,111 @@
+.login
+  height 100%
+  position relative
+  p,label
+    color #696969
+    font-weight lighter
+    line-height 23px
+  .background-img-wrapper
+    padding 0
+    .big-badge
+      background-image url("../images/aloha/login-footer.gif")
+      background-position: center center
+      background-repeat: no-repeat
+      background-size: cover
+      height: 530px
+      width: 100%
+  .custom-nav
+    background-color #696969
+    height 60px
+    width 100%
+  .logo-wrapper
+    height 215px
+    position relative
+    .logo-med
+      background-image url('../images/aloha/logo_aloha.png')
+      background-position center
+      background-repeat no-repeat
+      background-size contain
+      height 235px
+      left 50%
+      margin auto -157px
+      position absolute
+      top 20px
+      width 315px
+  .gp-wrapper
+    height 146px
+    position relative
+    .gp-logo
+      background url('../images/valora-sprites.png') no-repeat -152px -168px;
+      height 146px
+      left 50%
+      margin auto -193px
+      position absolute
+      top 150px
+      width 387px
+  .welcome
+    font-size 21px
+    letter-spacing 0.2em
+    margin-top 50px
+    text-align center
+    .valora-word
+      background url('../images/valora-sprites.png') no-repeat -364px -8px
+      display inline-block
+      height 21px
+      width 73px
+  .login-form
+    margin-top 20px
+    form
+      display table
+      height 230px
+    .btn-wrapper
+      text-align right
+    .form-group
+      position: relative
+      span
+        top 55%
+        position absolute
+        right -51px
+      span.error
+        color aloha_blue
+      span.numeric
+        right -126px
+      label
+        text-align right
+        width 186px
+      .btn-login
+        background-color secondary_yellow
+        border-radius 0
+        color #FFFFFF
+        text-transform uppercase
+        width 201px
+      .pass-recovery
+        color aloha_blue
+        margin-right 20px
+        text-decoration none
+      .pass-recovery:hover
+        color secondary_yellow
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button
+      -webkit-appearance: none
+      margin: 0
+
+    input[type="number"]
+      -moz-appearance: textfield
+    .form-control
+      border 1px solid aloha_pink
+      border-radius 0
+      display inline
+      height 40px
+      margin-left 20px
+      width 200px
+
+@media (min-width: 481px) and (max-width: 767px)
+  .login
+    .logo-wrapper
+      height 135px
+      .logo-med
+        height 135px
+    .background-img-wrapper
+      .big-badge
+        height 100px

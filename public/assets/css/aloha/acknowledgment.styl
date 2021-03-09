@@ -1,0 +1,404 @@
+.recognize-badges
+  border 1px solid #000000
+  overflow hidden
+  margin-top 20px
+  .brownBox
+    display table
+    .description
+      display table-cell
+      height 85px
+      padding-top 15px
+      text-align center
+      vertical-align middle
+      hr
+        background-color #000000
+        border 0
+        height 1px
+        width 80%
+      p
+        font-size 1.2em
+        margin 0 auto
+  .categories
+    display table
+    height 150px
+    margin-top 18px
+    width 100%
+    .badge-category
+      display table-cell
+      float: none
+      opacity 0.5
+    .badge-category.active
+      opacity 1
+    .block-wrapper
+      color #4D4D4D
+      cursor pointer
+      display inline-block
+      height 150px
+      position relative
+      width 100%
+      .values,
+      .competences
+      .special
+        height 94px
+        left 50%
+        margin-left -47px
+        position absolute
+        width 94px
+        .line
+          border-right 1px solid #000000
+          height 30%
+          position absolute
+          top 35%
+      p
+        bottom 23px
+        position absolute
+        text-align center
+        width 100%
+      .badge-name
+        color: aloha_blue
+      .values
+        background-image url("../images/aloha/badge_valor.png")
+        background-position center center
+        background-size contain
+        background-repeat no-repeat
+        position relative
+        .line
+          right -35%
+      .competences
+        background-image url("../images/aloha/badge_competencia.png")
+        background-position center
+        background-size contain
+        background-repeat no-repeat
+      .special
+        background-image url("../images/aloha/badge_especial.png")
+        background-position center
+        background-size contain
+        background-repeat no-repeat
+        position relative
+        .line
+          left -35%
+    .block-wrapper:hover
+      color #FB8C8D
+      font-weight bolder
+  .badges-container
+    overflow hidden
+    position relative
+    #recognize
+      border 2px solid #212121
+      display none
+      height 158px
+      left 50%
+      margin-left -198px
+      position: absolute
+      top 25px
+      width 397px
+      z-index 1
+      .popup-opacity
+        background-color #606060
+        opacity 0.9
+      .popup-content,
+      .popup-opacity
+        height 100%
+        position absolute
+        width 100%
+      .popup-content
+        .close-popup
+          color #FFFFFF
+          display inline
+          font-size 0.7em
+          height 20px
+          line-height 20px
+          position absolute
+          right 10px
+          text-align center
+          text-decoration none
+          top 5px
+          width 20px
+          z-index 1
+        .badge,
+        .badge-form
+          float left
+          height 100%
+          position relative
+          width 50%
+          .collaborators-wrapper
+            background-color white
+            height 115px
+            overflow-x auto
+            z-index 2
+            span
+              background-color #FB8C8D
+              border 1px solid #FB8C8D
+              color #FFFFFF
+              cursor pointer
+              display block
+              font-size 10px
+              margin 2px auto
+              padding 2px
+              width 100%
+        .badge
+          background-color transparent
+          .badge-img
+            background-repeat no-repeat
+            background-size contain
+            height 77px
+            left 50%
+            margin-left -28px
+            position absolute
+            top 10px
+            width 56px
+          .badge-description
+            height 63px
+            overflow hidden
+            margin-top 88px
+            p:first-child
+              font-size 1.1em
+              font-weight lighter
+              height 28px
+              white-space normal
+            p:last-child
+              font-size 1.7em
+              font-weight bolder
+        .badge-form
+          input[type='text']
+            background-color #c7c7c7
+            border 0
+            font-size 1em
+            height 38px
+            padding 4px 8px
+            position absolute
+            right 19px
+            text-align left
+            top 30px
+            width 215px
+          .btn
+            background-color #212121
+            border-radius 0
+            bottom 27px
+            color #FFFFFF
+            font-size 1.4em
+            height 38px
+            line-height 38px
+            padding-top 0
+            position absolute
+            right 19px
+            width 125px
+    .badge-wrapper
+      color inherit
+      cursor pointer
+      display table-cell
+      height 215px
+      margin-left 20px
+      position relative
+      text-decoration none
+      width 150px
+      .badge-img-wrapper
+        height 100px
+        left 50%
+        margin-left -50px
+        position absolute
+        top 1px
+        width 100px
+        .badge-img
+          background-position: center center
+          background-size contain
+          background-repeat no-repeat
+          height 100%
+          width 100%
+      .badge-description
+        height 100%
+        width 100%
+        p
+          margin auto 5px
+          text-align center
+        p:first-child
+          font-size 0.9em
+          height 150px
+          padding 115px 5px 0 5px
+          width 100%
+        p:last-child
+          color #b3b3b3
+          font-size 11px
+        .pts
+          color aloha_blue
+          font-size 1.3em
+          font-weight bold
+    .values-carousel-wrapper,
+    .competences-carousel-wrapper,
+    .special-carousel-wrapper
+      background-color #FFFFFF
+      height 100%
+      width 100%
+    .values-carousel-wrapper
+      .values-carousel
+        display table
+        height 100%
+        overflow-x visible
+        overflow-y hidden
+        width 100%
+    .competences-carousel-wrapper
+      .competences-carousel
+        display table
+        height 100%
+        left 0
+        overflow-x visible
+        overflow-y hidden
+        width 100%
+        .badge-wrapper
+          .badge-description
+            p:first-child
+              height 182px
+              padding-top 100px
+    .special-carousel-wrapper
+      .special-carousel
+        display table
+        height 100%
+        left 0
+        overflow-x visible
+        overflow-y hidden
+        text-align center
+        width 100%
+        .badge-wrapper
+          display inline-block
+    .competences-carousel-wrapper.ng-hide-add,
+    .competences-carousel-wrapper.ng-hide-remove,
+    .values-carousel-wrapper.ng-hide-add,
+    .values-carousel-wrapper.ng-hide-remove,
+    .special-carousel-wrapper.ng-hide-add,
+    .special-carousel-wrapper.ng-hide-remove
+      transition: all linear 0.3s
+    .competences-carousel-wrapper.ng-hide,
+    .values-carousel-wrapper.ng-hide,
+    .special-carousel-wrapper.ng-hide
+      line-height: 0
+      opacity: 0
+      padding: 0 10px
+  .choose-collaborator-title
+    margin auto 24px
+  .choose-collaborator-wrapper
+    min-height 148px
+    padding-bottom 25px
+    .choose-collaborator-border
+      border 1px solid #000000
+      display inline-flex
+      height 100%
+      margin auto 40px
+      width 91%
+    p
+      margin 20px 20px 0 0
+    .preview-badge
+      .badge,
+      .badge-form
+        float left
+        height 100%
+        position relative
+      .badge
+        background-color transparent
+        margin-top 20px
+        width 100%
+        .badge-img
+          background-repeat no-repeat
+          background-size contain
+          float left
+          height 77px
+          width 56px
+        .badge-description
+          overflow hidden
+          p
+            color #000000
+            margin 0
+          p:first-child
+            font-size 1.1em
+            font-weight lighter
+            white-space normal
+          p:last-child
+            color aloha_blue
+            font-size 1.7em
+            font-weight bolder
+            margin-top 2px
+    .choose-collaborator
+      background-color transparent
+      overflow-x auto
+      z-index 2
+      span
+        background-color secondary_yellow
+        border 1px solid secondary_yellow
+        color #000000
+        cursor pointer
+        display block
+        font-size 10px
+        margin 2px auto
+        padding 2px
+        width 100%
+      .badge-form
+        .collaborators-wrapper
+          background-color secondary_yellow
+          max-height 115px
+          overflow-x auto
+          width 76%
+          z-index 2
+        input[type='text']
+          background-color #c7c7c7
+          border 0
+          font-size 1em
+          height 30px
+          margin-top 30px
+          padding 4px 8px
+          text-align left
+          width 76%
+        .btn
+          background-color #212121
+          border-radius 0
+          bottom 27px
+          color #FFFFFF
+          font-size 1.4em
+          height 38px
+          line-height 38px
+          padding-top 0
+          width 125px
+  .comment-wrapper
+    div:last-child
+      text-align right
+      .btn-acknowledgment
+        background-color white
+        border 1px solid #000000
+        border-radius 0
+        color #000000
+        font-size 0.7em
+        font-weight bold
+        margin 15px 23px
+        opacity 1
+  .personal-message
+    display inline-flex
+    textarea
+      border 1px solid #000000
+      margin auto 25px
+      width 100%
+    .btn-acknowledgment
+      background-color #f59ba0
+      color: #000000
+      margin 10px auto
+      text-align right
+      .error
+        color red
+
+@media small
+  .recognize-badges
+    .personal-message
+      display block
+      textarea
+        margin auto
+    .brownBox
+      padding 4px 17px
+    .categories
+      .badge-category
+        display inline
+      .line
+        display none
+    .choose-collaborator-wrapper
+      .choose-collaborator-border
+        border none
+        margin auto
+        width 100%
+      .choose-collaborator
+        height 160px

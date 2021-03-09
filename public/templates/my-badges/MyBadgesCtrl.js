@@ -30,7 +30,7 @@ function MyBadgesCtrl($scope, AcknowledgmentService, AuthService, AuthToken) {
                 angular.forEach(myBadges.badges, function (myBadge, key) {
                     $scope.badgeNames.push(myBadge.badgeName);
                     if($scope.myEmabssysName.indexOf(myBadge.badgeName) === -1) {
-                        if(myBadge.category === 'grupo presidente')
+                        if(myBadge.category === 'administrator')
                             $scope.gpBadges.push(myBadge);
                         if(myBadge.category === 'especial')
                             $scope.gpBadges.push(myBadge);

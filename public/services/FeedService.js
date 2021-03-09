@@ -6,7 +6,7 @@ angular.module('valora')
     .factory('FeedService', ['$q', '$http', '$location', 'AuthToken', FeedService]);
 
 function FeedService($q, $http, $location, AuthToken) {
-    var host = 'http://' + $location.host() + '/';
+    var host = 'http://' + $location.host() + ':5001/';
     var user = AuthToken.getToken();
 
     return {

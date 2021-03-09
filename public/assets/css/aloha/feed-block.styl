@@ -1,0 +1,181 @@
+.feed
+  .feed-wrapper
+    .feed-content
+      border-bottom 3px dotted #e5e5e5
+      height 100%
+      display table
+      position: relative
+      width 100%
+      .img-wrapper,
+      .feed-text
+        float left
+        height 100%
+      .feed-text
+        padding 8px
+        width 90%
+        a
+          text-decoration none
+          color inherit
+        .upgradeBadge
+          text-transform capitalize
+        .collaboratorName
+          text-transform capitalize
+        .personal-message
+          color aloha_blue
+      .img-wrapper
+        height 94px
+        position relative
+        width 60px
+        .img,
+        .img-logo
+          margin-top 10px
+        .img
+          background-position center center
+          background-repeat no-repeat
+          background-size contain
+          height 60px
+          width 60px
+        .img.seniority
+          height 20px
+          margin 20px
+          width 30px
+        .img.oneYear
+          height: 38px
+          margin-left: 10px
+          width: 43px
+        .img-logo
+          background-image url('../images/aloha/aloha-a.png')
+          background-repeat no-repeat
+          background-size contain
+          height 38px
+          left 50%
+          margin-left -21px
+          position absolute
+          width 43px
+      .feed-text
+        p
+          font-size 1.3em
+          font-weight 100
+
+        p:first-child
+          margin 10px auto 2px auto
+        p.upgrade
+          margin-top 18px
+        .reward-img
+          background-position center center
+          background-repeat no-repeat
+          background-size cover
+          height 200px
+          width 200px
+      .like
+        height 100%
+        position absolute
+        right 28px
+        width 16px
+        .heart
+          background-image url("../images/aloha/ico_like.png")
+          background-position center
+          background-repeat no-repeat
+          background-size contain
+          bottom 5px
+          cursor pointer
+          display block
+          height 14px
+          position absolute
+          width 14px
+        .heart:hover
+          background-image url("../images/aloha/ico_like_over.png")
+        .heart.active
+          background-image url("../images/aloha/ico_like_over.png")
+        .count
+          bottom 2px
+          cursor pointer
+          left 18px
+          position absolute
+          width 100%
+      .comment
+        cursor pointer
+        font-weight 700
+        height 16px
+        line-height 1px
+        position absolute
+        right 50px
+        bottom 2px
+        span
+          display inline-block
+          height 16px
+          float left
+          margin-right 4px
+          width 16px
+        .comment-icon
+          background-image url("../images/aloha/ico_comentario.png")
+          background-position center
+          background-size contain
+          background-repeat no-repeat
+        .comment-icon.active
+          background-image url("../images/aloha/ico_comentario_over.png")
+        .count
+          font-size 1em
+          line-height 16px
+        .text
+          display: inline-table
+          font-size: 12px
+          margin-top: 7px
+    .comments-wrapper
+      border-bottom 1px solid #4d4d4d
+      display none
+      overflow hidden
+      .new-comment
+        position relative
+        .profile-thumb
+          background-position center center
+          background-size cover
+          border-radius 35px
+          float left
+          height 35px
+          margin-left 10px
+          width 35px
+        input[type="text"]
+          float left
+          margin 4px 15px
+          padding-left 5px
+          width 75%
+        .push-comment
+          background-color aloha_blue
+          color: whitesmoke
+          line-height 2
+          padding: 4px
+        .comment-warning
+          color red
+          display inline-block
+          font-size 0.7em
+          position absolute
+          top 0
+      .comments-list
+        font-size 0.8em
+        overflow hidden
+        padding 2px 60px
+        width 100%
+        p
+          margin-bottom 0
+        .collaboratorName
+          color color_pink
+    .comments-wrapper.active
+      display block
+      padding-bottom 10px
+@media small
+  .feed
+    .feed-wrapper
+      .feed-content
+        .feed-text
+          width 84%
+      .comments-wrapper
+        .new-comment
+          input[type="text"]
+            margin 4px auto
+            padding-left 0
+            width 100%
+        .push-comment
+          float left
+          text-align center
+          width 100%

@@ -6,7 +6,7 @@ angular.module('valora')
     .controller('AcknowledgmentGPAdminCtrl', ['$scope', 'mvNotifier', 'BadgeService', 'AuthService', 'AcknowledgmentService', AcknowledgmentGPAdminCtrl]);
 
 function AcknowledgmentGPAdminCtrl($scope, mvNotifier, BadgeService, AuthService, AcknowledgmentService) {
-    getAllBadges({type: 'all', category: 'grupo presidente'});
+    getAllBadges({type: 'all', category: 'administrator'});
     AuthService.get({type: 'byAdmin'}).then(function (data) {
         if(data.success) {
             $scope.collaborators = data.users;
@@ -16,7 +16,7 @@ function AcknowledgmentGPAdminCtrl($scope, mvNotifier, BadgeService, AuthService
     $scope.acknowledge = function () {
         var data = {
             badgeSlug: $scope.badgeSelected.slug,
-            sender_id: 'grupo presidente',
+            sender_id: 'administrator',
             receiver_id: $scope.collaboratorSelected._id,
             badgePoints: $scope.badgeSelected.points
         };

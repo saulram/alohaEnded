@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken'),
     UserLog = mongoose.model('UserLog'),
     shortid = require('shortid'),
     moment = require('moment'),
-    mailgun = require('mailgun-js')({apiKey: config.staging.api_key, domain: 'sandbox9b7c437a8cc54e199de2e912d73ff446.mailgun.org'}),
+    mailgun = require('mailgun-js')({apiKey: config.development.api_key, domain: 'sandbox9b7c437a8cc54e199de2e912d73ff446.mailgun.org'}),
     mailcomposer = require('mailcomposer'),
     Q = require('q'),
     helpers = require('../../services/v1/Helpers'),
@@ -47,7 +47,7 @@ exports.login = function (req, res) {
         }
         else if(query.hashed_pwd) {
             if(encrypt.hashPwd(user.salt, query.hashed_pwd) === user.hashed_pwd) {
-                const token = jwt.sign({roles: user.roles, user_id: user._id}, config.staging.tokenSecret);
+                const token = jwt.sign({roles: user.roles, user_id: user._id}, config.development.tokenSecret);
 
                 let userObj = user.toObject();
                 delete userObj.createdAt;

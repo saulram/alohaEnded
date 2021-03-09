@@ -1,0 +1,43 @@
+footer
+  background-color white
+  border-top 3px solid #e5e5e5
+  height 175px
+  padding-top 10px
+  .container,
+  .row,
+  ul
+    height 100%
+  ul
+    border-left 3px solid secondary_yellow
+    list-style-type: none
+    margin: 0
+    text-align left
+    li
+      margin-bottom 20px
+      a
+        color #000000
+      a:hover
+        color aloha_blue
+        text-decoration none
+      a:focus
+        color primary_green
+        text-decoration none
+    li:first-child
+      margin-top 10px
+  .logo-wrapper
+    height 100%
+    margin-top 18px
+    position relative
+    .logo
+      background-image url("../images/aloha/logo_aloha.png") center
+      background-repeat no-repeat
+      background-size contain
+      height 160px
+      left 50%
+      margin auto -120px
+      position absolute
+      width 240px
+@media (min-width: 481px) and (max-width: 767px)
+  footer
+    .logo-wrapper
+      display none

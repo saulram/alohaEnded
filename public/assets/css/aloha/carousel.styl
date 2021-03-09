@@ -1,0 +1,41 @@
+.carousel,
+.carousel-inner,
+.item
+  height 340px
+.carousel
+  .carousel-indicators
+    li
+      background-color #ffffff
+      border none
+      border-radius 50%
+      height 20px
+      margin-right 20px
+      width 20px
+    li.active
+      background-color secondary_yellow
+  .carousel-inner
+    top -30px
+    .item
+      background-position center center
+      background-repeat no-repeat
+      -webkit-background-size: cover
+      -moz-background-size: cover
+      -o-background-size: cover
+      background-size: cover
+  .carousel-control
+    height 100%
+    background-size: cover
+    top: 0
+    width 66px
+    -webkit-background-size: cover
+    -moz-background-size: cover
+    -o-background-size: cover
+  .left
+    background url("../images/valora-sprites.png") no-repeat 0 0
+  .right
+    background url("../images/valora-sprites.png") no-repeat -74px 0
+@media (min-width: 481px) and (max-width: 767px)
+  .carousel,
+  .carousel-inner,
+  .item
+    height 240px

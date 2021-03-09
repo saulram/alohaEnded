@@ -6,7 +6,7 @@ angular.module('valora')
     .factory('AuthService', ['$q', '$http', '$location', 'AuthToken', AuthService]);
 
 function AuthService($q, $http, $location, AuthToken) {
-    var host = 'http://' + $location.host() + '/';
+    var host = 'http://' + $location.host() + ':5001/';
     var user = AuthToken.getToken();
 
     return {

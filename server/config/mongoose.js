@@ -28,17 +28,20 @@ module.exports = function (config) {
             }
         }
     };
-try {
-console.log(config.db);
-    mongoose.connect(config.db, { useNewUrlParser: true });
+    // mongoose.connect(config.db, options);
+    mongoose.connect('mongodb://localhost:27017/aloha', options);
     const db = mongoose.connection;
 
-    db.on('error', console.error.bind(console, 'connection error...'));
-    db.once('open', function callback() {
-        console.log('Aloha-staging DB opened...');
+    db.on('error', error => {
+        console.log('Error in mongodb connection');
+        console.error(error);
     });
-} catch(e) {
-console.log('error db', e);
-}
+    db.once('open', function callback() {
+        console.error('Valora Grupo Presidente db opened');
+    });
+    db.on('close', function(str) {
+        console.error("DB disconnected: " + str + ' ' + moment.utc());
+    });
+
     //UserModel.seedUsers();
 };

@@ -6,7 +6,7 @@ var express = require('express'),
     cron = require('node-cron'),
     dotenv = require('dotenv').config();
 
-var env = process.env.NODE_ENV = process.env.NODE_ENV || 'staging';
+var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var app = express();
 var config = require('./server/config/configuration')[env];

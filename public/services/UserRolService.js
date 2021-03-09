@@ -3,7 +3,7 @@ angular.module('valora')
     .factory('UserRolService', ['$q', '$http', '$location', 'AuthToken', UserRolService]);
 
 function UserRolService($q, $http, $location, AuthToken) {
-    var host = 'http://' + $location.host() + '/';
+    var host = 'http://' + $location.host() + ':5001/';
     var user = AuthToken.getToken();
 
     return {
