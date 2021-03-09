@@ -277,7 +277,7 @@ exports.post = function (req, res) {
 
                                 }
                             } else {
-                                feedCtrl.createFeed(senderUser_id, senderUser.completeName, receiver_id, receiverUser.completeName, badgeSlug, '', '', '', '', 'badge');
+                                feedCtrl.createFeed(senderUser_id, senderUser.completeName, receiver_id, receiverUser.completeName, badgeId, '', '', '', '', 'badge');
                                 feedCtrl.createBadgeAcknowledgment(badgeId, '', receiver_id, receiverUser.completeName, senderUser_id, senderUser.completeName, senderMessage, 'badge', receiverUser.location, senderUser.location);
                             }
                         }
