@@ -317,8 +317,8 @@ exports.post = function (req, res) {
                                             badgeSlug: data.badgeSlug,
                                             senderName: 'administrator'
                                         };
-
-                                        sendEmailNotification(emailData);
+                                        //COMENTADO POR SERVICIO SUSPENDIDO, DESCOMENTAR CUANDO FUNCIONE MAILGUN
+                                        //sendEmailNotification(emailData);
                                     }
                                 });
                                 res.status(201).json({success: true});
