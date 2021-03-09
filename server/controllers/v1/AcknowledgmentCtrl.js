@@ -294,6 +294,7 @@ exports.post = function (req, res) {
     function GPAcknowledgment(receiver_id, points, data) {
         //console.log('POST GP Acknowledgment');
         // increment receiver collaborator current points, sames as badge value
+        
         userCtrl.incCurrentPoints(receiver_id, points, function (receiverUser) {
             if(receiverUser) {
                 // create a document in account
