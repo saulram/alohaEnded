@@ -154,7 +154,7 @@ exports.post = function (req, res) {
         })
     }
 
-    function //sendEmailNotification(emailData) {
+    function sendEmailNotification(emailData) {
         helpers.getUserEmail(emailData.receiver_id, function (user) {
             if(user) {
                 let rewardsNameList = "";
