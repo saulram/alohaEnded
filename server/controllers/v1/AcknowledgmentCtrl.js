@@ -302,7 +302,7 @@ exports.post = function (req, res) {
                         console.log(err);
                     } else {
                         // add document to feed model
-                        feedCtrl.createFeed('', data.sender_id, receiver_id, receiverUser.completeName, data.badgeSlug, '', '', '', '', 'GP badge', receiverUser.location);
+                        feedCtrl.createFeed( data.sender_id,data.senderName, receiver_id, receiverUser.completeName, data.badgeSlug, '', '', '', '', 'GP badge', receiverUser.location);
                         // add a document to account model
                         accountCtrl.postBadge(receiver_id, points, 'Recibiste una insignia del administrator', function (success) {
                             if(success) {
