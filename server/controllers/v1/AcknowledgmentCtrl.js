@@ -277,7 +277,7 @@ exports.post = function (req, res) {
 
                                 }
                             } else {
-                                feedCtrl.createFeed(senderUser_id, senderUser.completeName, receiver_id, receiverUser.completeName, badgeId, '', '', '', '', 'badge');
+                                //feedCtrl.createFeed(senderUser_id, senderUser.completeName, receiver_id, receiverUser.completeName, badgeId, '', '', '', '', 'badge');
                                 feedCtrl.createBadgeAcknowledgment(badgeId, '', receiver_id, receiverUser.completeName, senderUser_id, senderUser.completeName, senderMessage, 'badge', receiverUser.location, senderUser.location);
                             }
                         }
@@ -302,7 +302,7 @@ exports.post = function (req, res) {
                         console.log(err);
                     } else {
                         // add document to feed model
-                        feedCtrl.createFeed( data.sender_id,data.senderName, receiver_id, receiverUser.completeName, data.badgeSlug, '', '', '', '', 'GP badge', receiverUser.location);
+                        feedCtrl.createFeed( data.sender_id,data.senderName, receiver_id, receiverUser.completeName, data.badgeId, '', '', '', '', 'GP badge', receiverUser.location);
                         // add a document to account model
                         accountCtrl.postBadge(receiver_id, points, 'Recibiste una insignia del administrator', function (success) {
                             if(success) {
