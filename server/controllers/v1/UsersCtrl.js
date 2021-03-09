@@ -134,7 +134,7 @@ exports.restTemporalPoints = function (user_id, points, callback) {
 
 // increments the current points of a collaborator
 exports.incCurrentPoints = function (user_id, points, callback) {
-    console.log("user id" +user_id + "points ");
+    console.log("user id" +user_id + "points "+points);
     console.log('Increment collaborator current points _id: ' + user_id + ' at ' + new Date());
     var query = {
         _id: user_id
