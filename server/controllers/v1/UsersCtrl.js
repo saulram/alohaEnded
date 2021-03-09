@@ -140,7 +140,7 @@ exports.incCurrentPoints = function (user_id, points, callback) {
         _id: user_id
     };
     var data = {
-        "points.current": Number(points)
+        "points": Number(points)
     };
 
     User.findOneAndUpdate(query, {$inc: data}, {new: true}, function (err, doc) {
