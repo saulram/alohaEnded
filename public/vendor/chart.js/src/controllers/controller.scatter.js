@@ -1,6 +1,5 @@
 'use strict';
 
-var LineController = require('./controller.line');
 var defaults = require('../core/core.defaults');
 
 defaults._set('scatter', {
@@ -21,6 +20,8 @@ defaults._set('scatter', {
 		}]
 	},
 
+	showLines: false,
+
 	tooltips: {
 		callbacks: {
 			title: function() {
@@ -33,13 +34,9 @@ defaults._set('scatter', {
 	}
 });
 
-defaults._set('global', {
-	datasets: {
-		scatter: {
-			showLine: false
-		}
-	}
-});
+module.exports = function(Chart) {
 
-// Scatter charts use line controllers
-module.exports = LineController;
+	// Scatter charts use line controllers
+	Chart.controllers.scatter = Chart.controllers.line;
+
+};

@@ -37,7 +37,6 @@ function AcknowledgmentCtrl($scope, BadgeService, $timeout, AuthService, Acknowl
             badgeName: $scope.modalBadge.name,
             badgePoints: $scope.modalBadge.points,
             badgeCategory: $scope.modalBadge.category,
-            badgeId: $scope.modalBadge._id,
             receiver_id: $scope.collToBeRecognize._id,
             completeName: $scope.collToBeRecognize.completeName,
             receiverName: $scope.collToBeRecognize.completeName,

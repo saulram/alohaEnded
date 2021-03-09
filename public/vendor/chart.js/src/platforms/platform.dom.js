@@ -5,11 +5,9 @@
 'use strict';
 
 var helpers = require('../helpers/index');
-var stylesheet = require('./platform.dom.css');
 
 var EXPANDO_KEY = '$chartjs';
 var CSS_PREFIX = 'chartjs-';
-var CSS_SIZE_MONITOR = CSS_PREFIX + 'size-monitor';
 var CSS_RENDER_MONITOR = CSS_PREFIX + 'render-monitor';
 var CSS_RENDER_ANIMATION = CSS_PREFIX + 'render-animation';
 var ANIMATION_START_EVENTS = ['animationstart', 'webkitAnimationStart'];
@@ -38,7 +36,7 @@ var EVENT_TYPES = {
  * `element` has a size relative to its parent and this last one is not yet displayed,
  * for example because of `display: none` on a parent node.
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/used_value
- * @returns {number} Size in pixels or undefined if unknown.
+ * @returns {Number} Size in pixels or undefined if unknown.
  */
 function readUsedSize(element, property) {
 	var value = helpers.getStyle(element, property);
@@ -110,7 +108,6 @@ var supportsEventListenerOptions = (function() {
 	var supports = false;
 	try {
 		var options = Object.defineProperty({}, 'passive', {
-			// eslint-disable-next-line getter-return
 			get: function() {
 				supports = true;
 			}
@@ -126,11 +123,11 @@ var supportsEventListenerOptions = (function() {
 // https://github.com/chartjs/Chart.js/issues/4287
 var eventListenerOptions = supportsEventListenerOptions ? {passive: true} : false;
 
-function addListener(node, type, listener) {
+function addEventListener(node, type, listener) {
 	node.addEventListener(type, listener, eventListenerOptions);
 }
 
-function removeListener(node, type, listener) {
+function removeEventListener(node, type, listener) {
 	node.removeEventListener(type, listener, eventListenerOptions);
 }
 
@@ -168,41 +165,60 @@ function throttled(fn, thisArg) {
 	};
 }
 
-function createDiv(cls) {
-	var el = document.createElement('div');
-	el.className = cls || '';
-	return el;
-}
-
 // Implementation based on https://github.com/marcj/css-element-queries
 function createResizer(handler) {
+	var resizer = document.createElement('div');
+	var cls = CSS_PREFIX + 'size-monitor';
 	var maxSize = 1000000;
+	var style =
+		'position:absolute;' +
+		'left:0;' +
+		'top:0;' +
+		'right:0;' +
+		'bottom:0;' +
+		'overflow:hidden;' +
+		'pointer-events:none;' +
+		'visibility:hidden;' +
+		'z-index:-1;';
 
-	// NOTE(SB) Don't use innerHTML because it could be considered unsafe.
-	// https://github.com/chartjs/Chart.js/issues/5902
-	var resizer = createDiv(CSS_SIZE_MONITOR);
-	var expand = createDiv(CSS_SIZE_MONITOR + '-expand');
-	var shrink = createDiv(CSS_SIZE_MONITOR + '-shrink');
+	resizer.style.cssText = style;
+	resizer.className = cls;
+	resizer.innerHTML =
+		'<div class="' + cls + '-expand" style="' + style + '">' +
+			'<div style="' +
+				'position:absolute;' +
+				'width:' + maxSize + 'px;' +
+				'height:' + maxSize + 'px;' +
+				'left:0;' +
+				'top:0">' +
+			'</div>' +
+		'</div>' +
+		'<div class="' + cls + '-shrink" style="' + style + '">' +
+			'<div style="' +
+				'position:absolute;' +
+				'width:200%;' +
+				'height:200%;' +
+				'left:0; ' +
+				'top:0">' +
+			'</div>' +
+		'</div>';
 
-	expand.appendChild(createDiv());
-	shrink.appendChild(createDiv());
+	var expand = resizer.childNodes[0];
+	var shrink = resizer.childNodes[1];
 
-	resizer.appendChild(expand);
-	resizer.appendChild(shrink);
 	resizer._reset = function() {
 		expand.scrollLeft = maxSize;
 		expand.scrollTop = maxSize;
 		shrink.scrollLeft = maxSize;
 		shrink.scrollTop = maxSize;
 	};
-
 	var onScroll = function() {
 		resizer._reset();
 		handler();
 	};
 
-	addListener(expand, 'scroll', onScroll.bind(expand, 'expand'));
-	addListener(shrink, 'scroll', onScroll.bind(shrink, 'shrink'));
+	addEventListener(expand, 'scroll', onScroll.bind(expand, 'expand'));
+	addEventListener(shrink, 'scroll', onScroll.bind(shrink, 'shrink'));
 
 	return resizer;
 }
@@ -217,7 +233,7 @@ function watchForRender(node, handler) {
 	};
 
 	helpers.each(ANIMATION_START_EVENTS, function(type) {
-		addListener(node, type, proxy);
+		addEventListener(node, type, proxy);
 	});
 
 	// #4737: Chrome might skip the CSS animation when the CSS_RENDER_MONITOR class
@@ -236,7 +252,7 @@ function unwatchForRender(node) {
 
 	if (proxy) {
 		helpers.each(ANIMATION_START_EVENTS, function(type) {
-			removeListener(node, type, proxy);
+			removeEventListener(node, type, proxy);
 		});
 
 		delete expando.renderProxy;
@@ -251,19 +267,7 @@ function addResizeListener(node, listener, chart) {
 	// Let's keep track of this added resizer and thus avoid DOM query when removing it.
 	var resizer = expando.resizer = createResizer(throttled(function() {
 		if (expando.resizer) {
-			var container = chart.options.maintainAspectRatio && node.parentNode;
-			var w = container ? container.clientWidth : 0;
-			listener(createEvent('resize', chart));
-			if (container && container.clientWidth < w && chart.canvas) {
-				// If the container size shrank during chart resize, let's assume
-				// scrollbar appeared. So we resize again with the scrollbar visible -
-				// effectively making chart smaller and the scrollbar hidden again.
-				// Because we are inside `throttled`, and currently `ticking`, scroll
-				// events are ignored during this whole 2 resize process.
-				// If we assumed wrong and something else happened, we are resizing
-				// twice in a frame (potential performance issue)
-				listener(createEvent('resize', chart));
-			}
+			return listener(createEvent('resize', chart));
 		}
 	}));
 
@@ -294,34 +298,20 @@ function removeResizeListener(node) {
 	}
 }
 
-/**
- * Injects CSS styles inline if the styles are not already present.
- * @param {HTMLDocument|ShadowRoot} rootNode - the node to contain the <style>.
- * @param {string} css - the CSS to be injected.
- */
-function injectCSS(rootNode, css) {
-	// https://stackoverflow.com/q/3922139
-	var expando = rootNode[EXPANDO_KEY] || (rootNode[EXPANDO_KEY] = {});
-	if (!expando.containsStyles) {
-		expando.containsStyles = true;
+function injectCSS(platform, css) {
+	// http://stackoverflow.com/q/3922139
+	var style = platform._style || document.createElement('style');
+	if (!platform._style) {
+		platform._style = style;
 		css = '/* Chart.js */\n' + css;
-		var style = document.createElement('style');
 		style.setAttribute('type', 'text/css');
-		style.appendChild(document.createTextNode(css));
-		rootNode.appendChild(style);
+		document.getElementsByTagName('head')[0].appendChild(style);
 	}
+
+	style.appendChild(document.createTextNode(css));
 }
 
 module.exports = {
-	/**
-	 * When `true`, prevents the automatic injection of the stylesheet required to
-	 * correctly detect when the chart is added to the DOM and then resized. This
-	 * switch has been added to allow external stylesheet (`dist/Chart(.min)?.js`)
-	 * to be manually imported to make this library compatible with any CSP.
-	 * See https://github.com/chartjs/Chart.js/issues/5208
-	 */
-	disableCSSInjection: false,
-
 	/**
 	 * This property holds whether this platform is enabled for the current environment.
 	 * Currently used by platform.js to select the proper implementation.
@@ -329,20 +319,19 @@ module.exports = {
 	 */
 	_enabled: typeof window !== 'undefined' && typeof document !== 'undefined',
 
-	/**
-	 * Initializes resources that depend on platform options.
-	 * @param {HTMLCanvasElement} canvas - The Canvas element.
-	 * @private
-	 */
-	_ensureLoaded: function(canvas) {
-		if (!this.disableCSSInjection) {
-			// If the canvas is in a shadow DOM, then the styles must also be inserted
-			// into the same shadow DOM.
-			// https://github.com/chartjs/Chart.js/issues/5763
-			var root = canvas.getRootNode ? canvas.getRootNode() : document;
-			var targetNode = root.host ? root : document.head;
-			injectCSS(targetNode, stylesheet);
-		}
+	initialize: function() {
+		var keyframes = 'from{opacity:0.99}to{opacity:1}';
+
+		injectCSS(this,
+			// DOM rendering detection
+			// https://davidwalsh.name/detect-node-insertion
+			'@-webkit-keyframes ' + CSS_RENDER_ANIMATION + '{' + keyframes + '}' +
+			'@keyframes ' + CSS_RENDER_ANIMATION + '{' + keyframes + '}' +
+			'.' + CSS_RENDER_MONITOR + '{' +
+				'-webkit-animation:' + CSS_RENDER_ANIMATION + ' 0.001s;' +
+				'animation:' + CSS_RENDER_ANIMATION + ' 0.001s;' +
+			'}'
+		);
 	},
 
 	acquireContext: function(item, config) {
@@ -371,9 +360,6 @@ module.exports = {
 		// https://github.com/chartjs/Chart.js/issues/4102
 		// https://github.com/chartjs/Chart.js/issues/4152
 		if (context && context.canvas === item) {
-			// Load platform resources on first chart creation, to make it possible to
-			// import the library before setting platform options.
-			this._ensureLoaded(item);
 			initCanvas(item, config);
 			return context;
 		}
@@ -405,7 +391,6 @@ module.exports = {
 		// we can't use save() and restore() to restore the initial state. So make sure that at
 		// least the canvas context is reset to the default state by setting the canvas width.
 		// https://www.w3.org/TR/2011/WD-html5-20110525/the-canvas-element.html
-		// eslint-disable-next-line no-self-assign
 		canvas.width = canvas.width;
 
 		delete canvas[EXPANDO_KEY];
@@ -425,14 +410,14 @@ module.exports = {
 			listener(fromNativeEvent(event, chart));
 		};
 
-		addListener(canvas, type, proxy);
+		addEventListener(canvas, type, proxy);
 	},
 
 	removeEventListener: function(chart, type, listener) {
 		var canvas = chart.canvas;
 		if (type === 'resize') {
 			// Note: the resize event is not supported on all browsers.
-			removeResizeListener(canvas);
+			removeResizeListener(canvas, listener);
 			return;
 		}
 
@@ -443,7 +428,7 @@ module.exports = {
 			return;
 		}
 
-		removeListener(canvas, type, proxy);
+		removeEventListener(canvas, type, proxy);
 	}
 };
 
@@ -458,7 +443,7 @@ module.exports = {
  * @todo remove at version 3
  * @private
  */
-helpers.addEvent = addListener;
+helpers.addEvent = addEventListener;
 
 /**
  * Provided for backward compatibility, use EventTarget.removeEventListener instead.
@@ -469,4 +454,4 @@ helpers.addEvent = addListener;
  * @todo remove at version 3
  * @private
  */
-helpers.removeEvent = removeListener;
+helpers.removeEvent = removeEventListener;

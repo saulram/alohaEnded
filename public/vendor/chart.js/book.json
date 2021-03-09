@@ -1,17 +1,8 @@
 {
   "root": "./docs",
-  "title": "Chart.js documentation",
   "author": "chartjs",
   "gitbook": "3.2.2",
-  "plugins": [
-    "-lunr",
-    "-search",
-    "search-plus",
-    "anchorjs",
-    "chartjs",
-    "ga",
-    "redirect"
-  ],
+  "plugins": ["-lunr", "-search", "search-plus", "anchorjs", "chartjs", "ga"],
   "pluginsConfig": {
     "anchorjs": {
       "icon": "#",

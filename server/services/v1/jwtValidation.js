@@ -10,7 +10,7 @@ exports.jwtValidate = function(req, res, next) {
 
         // verifies secret and checks exp
         // https://github.com/auth0/node-jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback
-        jwt.verify(token, config.development.tokenSecret, function(err, decoded) {
+        jwt.verify(token, config.staging.tokenSecret, function(err, decoded) {
                 if (err) {
                     console.log(err);
                     res.status(401).json({ success: false, message: 'Failed to authenticate token.' });

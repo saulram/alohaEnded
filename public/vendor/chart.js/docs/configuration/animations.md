@@ -1,21 +1,20 @@
 # Animations
 
-Chart.js animates charts out of the box. A number of options are provided to configure how the animation looks and how long it takes.
+Chart.js animates charts out of the box. A number of options are provided to configure how the animation looks and how long it takes
 
 ## Animation Configuration
 
 The following animation options are available. The global options for are defined in `Chart.defaults.global.animation`.
 
 | Name | Type | Default | Description
-| ---- | ---- | ------- | -----------
-| `duration` | `number` | `1000` | The number of milliseconds an animation takes.
-| `easing` | `string` | `'easeOutQuart'` | Easing function to use. [more...](#easing)
-| `onProgress` | `function` | `null` | Callback called on each step of an animation. [more...](#animation-callbacks)
-| `onComplete` | `function` | `null` | Callback called at the end of an animation. [more...](#animation-callbacks)
+| -----| ---- | --------| -----------
+| `duration` | `Number` | `1000` | The number of milliseconds an animation takes.
+| `easing` | `String` | `'easeOutQuart'` | Easing function to use. [more...](#easing)
+| `onProgress` | `Function` | `null` | Callback called on each step of an animation. [more...](#animation-callbacks)
+| `onComplete` | `Function` | `null` | Callback called at the end of an animation. [more...](#animation-callbacks)
 
 ## Easing
-
-Available options are:
+ Available options are:
 * `'linear'`
 * `'easeInQuad'`
 * `'easeOutQuad'`
@@ -60,22 +59,22 @@ The `onProgress` and `onComplete` callbacks are useful for synchronizing an exte
     chart: Chart,
 
     // Current Animation frame number
-    currentStep: number,
+    currentStep: Number,
 
     // Number of animation frames
-    numSteps: number,
+    numSteps: Number,
 
     // Animation easing to use
-    easing: string,
+    easing: String,
 
     // Function that renders the chart
-    render: function,
+    render: Function,
 
     // User callback
-    onAnimationProgress: function,
+    onAnimationProgress: Function,
 
     // User callback
-    onAnimationComplete: function
+    onAnimationComplete: Function
 }
 ```
 

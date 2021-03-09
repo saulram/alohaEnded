@@ -2,13 +2,13 @@
  * Created by Mordekaiser on 11/10/16.
  */
 "use strict";
-const jwt = require('jsonwebtoken'),
+var jwt = require('jsonwebtoken'),
     config = require('./configuration'),
     jwtValidate = require('../services/v1/jwtValidation');
 
 exports.authenticate = function (req, res, next) {
     if(req.query.token) {
-        jwt.verify(req.query.token, config.development.tokenSecret, function(err, decoded) {
+        jwt.verify(req.query.token, config.staging.tokenSecret, function(err, decoded) {
             if(err) {
                 console.log(err);
                 res.status(401);
@@ -39,5 +39,5 @@ exports.requiresRole = function (role) {
         } else {
             next();
         }
-    };
+    }
 };

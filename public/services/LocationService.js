@@ -3,7 +3,7 @@ angular.module('valora')
     .factory('LocationService', ['$q', '$http', '$location', 'AuthToken', LocationService]);
 
 function LocationService($q, $http, $location, AuthToken) {
-    var host = 'http://' + $location.host() + ':5001/';
+    var host = 'http://' + $location.host() + '/';
     var user = AuthToken.getToken();
 
     return {

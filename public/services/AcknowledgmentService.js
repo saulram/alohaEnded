@@ -6,7 +6,7 @@ angular.module('valora')
     .factory('AcknowledgmentService', ['$q', '$http', '$location', 'AuthToken', AcknowledgmentService]);
 
 function AcknowledgmentService($q, $http, $location, AuthToken) {
-    var host = 'http://' + $location.host() + ':5001/';
+    var host = 'http://' + $location.host() + '/';
     var user = AuthToken.getToken();
 
     return {

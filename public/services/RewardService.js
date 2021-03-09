@@ -6,7 +6,7 @@ angular.module('valora')
     .factory('RewardService', ['$q', '$http', '$location', 'AuthToken', RewardService]);
 
 function RewardService($q, $http, $location, AuthToken) {
-    var host = 'http://' + $location.host() + ':5001/';
+    var host = 'http://' + $location.host() + '/';
     var user = AuthToken.getToken();
     var rewards = [];
 

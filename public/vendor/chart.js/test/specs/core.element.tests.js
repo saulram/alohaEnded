@@ -18,7 +18,6 @@ describe('Core element tests', function() {
 		element.transition(0.25);
 
 		expect(element._view).toEqual(element._model);
-		expect(element._view).not.toBe(element._model);
 		expect(element._view.objectProp).toBe(element._model.objectProp); // not cloned
 
 		element._model.numberProp = 100;
@@ -41,11 +40,5 @@ describe('Core element tests', function() {
 			},
 			colorProp: 'rgb(64, 64, 0)',
 		});
-
-		// Final transition clones model into view
-		element.transition(1);
-
-		expect(element._view).toEqual(element._model);
-		expect(element._view).not.toBe(element._model);
 	});
 });

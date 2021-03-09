@@ -46,16 +46,18 @@
             <th>Área</th>
             <th>Puesto</th>
             <th>Accesos</th>
+            <th>Plataforma</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="info in logs">
-            <td><strong class="numeration">{{$index + 1}}.</strong> {{info.user[0].completeName}}</td>
-            <td>{{info.user[0].employeeNumber}}</td>
-            <td>{{info.user[0].location}}</td>
-            <td>{{info.user[0].area}}</td>
-            <td>{{info.user[0].position}}</td>
-            <td>{{ info.count }}</td>
+            <td><strong class="numeration">{{$index + 1}}.</strong> {{info.completeName}}</td>
+            <td>{{info.employeeNumber}}</td>
+            <td>{{info.location}}</td>
+            <td>{{info.area}}</td>
+            <td>{{info.position}}</td>
+            <td>{{info.total}}</td>
+            <td>{{info.platform}}</td>
         </tr>
         </tbody>
     </table>

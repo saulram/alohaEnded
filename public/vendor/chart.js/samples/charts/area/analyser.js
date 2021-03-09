@@ -4,7 +4,7 @@
 
 (function() {
 	Chart.plugins.register({
-		id: 'samples-filler-analyser',
+		id: 'samples_filler_analyser',
 
 		beforeInit: function(chart, options) {
 			this.element = document.getElementById(options.target);

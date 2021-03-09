@@ -6,13 +6,13 @@ angular.module('valora')
     .controller('gpBadgeAdminCtrl', ['$scope', 'fileReader' ,'BadgeService', 'mvNotifier', gpBadgeAdminCtrl]);
 
 function gpBadgeAdminCtrl($scope, fileReader, BadgeService, mvNotifier) {
-    getAllBadges({type: 'all', category: 'administrator'});
+    getAllBadges({type: 'all', category: 'grupo presidente'});
     $scope.addBadge = function () {
         var data = {
             name: $scope.name,
             points: $scope.points,
             image: $scope.file,
-            category: 'administrator'
+            category: 'grupo presidente'
         };
         BadgeService.post(data).then(function (success) {
             if(success) {
@@ -20,7 +20,7 @@ function gpBadgeAdminCtrl($scope, fileReader, BadgeService, mvNotifier) {
                 $scope.name = "";
                 $scope.points = "";
                 $scope.file = "";
-                getAllBadges({type: 'all', category: 'administrator'});
+                getAllBadges({type: 'all', category: 'grupo presidente'});
             }
         })
     };
@@ -29,7 +29,7 @@ function gpBadgeAdminCtrl($scope, fileReader, BadgeService, mvNotifier) {
         BadgeService.del({_id: id}).then(function (success) {
             if(success) {
                 mvNotifier.notify('Insignia eliminada correctamente');
-                getAllBadges({type: 'all', category: 'administrator'});
+                getAllBadges({type: 'all', category: 'grupo presidente'});
             }
         })
     };

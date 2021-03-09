@@ -42,7 +42,7 @@ function interpolate(start, view, model, ease) {
 						continue;
 					}
 				}
-			} else if (helpers.isFinite(origin) && helpers.isFinite(target)) {
+			} else if (type === 'number' && isFinite(origin) && isFinite(target)) {
 				view[key] = origin + (target - origin) * ease;
 				continue;
 			}
@@ -58,7 +58,6 @@ var Element = function(configuration) {
 };
 
 helpers.extend(Element.prototype, {
-	_type: undefined,
 
 	initialize: function() {
 		this.hidden = false;
@@ -67,7 +66,7 @@ helpers.extend(Element.prototype, {
 	pivot: function() {
 		var me = this;
 		if (!me._view) {
-			me._view = helpers.extend({}, me._model);
+			me._view = helpers.clone(me._model);
 		}
 		me._start = {};
 		return me;
@@ -81,7 +80,7 @@ helpers.extend(Element.prototype, {
 
 		// No animation -> No Transition
 		if (!model || ease === 1) {
-			me._view = helpers.extend({}, model);
+			me._view = model;
 			me._start = null;
 			return me;
 		}

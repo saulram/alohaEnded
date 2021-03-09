@@ -26,7 +26,7 @@ exports.post = function (req, res) {
             let response = {};
 
             csv
-                .fromPath(config.development.rootPath + "server/imported-files/" + req.file.filename, {headers: true, ignoreEmpty: true})
+                .fromPath(config.staging.rootPath + "server/imported-files/" + req.file.filename, {headers: true, ignoreEmpty: true})
                 .validate(function(data, next){
                     console.log('Validating CSV...');
                     totalRows.push(data);
@@ -116,7 +116,7 @@ exports.post = function (req, res) {
             let responseUpgrade = {};
 
             csv
-                .fromPath(config.development.rootPath + "server/imported-files/" + req.file.filename, {headers: true, ignoreEmpty: true})
+                .fromPath(config.staging.rootPath + "server/imported-files/" + req.file.filename, {headers: true, ignoreEmpty: true})
                 .validate(function(data, next){
                     upTotalRows.push(data);
                     const query = {
@@ -237,7 +237,7 @@ exports.addCollaborators = function (req, res) {
         let skippedData = [];
         let insertedData = [];
         csv
-            .fromPath(config.development.rootPath + "server/imported-files/" + req.file.filename, {headers: true, ignoreEmpty: true})
+            .fromPath(config.staging.rootPath + "server/imported-files/" + req.file.filename, {headers: true, ignoreEmpty: true})
             .validate(function(row, next) {
                 let query = {
                     employeeNumber: row['Numero de Empleado']
@@ -452,7 +452,7 @@ exports.removeCollaborators = function (req, res) {
         let skippedData = [];
         let insertedData = [];
         csv
-            .fromPath(config.development.rootPath + "server/imported-files/" + req.file.filename, {headers: true, ignoreEmpty: true})
+            .fromPath(config.staging.rootPath + "server/imported-files/" + req.file.filename, {headers: true, ignoreEmpty: true})
             .validate(function(row, next) {
                 let query = {
                     employeeNumber: row['ID']
