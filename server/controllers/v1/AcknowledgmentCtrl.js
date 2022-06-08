@@ -4,6 +4,7 @@
 "use strict";
 const mongoose = require('mongoose'),
     Acknowledgment = mongoose.model('Acknowledgment'),
+    
     jwtValidation = require('../../services/v1/jwtValidation'),
     userCtrl = require('../../controllers/v1/UsersCtrl'),
     accountCtrl = require('../../controllers/v1/AccountStatusCtrl'),
@@ -125,6 +126,8 @@ exports.post = function (req, res) {
                                     acknowledgmentReport.save((err, result) => {
                                         if(err) {
                                             console.error(err);
+                                        }else{
+                                            console.log('Acknowledgment report saved');
                                         }
                                     })
 

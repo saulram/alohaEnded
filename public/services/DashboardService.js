@@ -6,7 +6,7 @@ angular.module('valora')
     .factory('DashboardService', ['$q', '$http', '$location', 'AuthToken', DashboardService]);
 
 function DashboardService($q, $http, $location, AuthToken) {
-    var host = 'http://' + $location.host() + ':5001/';
+    var host = 'https://' + $location.host() + ':5001/';
     var user = AuthToken.getToken();
 
     return {

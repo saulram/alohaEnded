@@ -3,7 +3,7 @@ angular.module('valora')
     .factory('FeedMessageService', ['$q', '$http', '$location', 'AuthToken', FeedMessageService]);
 
 function FeedMessageService($q, $http, $location, AuthToken) {
-    var host = 'http://' + $location.host() + '/';
+    var host = 'https://' + $location.host() + '/';
     var user = AuthToken.getToken();
 
     return {

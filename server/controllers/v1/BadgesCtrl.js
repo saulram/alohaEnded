@@ -128,7 +128,7 @@ exports.put = function (req, res) {
 
     if(req.body.name) {
         data.name = req.body.name;
-        data.slug = getSlug(req.body.name, {lang: 'es'});
+        data.slug = getSlug(req.body.name+'.png', {lang: 'es'});
     }
     if(req.body.category)
         data.category = req.body.category;
@@ -144,7 +144,7 @@ exports.put = function (req, res) {
         if(err)
             console.log(err);
         if(doc.ok === 1) {
-            res.status(200).json({success: true});
+            res.status(200).json({success: true,doc});
             res.end();
         } else {
             res.status(500).json({success: false});

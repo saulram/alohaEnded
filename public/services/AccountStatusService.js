@@ -6,7 +6,7 @@ angular.module('valora')
     .factory('AccountStatusService', ['$q', '$http', '$location', 'AuthToken', AccountStatusService]);
 
 function AccountStatusService($q, $http, $location, AuthToken) {
-    var host = 'http://' + $location.host() + '/';
+    var host = 'https://' + $location.host() + '/';
     const user = AuthToken.getToken();
     return {
         post: post,

@@ -6,7 +6,7 @@ angular.module('valora')
     .factory('ImportService', ['$q', '$http', '$location', 'AuthToken', ImportService]);
 
 function ImportService($q, $http, $location, AuthToken) {
-    var host = 'http://' + $location.host() + '/';
+    var host = 'https://' + $location.host() + '/';
     var user = AuthToken.getToken();
 
     return {

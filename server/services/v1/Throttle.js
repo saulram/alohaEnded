@@ -27,8 +27,8 @@ exports.limit = function (request, response, next) {
         // staging environment
         ip = req.connection.remoteAddress;
     }
-
-    //ip = '127.0.0.1';
+//esto solo sirve en dev
+    ip = '127.0.0.1';
     RateBucket
         .findOneAndUpdate({ip: ip}, {$inc: {hits: 1}}, {upsert: false})
         .exec(function (err, rateBucket) {

@@ -3,7 +3,7 @@ angular.module('valora')
     .factory('MentionService', ['$q', '$http', '$location', 'AuthToken', MentionService]);
 
 function MentionService($q, $http, $location, AuthToken) {
-    var host = 'http://' + $location.host() + '/';
+    var host = 'https://' + $location.host() + '/';
     var user = AuthToken.getToken();
 
     return {

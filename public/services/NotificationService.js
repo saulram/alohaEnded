@@ -3,7 +3,7 @@ angular.module('valora')
     .factory('NotificationService', ['$q', '$http', '$location', 'AuthToken', NotificationService]);
 
 function NotificationService($q, $http, $location, AuthToken) {
-    var host = 'http://' + $location.host() + '/';
+    var host = 'https://' + $location.host() + '/';
     var user = AuthToken.getToken();
 
     return {
