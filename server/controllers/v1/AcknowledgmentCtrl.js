@@ -4,7 +4,7 @@
 "use strict";
 const mongoose = require('mongoose'),
     Acknowledgment = mongoose.model('Acknowledgment'),
-    
+
     jwtValidation = require('../../services/v1/jwtValidation'),
     userCtrl = require('../../controllers/v1/UsersCtrl'),
     accountCtrl = require('../../controllers/v1/AccountStatusCtrl'),
@@ -24,54 +24,55 @@ exports.post = function (req, res) {
     let senderUser_id = "";
     let senderMessage = "", senderUser = '';
 
-    if(req.body.badgeSlug)
+    if (req.body.badgeSlug)
         data.badgeSlug = req.body.badgeSlug;
-    if(req.body.badgeId) {
+    if (req.body.badgeId) {
         data.badgeId = req.body.badgeId;
     }
-    if(req.body.receiver_id)
+    if (req.body.receiver_id)
         data.receiver_id = req.body.receiver_id;
-    if(req.body.badgePoints)
+    if (req.body.badgePoints)
         data.badgePoints = req.body.badgePoints;
-    if(req.body.senderMessage) {
+    if (req.body.senderMessage) {
         senderMessage = req.body.senderMessage;
     }
+    console.log('entra en esat funcion')
 
     // when the admin (grupo presidente) acknowledgments someone
-    if(req.body.sender_id === "administrator") {
+    if (req.body.sender_id === "administrator") {
         data.sender_id = "administrator";
         GPAcknowledgment(req.body.receiver_id, req.body.badgePoints, data);
     }
 
     // when a collaborator acknowledge some else
-    if(typeof req.body.sender_id === 'undefined') {
+    if (typeof req.body.sender_id === 'undefined') {
         senderUser_id = jwtValidation.getUserId(req.headers['x-access-token']);
         senderUser = helpers.getUserById(senderUser_id);
         data.sender_id = senderUser_id;
         // validate that user don't assign the badge to it's self
-        if(senderUser_id !== req.body.receiver_id) {
+        if (senderUser_id !== req.body.receiver_id) {
             // validate if the name is correct
             isACorrectName(req.body.completeName, function (isCorrect) {
-                if(isCorrect) {
+                if (isCorrect) {
                     validateBadgeAcknowledgments(req.body.badgeSlug, senderUser_id, req.body.receiver_id, function (isValid) {
-                        if(isValid) {
+                        if (isValid) {
                             // validate if user has the necessary amount of temporal points
                             // decrements the sender collaborator temporal points
                             userCtrl.restTemporalPoints(senderUser_id, req.body.badgePoints, function (senderUser) {
-                                if(senderUser) {
+                                if (senderUser) {
                                     // increment receiver collaborator current points, sames as badge value
                                     incrementUserPoints(req.body.receiver_id, req.body.badgePoints);
                                     // create a document in account
                                     let acknowledgment = new Acknowledgment(data);
                                     acknowledgment.save(function (err, result) {
-                                        if(err) {
+                                        if (err) {
                                             console.error(err);
                                         }
                                         else {
                                             // verify if the collaborator has become a ambassador
                                             let query = [
-                                                { $match: { badgeSlug: req.body.badgeSlug }},
-                                                { $group: { _id: { receiver_id: "$receiver_id", badgeSlug: "$badgeSlug" }, count: { $sum: 1 }}}
+                                                { $match: { badgeSlug: req.body.badgeSlug } },
+                                                { $group: { _id: { receiver_id: "$receiver_id", badgeSlug: "$badgeSlug" }, count: { $sum: 1 } } }
                                             ];
 
                                             isBecomingAmbassador(query, req.body.badgeCategory, req.body.receiver_id, senderUser_id, req.body.badgeId);
@@ -79,10 +80,10 @@ exports.post = function (req, res) {
 
                                             // send email notification if collaborator has enabled it in their preferences
                                             helpers.validateNotifications(req.body.receiver_id, function (data) {
-                                                if(data) {
-                                                    if(!!data.notifications.badge) {
+                                                if (data) {
+                                                    if (!!data.notifications.badge) {
                                                         helpers.getBadgeName(req.body.badgeSlug, function (badge) {
-                                                            if(badge) {
+                                                            if (badge) {
                                                                 let emailData = {
                                                                     badgeName: badge.name,
                                                                     senderName: senderUser.completeName,
@@ -96,8 +97,10 @@ exports.post = function (req, res) {
                                                     }
                                                 }
                                             });
+                                            console.log('se creeo el reconocimiento', senderUser);
+                                            feedCtrl.createFeed(senderUser._id, senderUser.completeName, req.body.receiver_id, req.body.completeName, req.body.badgeSlug, req.body.badgePoints, req.body.badgeName, req.body.badgePoints, req.body.senderMessage, req.body.badgeCategory, req.body.receiverLocation);
 
-                                            res.status(200).json({success: true});
+                                            res.status(200).json({ success: true });
                                             res.end();
                                         }
                                     });
@@ -124,38 +127,38 @@ exports.post = function (req, res) {
 
                                     let acknowledgmentReport = new AcknowledgmentReport(acknowledgmentReportData);
                                     acknowledgmentReport.save((err, result) => {
-                                        if(err) {
+                                        if (err) {
                                             console.error(err);
-                                        }else{
+                                        } else {
                                             console.log('Acknowledgment report saved');
                                         }
                                     })
 
                                 } else {
-                                    res.status(400).json({success: false, error: 'Puntos insuficientes'});
+                                    res.status(400).json({ success: false, error: 'Puntos insuficientes' });
                                     res.end();
                                 }
                             });
                         } else {
-                            res.status(400).json({success: false, error: 'No se puede otorgar una segunda insignia a la misma persona en el mismo mes.'});
+                            res.status(400).json({ success: false, error: 'No se puede otorgar una segunda insignia a la misma persona en el mismo mes.' });
                             res.end();
                         }
                     });
                 }
                 else {
-                    res.status(400).json({success: false, error: 'El nombre que tecleaste no existe, te recomendamos selecionarlo de la lista que aparece al escribir un nombre o apellido'});
+                    res.status(400).json({ success: false, error: 'El nombre que tecleaste no existe, te recomendamos selecionarlo de la lista que aparece al escribir un nombre o apellido' });
                     res.end();
                 }
             })
         } else {
-            res.status(400).json({success: false, error: 'Uno mismo no puede otorgarse insignias.'});
+            res.status(400).json({ success: false, error: 'Uno mismo no puede otorgarse insignias.' });
             res.end();
         }
     }
 
     function sendEmailNotification(emailData) {
         let html = "";
-        if(emailData === 'ambassador')
+        if (emailData === 'ambassador')
             html = "<p>¡Tenemos embajador nuevo! ¡Muchas felicidades! Te has convertido en el embajador de " + emailData.badgeName + " gracias a la insignia que has recibido por parte de " + emailData.senderName + ". Entra a <a href='https://valora-gp.com/' style='text-decoration: none'>Valora</a>, en la sección “Insignias Valora” y revisa el Top Nacional de Embajadores y ¡vé que bien te ves ahí! </p>"
         else
             html = "<p>Has obtenido una insignia de " + emailData.badgeName + " de parte de " + emailData.senderName + ". Accede a Valora y revisa tu estado de cuenta para consultar los puntos que has obtenido <a href='https://valora-gp.com/' style='text-decoration: none'>aquí</a>.</p>";
@@ -171,13 +174,13 @@ exports.post = function (req, res) {
         var query = {
             sender_id: sender_id,
             receiver_id: receiver_id,
-            createdAt: {$gte: moment(firstDay).format('YYYY-MM-DD'), $lt: moment(lastDay).format('YYYY-MM-DD')}
+            createdAt: { $gte: moment(firstDay).format('YYYY-MM-DD'), $lt: moment(lastDay).format('YYYY-MM-DD') }
         };
 
         Acknowledgment.findOne(query, function (err, acknowledgment) {
-            if(err)
+            if (err)
                 console.log(err);
-            if(acknowledgment)
+            if (acknowledgment)
                 callback(false);
             else
                 callback(true);
@@ -185,10 +188,10 @@ exports.post = function (req, res) {
     }
 
     function isACorrectName(completeName, callback) {
-        User.findOne({completeName: completeName}, function (err, user) {
-            if(err)
+        User.findOne({ completeName: completeName }, function (err, user) {
+            if (err)
                 console.log(err);
-            if(user)
+            if (user)
                 return callback(true);
             else
                 return callback(false);
@@ -196,7 +199,7 @@ exports.post = function (req, res) {
     }
 
     function incrementUserPoints(user_id, points) {
-        userCtrl.incCurrentPoints(user_id, points, function (docs) {});
+        userCtrl.incCurrentPoints(user_id, points, function (docs) { });
     }
 
     function isBecomingAmbassador(query, badgeCategory, receiver_id, senderUser_id, badgeId) {
@@ -204,31 +207,31 @@ exports.post = function (req, res) {
         Acknowledgment
             .aggregate(query)
             .exec(function (aggregationErr, aggregationDocs) {
-                if(aggregationErr)
+                if (aggregationErr)
                     console.log('error');
-                if(aggregationDocs.length > 0) {
+                if (aggregationDocs.length > 0) {
                     const collaboratorsQuery = {
-                        _id: {$in: [receiver_id, senderUser_id]}
+                        _id: { $in: [receiver_id, senderUser_id] }
                     };
 
                     User.find(collaboratorsQuery, function (collaboratorsErr, collaborators) {
-                        if(collaboratorsErr)
+                        if (collaboratorsErr)
                             console.log(collaboratorsErr);
-                        if(collaborators) {
+                        if (collaborators) {
                             let receiverUser = {};
                             let senderUser = {};
 
-                            if(collaborators[0]._id.toString() === receiver_id.toString()) {
+                            if (collaborators[0]._id.toString() === receiver_id.toString()) {
                                 receiverUser = collaborators[0];
                             }
-                            if(collaborators[1]._id.toString() === receiver_id.toString()) {
+                            if (collaborators[1]._id.toString() === receiver_id.toString()) {
                                 receiverUser = collaborators[1];
                             }
 
-                            if(collaborators[0]._id.toString() === senderUser_id.toString()) {
+                            if (collaborators[0]._id.toString() === senderUser_id.toString()) {
                                 senderUser = collaborators[0];
                             }
-                            else if(collaborators[1]._id.toString() === senderUser_id.toString()) {
+                            else if (collaborators[1]._id.toString() === senderUser_id.toString()) {
                                 senderUser = collaborators[1];
                             }
 
@@ -248,21 +251,21 @@ exports.post = function (req, res) {
                             });
 
                             // conditional when there are none ambassadors
-                            if(aggregationDocs[1]) {
+                            if (aggregationDocs[1]) {
                                 // a document feed is always created
                                 //feedCtrl.createFeed(senderUser_id, senderUser.completeName, receiver_id, receiverUser.completeName, badgeSlug, '', '', '', '', 'badge');
                                 feedCtrl.createBadgeAcknowledgment(badgeId, '', receiver_id, receiverUser.completeName, senderUser_id, senderUser.completeName, senderMessage, 'badge', receiverUser.location, senderUser.location);
-                                if(aggregationDocs[0].count > aggregationDocs[1].count && receiver_id === aggregationDocs[0]._id.receiver_id) {
+                                if (aggregationDocs[0].count > aggregationDocs[1].count && receiver_id === aggregationDocs[0]._id.receiver_id) {
                                     // create ambassador feed record, exclude special badges for generating ambassadors
-                                    if(badgeCategory !== "especial") {
+                                    if (badgeCategory !== "especial") {
                                         // feedCtrl.createFeed('', '', receiver_id, receiverUser.completeName, badgeSlug, '', '', '', 'ambassador', 'ambassador');
                                         feedCtrl.createBadgeAcknowledgment(badgeId, 'ambassador', receiver_id, receiverUser.completeName, '', '', '', 'ambassador', receiverUser.location, senderUser.location);
                                         // send email notification if collaborator has enabled it in their preferences
                                         helpers.validateNotifications(receiver_id, function (data) {
-                                            if(data) {
-                                                if(!!data.notifications.badge) {
+                                            if (data) {
+                                                if (!!data.notifications.badge) {
                                                     helpers.getBadgeName(badgeSlug, function (badge) {
-                                                        if(badge) {
+                                                        if (badge) {
                                                             let emailData = {
                                                                 badgeName: badge.name,
                                                                 senderName: senderUser.completeName,
@@ -291,32 +294,32 @@ exports.post = function (req, res) {
     }
 
     function GenerateAccountRecord(user_id, earnedPoints, earnedReason) {
-        accountCtrl.postBadge(user_id, earnedPoints, earnedReason, function (result) {});
+        accountCtrl.postBadge(user_id, earnedPoints, earnedReason, function (result) { });
     }
 
     function GPAcknowledgment(receiver_id, points, data) {
         //console.log('POST GP Acknowledgment');
         // increment receiver collaborator current points, sames as badge value
-        
+
         userCtrl.incCurrentPoints(receiver_id, points, function (receiverUser) {
-            if(receiverUser) {
+            if (receiverUser) {
                 // create a document in account
                 const acknowledgment = new Acknowledgment(data);
-                acknowledgment.save(function(err, doc) {
+                acknowledgment.save(function (err, doc) {
                     console.log('Creando feed... pt1');
 
 
-                    if(err) {
+                    if (err) {
                         console.log(err);
                     } else {
                         // add document to feed model
                         console.log('Creando feed...pt2');
-                        feedCtrl.createFeed( data.sender_id,data.senderName, receiver_id, receiverUser.completeName, doc.badgeSlug, '', '', '', '', 'GP badge', receiverUser.location);
+                        feedCtrl.createFeed(data.sender_id, data.senderName, receiver_id, receiverUser.completeName, doc.badgeSlug, '', '', '', '', 'GP badge', receiverUser.location);
                         // add a document to account model
                         accountCtrl.postBadge(receiver_id, points, 'Recibiste una insignia del administrator', function (success) {
-                            if(success) {
+                            if (success) {
                                 helpers.getBadgeName(data.badgeSlug, function (badge) {
-                                    if(badge) {
+                                    if (badge) {
                                         let emailData = {
                                             receiver_id: receiver_id,
                                             badgeName: badge.name,
@@ -327,10 +330,10 @@ exports.post = function (req, res) {
                                         ////sendEmailNotification(emailData);
                                     }
                                 });
-                                res.status(201).json({success: true});
+                                res.status(201).json({ success: true });
                                 res.end();
                             } else {
-                                res.status(500).json({success:false});
+                                res.status(500).json({ success: false });
                                 res.end();
                             }
                         })
@@ -350,12 +353,12 @@ exports.get = function (req, res) {
         return new Promise((resolve, reject) => {
             Acknowledgment
                 .aggregate(query)
-                .sort({count: -1})
+                .sort({ count: -1 })
                 .exec(function (err, aggregationDocs) {
-                    if(err) {
+                    if (err) {
                         console.error(err);
                     }
-                    if(aggregationDocs.length > 0) {
+                    if (aggregationDocs.length > 0) {
                         let customDocs = _.sortBy(aggregationDocs, 'count').reverse();
                         resolve(customDocs);
                     } else {
@@ -390,10 +393,10 @@ exports.get = function (req, res) {
                         count: acknowledgment.count
                     };
 
-                    if(err) {
+                    if (err) {
                         console.error(err);
                     }
-                    if(badge) {
+                    if (badge) {
                         customData.badgeName = badge.name;
                         customData.image = "/assets/images/badges/" + badge.image;
                         customData.category = badge.category;
@@ -410,7 +413,7 @@ exports.get = function (req, res) {
             badges: []
         };
 
-        if(typeof badges !== 'undefined') {
+        if (typeof badges !== 'undefined') {
             resData.badges = badges;
             res.status(200).json(resData);
         } else {
@@ -421,8 +424,8 @@ exports.get = function (req, res) {
     }
 
     const query = [
-        { $match: { receiver_id: mongoose.Types.ObjectId(user_id) }},
-        { $group: { _id: "$badgeSlug", count: { $sum: 1} }}
+        { $match: { receiver_id: mongoose.Types.ObjectId(user_id) } },
+        { $group: { _id: "$badgeSlug", count: { $sum: 1 } } }
     ];
 
     aggregatePromise(query)
@@ -436,33 +439,33 @@ exports.getNationalAmbassadors = function (req, res) {
     // just values and competence badges have ambassadors
     var badgeQuery = {
         isActive: true,
-        category: {$in: ["valor", "competencias"]}
+        category: { $in: ["valor", "competencias"] }
     };
     var ambassadors = [];
     Badge.find(badgeQuery, function (err, badges) {
-        if(err)
+        if (err)
             console.log(err);
-        if(badges) {
+        if (badges) {
             var badgesProcessed = 0;
             badges.forEach(function (badge) {
 
                 var query = [
-                    {$match: {badgeSlug: badge.slug}},
-                    {$group: {_id: {receiver_id: "$receiver_id", badgeSlug: "$badgeSlug"}, count: {$sum: 1}}}
+                    { $match: { badgeSlug: badge.slug } },
+                    { $group: { _id: { receiver_id: "$receiver_id", badgeSlug: "$badgeSlug" }, count: { $sum: 1 } } }
                 ];
                 Acknowledgment
                     .aggregate(query)
                     .exec(function (err, aggregationDocs) {
-                        if(err){
+                        if (err) {
                             console.log(err);
                         }
-                        if(aggregationDocs.length > 0) {
+                        if (aggregationDocs.length > 0) {
                             var ambassador = {
                                 badgeName: badge.name,
                                 image: "/assets/images/badges/" + badge.image
                             };
                             // validate when there are few acknowledgments
-                            if(aggregationDocs.length > 1) {
+                            if (aggregationDocs.length > 1) {
 
                                 aggregationDocs.sort(function (a, b) {
                                     if (a.count < b.count)
@@ -474,7 +477,7 @@ exports.getNationalAmbassadors = function (req, res) {
                                 });
 
                                 // getting the greatest count by badgeSlug
-                                if(aggregationDocs[0].count) {
+                                if (aggregationDocs[0].count) {
                                     ambassador.receiver_id = aggregationDocs[0]._id.receiver_id;
                                     ambassador.count = aggregationDocs[0].count;
 
@@ -489,22 +492,22 @@ exports.getNationalAmbassadors = function (req, res) {
                         }
 
                         badgesProcessed++;
-                        if(badgesProcessed === badges.length) {
+                        if (badgesProcessed === badges.length) {
                             // get the additional user information
                             var ambassadorsProcessed = 0;
-                            if(ambassadors.length > 0) {
+                            if (ambassadors.length > 0) {
                                 ambassadors.forEach(function (item) {
                                     item.completeName = 'jose';
-                                    User.findOne({_id: item.receiver_id}, function (usrErr, user) {
-                                        if(user) {
+                                    User.findOne({ _id: item.receiver_id }, function (usrErr, user) {
+                                        if (user) {
                                             item.completeName = user.completeName;
                                             item.location = user.location;
                                             item.employeeNumber = user.employeeNumber;
-                                            if(user.profileImage)
+                                            if (user.profileImage)
                                                 item.profileImage = "/assets/images/users/" + user.profileImage;
                                         }
                                         ambassadorsProcessed++;
-                                        if(ambassadorsProcessed == ambassadors.length) {
+                                        if (ambassadorsProcessed == ambassadors.length) {
                                             resAmbassadors(ambassadors);
                                         }
                                     });
@@ -520,11 +523,11 @@ exports.getNationalAmbassadors = function (req, res) {
     });
 
     function resAmbassadors(array) {
-        if(array.length > 0) {
+        if (array.length > 0) {
             res.status(200).json(array);
             res.end();
         } else {
-            res.status(404).json({success: false});
+            res.status(404).json({ success: false });
             res.end();
         }
     }
@@ -539,71 +542,71 @@ exports.badgesReport = function (req, res) {
 
     let limit = 100;
 
-    if(req.query.dateTo && req.query.dateFrom) {
-        const dateFrom = new Date(req.query.dateFrom+'T00:00:00Z');
-        const dateTo = new Date(req.query.dateTo+'T23:59:59.999Z');
-        query.createdAt = {$gte: dateFrom, $lte: dateTo};
+    if (req.query.dateTo && req.query.dateFrom) {
+        const dateFrom = new Date(req.query.dateFrom + 'T00:00:00Z');
+        const dateTo = new Date(req.query.dateTo + 'T23:59:59.999Z');
+        query.createdAt = { $gte: dateFrom, $lte: dateTo };
         limit = '';
     }
 
     // Create the response in requested format
-    let ackPromise = function(item){
+    let ackPromise = function (item) {
         return new Promise((resolve, reject) => {
-              Promise.all([
-                  User.findOne({_id: item.receiver_id}),
-                  User.findOne({_id: item.sender_id})
-              ]).then((values) => {
-                  let receiver = values[0];
-	                let sender = values[1];
+            Promise.all([
+                User.findOne({ _id: item.receiver_id }),
+                User.findOne({ _id: item.sender_id })
+            ]).then((values) => {
+                let receiver = values[0];
+                let sender = values[1];
 
-                  let row = {
-                      _id: item._id,
-                      insignia: item.badgeSlug,
-                      puntos: item.badgePoints,
-                      fecha: moment.utc(item.createdAt).locale('es').format('LL')
-                  };
+                let row = {
+                    _id: item._id,
+                    insignia: item.badgeSlug,
+                    puntos: item.badgePoints,
+                    fecha: moment.utc(item.createdAt).locale('es').format('LL')
+                };
 
-                  if(receiver) {
-                      row.receptor = receiver.completeName;
-                      row.nReceptor = receiver.employeeNumber;
-                      row.localidad = receiver.location;
-                  }
+                if (receiver) {
+                    row.receptor = receiver.completeName;
+                    row.nReceptor = receiver.employeeNumber;
+                    row.localidad = receiver.location;
+                }
 
-                  if(sender) {
-                      row.emisor = sender.completeName;
-                      row.nEmisor = sender.employeeNumber;
-                  } else {
-                      row.emisor = 'administrator';
-                  }
+                if (sender) {
+                    row.emisor = sender.completeName;
+                    row.nEmisor = sender.employeeNumber;
+                } else {
+                    row.emisor = 'administrator';
+                }
 
-                  resolve(row);
-              })
-      	 	    .catch((err) => {
-      		        reject(err);
-  		        });
+                resolve(row);
+            })
+                .catch((err) => {
+                    reject(err);
+                });
         });
     };
 
 
-    Acknowledgment.find(query).sort({createdAt: -1}).limit(limit)
-        .then( docs => {
+    Acknowledgment.find(query).sort({ createdAt: -1 }).limit(limit)
+        .then(docs => {
             let promises = [];
 
-            if(docs.length > 0) {
+            if (docs.length > 0) {
                 docs.forEach(item => {
-                    promises.push( ackPromise(item) );
+                    promises.push(ackPromise(item));
                 });
             }
             return Promise.all(promises);
         })
-        .then( sendResponse )
+        .then(sendResponse)
         .catch((err) => {
-          console.log('\x1b[31m', err);
+            console.log('\x1b[31m', err);
         });
 
     function sendResponse(rows) {
-        if(req.query.type === 'csv') {
-            json2csv({ data: rows, fields: fields }, function(err, csv) {
+        if (req.query.type === 'csv') {
+            json2csv({ data: rows, fields: fields }, function (err, csv) {
                 if (err) console.log(err);
                 res.set('Content-Type', 'text/csv;charset=utf-8;');
                 res.send(new Buffer(csv));
@@ -622,31 +625,31 @@ exports.adminBadgesReport = function (req, res) {
     var fields = ['nReceptor', 'receptor', 'localidad', 'nEmisor', 'emisor', 'insignia', 'puntos'];
 
     Acknowledgment.find({}, function (err, docs) {
-        if(err)
+        if (err)
             console.log(err);
-        if(docs.length > 0) {
+        if (docs.length > 0) {
             docs.forEach(function (item) {
                 var rowInfo = {};
-                User.findOne({_id: item.sender_id}, function (err, user) {
-                    if(err) {
+                User.findOne({ _id: item.sender_id }, function (err, user) {
+                    if (err) {
                         //console.log(err);
                         rowInfo.emisor = 'administrator';
                     }
-                    if(user) {
+                    if (user) {
                         rowInfo.emisor = user.completeName;
                         rowInfo.nEmisor = user.employeeNumber;
                     }
 
                     sendersProcessed++;
-                    if(sendersProcessed === docs.length && docsProcessed === docs.length) {
+                    if (sendersProcessed === docs.length && docsProcessed === docs.length) {
                         sendCsv();
                     }
                 });
 
-                User.findOne({_id: item.receiver_id}, function (err, receptorUsr) {
-                    if(err)
+                User.findOne({ _id: item.receiver_id }, function (err, receptorUsr) {
+                    if (err)
                         console.log(err);
-                    if(receptorUsr) {
+                    if (receptorUsr) {
                         rowInfo.receptor = receptorUsr.completeName;
                         rowInfo.nReceptor = receptorUsr.employeeNumber;
                         rowInfo.localidad = receptorUsr.location;
@@ -655,7 +658,7 @@ exports.adminBadgesReport = function (req, res) {
                     }
 
                     docsProcessed++;
-                    if(docsProcessed === docs.length && sendersProcessed === docs.length) {
+                    if (docsProcessed === docs.length && sendersProcessed === docs.length) {
                         sendCsv();
                     }
                 });
@@ -669,19 +672,19 @@ exports.adminBadgesReport = function (req, res) {
         var admin_id = jwtValidation.getUserId(req.headers['x-access-token']);
         var rowsProcessed = 0;
 
-        User.findOne({_id: admin_id}, function (adminErr, userAdmin) {
-            if(adminErr)
+        User.findOne({ _id: admin_id }, function (adminErr, userAdmin) {
+            if (adminErr)
                 console.log(adminErr);
-            if(userAdmin) {
+            if (userAdmin) {
                 var csvField = [];
                 rows.forEach(function (row) {
-                    if(row.localidad == userAdmin.location) {
+                    if (row.localidad == userAdmin.location) {
                         csvField.push(row);
                     }
                     rowsProcessed++;
-                    if(rowsProcessed == rows.length) {
-                        if(req.query.type == 'csv') {
-                            json2csv({ data: csvField, fields: fields }, function(err, csv) {
+                    if (rowsProcessed == rows.length) {
+                        if (req.query.type == 'csv') {
+                            json2csv({ data: csvField, fields: fields }, function (err, csv) {
                                 if (err) console.log(err);
                                 res.set('Content-Type', 'text/csv;charset=utf-8;');
                                 res.send(new Buffer(csv));
@@ -704,17 +707,17 @@ exports.badgesAcknowledgment = (req, res) => {
         'badgeSlug', 'senderName', 'senderEmployeeNumber', 'senderLocation', 'senderArea', 'senderPosition',
         'badgePoints', 'createdAt'];
     let rows = [];
-    if(req.query.dateTo && req.query.dateFrom) {
+    if (req.query.dateTo && req.query.dateFrom) {
         let acknowledgmentPromise = query => {
             return new Promise((resolve, reject) => {
                 Acknowledgment
                     .find(query)
-                    .sort({createdAt: -1})
+                    .sort({ createdAt: -1 })
                     .exec((err, acknowledgments) => {
-                        if(err) {
+                        if (err) {
                             console.error(err);
                         }
-                        if(acknowledgments.length > 0) {
+                        if (acknowledgments.length > 0) {
                             resolve(acknowledgments);
                         } else {
                             reject('No data found');
@@ -760,10 +763,10 @@ exports.badgesAcknowledgment = (req, res) => {
             acknowledgments: []
         };
 
-        if(typeof acknowledgments !== 'undefined') {
-            if(req.query.type === 'csv') {
+        if (typeof acknowledgments !== 'undefined') {
+            if (req.query.type === 'csv') {
                 try {
-                    json2csv({ data: rows, fields: fields }, function(err, csv) {
+                    json2csv({ data: rows, fields: fields }, function (err, csv) {
                         if (err) {
                             console.error(err);
                         }
@@ -792,16 +795,16 @@ exports.badgesAcknowledgment = (req, res) => {
                 badgeSlug: acknowledgment.badgeSlug
             };
 
-            let promiseArray = [User.findOne({_id: acknowledgment.receiver_id})];
+            let promiseArray = [User.findOne({ _id: acknowledgment.receiver_id })];
 
-            if(acknowledgment.sender_id !== 'administrator') {
-                promiseArray.push(User.findOne({_id: acknowledgment.sender_id}))
+            if (acknowledgment.sender_id !== 'administrator') {
+                promiseArray.push(User.findOne({ _id: acknowledgment.sender_id }))
             }
 
             Promise
                 .all(promiseArray)
                 .then(values => {
-                    if(typeof values[0] !== 'undefined') {
+                    if (typeof values[0] !== 'undefined') {
                         customAcknowledgment.receiverName = values[0].completeName;
                         customAcknowledgment.receiverEmployeeNumber = values[0].employeeNumber;
                         customAcknowledgment.receiverLocation = values[0].location;
@@ -809,7 +812,7 @@ exports.badgesAcknowledgment = (req, res) => {
                         customAcknowledgment.receiverPosition = values[0].position;
                     }
 
-                    if(typeof values[1] !== 'undefined') {
+                    if (typeof values[1] !== 'undefined') {
                         customAcknowledgment.senderName = values[1].completeName;
                         customAcknowledgment.senderEmployeeNumber = values[1].employeeNumber;
                         customAcknowledgment.senderLocation = values[1].location;
@@ -856,17 +859,17 @@ exports.badgesAcknowledgment = (req, res) => {
 
 exports.getSenders = (req, res) => {
     // console.log('Get senders');
-    if(typeof req.query.badgeSlug !== 'undefined') {
+    if (typeof req.query.badgeSlug !== 'undefined') {
         let acknowledgmentPromise = query => {
             return new Promise((resolve, reject) => {
                 Acknowledgment
                     .find(query)
                     .lean()
                     .exec((err, acknowledgments) => {
-                        if(err) {
+                        if (err) {
                             console.error(err);
                         }
-                        if(acknowledgments.length > 0) {
+                        if (acknowledgments.length > 0) {
                             resolve(acknowledgments);
                         } else {
                             reject('No acknowledgments found');
@@ -896,7 +899,7 @@ exports.getSenders = (req, res) => {
             .then(sendResponse);
 
     } else {
-        res.status(404).json({success: false, message: 'No se proporcionó una insignia'});
+        res.status(404).json({ success: false, message: 'No se proporcionó una insignia' });
     }
 
     function getSender(acknowledgment) {
@@ -909,10 +912,10 @@ exports.getSenders = (req, res) => {
                 .findOne(userQuery)
                 .lean()
                 .exec((err, user) => {
-                    if(err) {
+                    if (err) {
                         console.error(err);
                     }
-                    if(user) {
+                    if (user) {
                         resolve(user.completeName);
                     }
                 })
@@ -925,7 +928,7 @@ exports.getSenders = (req, res) => {
             users: []
         };
 
-        if(typeof users !== 'undefined') {
+        if (typeof users !== 'undefined') {
             resData.users = users;
             res.status(200).json(resData);
         } else {

@@ -134,6 +134,7 @@ exports.createFeed = function (sender_id, senderName, receiver_id, receiverName,
             data.earnedPoints = earnedPoints;
             data.message = message;
         }
+
         createFeed(data);
     }
 };
@@ -157,7 +158,7 @@ let createFeedPromise = data => {
 };
 
 function createFeed(data) {
-    console.log(data);
+    console.log("Se crea el feed",data);
     const feed = new Feed(data);
     feed.save(function(err, doc) {
         if(err) {
