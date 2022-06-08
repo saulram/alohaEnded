@@ -149,6 +149,7 @@ module.exports = function (app, config) {
     app.post('/api/v1/login', throttle.limit, userCtrl.login);
 
     app.get('*', function (req, res) {
+        console.log(config.rootPath);
         res.sendFile(config.rootPath + 'public/home.html');
     });
 };
