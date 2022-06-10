@@ -34,8 +34,22 @@ function FeedService($q, $http, $location, AuthToken) {
                 'x-access-token': user.token
             }
         }).then(function successCallback(response) {
-            if(response.data.success) {
-                dfd.resolve(response.data);
+            if (response.data.success) {
+                console.log(response.data);
+
+                //check if response.data.feeds in each element contains type property. if not add it with the value "badgeAcknowledge" and resolve the promise
+                if (response.data.feeds.length > 0) {
+                    console.log(response.data.feeds,"antes");
+                    for (var i = 0; i < response.data.feeds.length; i++) {
+                        console.log('durante')
+                        if (!response.data.feeds[i].type) {
+                            response.data.feeds[i].type = "badgeAcknowledge";
+                        }
+                    }
+                    console.log(response.data.feeds,"despues");
+
+                    dfd.resolve(response.data);
+                }
             }
         }, function errorCallback(response) {
             dfd.resolve(response.data);
@@ -56,7 +70,7 @@ function FeedService($q, $http, $location, AuthToken) {
                 'x-access-token': user.token
             }
         }).then(function successCallback(response) {
-            if(response.data.success) {
+            if (response.data.success) {
                 dfd.resolve(true);
             }
         }, function errorCallback() {
@@ -78,7 +92,7 @@ function FeedService($q, $http, $location, AuthToken) {
                 'x-access-token': user.token
             }
         }).then(function successCallback(response) {
-            if(response.data.success) {
+            if (response.data.success) {
                 dfd.resolve(true);
             }
         }, function errorCallback() {
@@ -100,7 +114,7 @@ function FeedService($q, $http, $location, AuthToken) {
                 'x-access-token': user.token
             }
         }).then(function successCallback(response) {
-            if(response.data) {
+            if (response.data) {
                 dfd.resolve(response.data);
             }
         }, function errorCallback() {
@@ -121,7 +135,7 @@ function FeedService($q, $http, $location, AuthToken) {
                 'x-access-token': user.token
             }
         }).then(function successCallback(response) {
-            if(response.data) {
+            if (response.data) {
                 dfd.resolve(response.data);
             }
         }, function errorCallback(response) {
@@ -143,7 +157,7 @@ function FeedService($q, $http, $location, AuthToken) {
                 'x-access-token': user.token
             }
         }).then(function successCallback(response) {
-            if(response.data) {
+            if (response.data) {
                 dfd.resolve(response.data);
             }
         }, function errorCallback() {
@@ -165,7 +179,7 @@ function FeedService($q, $http, $location, AuthToken) {
                 'x-access-token': user.token
             }
         }).then(function successCallback(response) {
-            if(response.data.success) {
+            if (response.data.success) {
                 dfd.resolve(true);
             }
         }, function errorCallback() {
@@ -188,7 +202,7 @@ function FeedService($q, $http, $location, AuthToken) {
                 'x-access-token': user.token
             }
         }).then(function successCallback(response) {
-            if(response.data) {
+            if (response.data) {
                 dfd.resolve(response.data);
             }
         }, function errorCallback(response) {
@@ -210,7 +224,7 @@ function FeedService($q, $http, $location, AuthToken) {
                 'x-access-token': user.token
             }
         }).then(function successCallback(response) {
-            if(response.data) {
+            if (response.data) {
                 dfd.resolve(response.data);
             }
         }, function errorCallback() {
@@ -232,7 +246,7 @@ function FeedService($q, $http, $location, AuthToken) {
                 'x-access-token': user.token
             }
         }).then(function successCallback(response) {
-            if(response.data.success) {
+            if (response.data.success) {
                 dfd.resolve(response.data);
             }
         }, function errorCallback(response) {
