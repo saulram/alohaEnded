@@ -97,8 +97,20 @@ exports.post = function (req, res) {
                                                     }
                                                 }
                                             });
-                                            console.log('se creeo el reconocimiento', senderUser);
-                                            feedCtrl.createFeed(senderUser._id, senderUser.completeName, req.body.receiver_id, req.body.completeName, req.body.badgeSlug, req.body.badgePoints, req.body.badgeName, req.body.badgePoints, req.body.senderMessage, req.body.badgeCategory, req.body.receiverLocation);
+                                            
+                                           
+                                            feedCtrl.createFeed(
+                                                senderUser._id, 
+                                                senderUser.completeName,
+                                                 req.body.receiver_id,
+                                                  req.body.completeName,
+                                                   req.body.badgeSlug,
+                                                    req.body.badgePoints, 
+                                                    req.body.badgeName,
+                                                     req.body.badgePoints,
+                                                      req.body.senderMessage, 
+                                                      'badgeAcknowledge',
+                                                       req.body.receiverLocation);
 
                                             res.status(200).json({ success: true });
                                             res.end();

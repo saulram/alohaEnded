@@ -35,9 +35,9 @@ exports.createBadgeAcknowledgment = (badgeId, message, receiver_id, receiverName
             type: type
         };
 
-        if(badgeId) {
+        if (badgeId) {
             data.badgeId = badgeId;
-            if(message === 'ambassador') {
+            if (message === 'ambassador') {
                 data.receiver_id = receiver_id;
                 data.receiverName = receiverName;
                 data.message = 'ambassador';
@@ -46,12 +46,12 @@ exports.createBadgeAcknowledgment = (badgeId, message, receiver_id, receiverName
                 data.receiver_id = receiver_id;
                 data.receiverName = receiverName;
                 data.receiverLocation = receiverLocation;
-                if(sender_id) {
+                if (sender_id) {
                     data.sender_id = sender_id;
                 }
                 data.senderName = senderName;
                 data.senderLocation = senderLocation;
-                if(typeof senderMessage !== 'undefined') {
+                if (typeof senderMessage !== 'undefined') {
                     data.senderMessage = senderMessage;
                 }
             }
@@ -68,42 +68,44 @@ exports.createBadgeAcknowledgment = (badgeId, message, receiver_id, receiverName
 exports.createFeed = function (sender_id, senderName, receiver_id, receiverName, badgeSlug, reward, earnedReason, earnedPoints, message, type, receiverLocation) {
     // create a feed for new reward added
     let data = {
-        type: type
+        type: type 
     };
-    if(reward) {
-        if(reward.reward_id)
+    data.type ="badgeAcknowledge";
+    if (reward) {
+        console.log("reward", reward, "mensaje", message);
+        if (reward.reward_id)
             data.reward_id = reward.reward_id;
-        if(reward._id)
+        if (reward._id)
             data.reward_id = reward._id;
-        if(reward.rewardName)
+        if (reward.rewardName)
             data.rewardName = reward.rewardName;
-        if(reward.name)
+        if (reward.name)
             data.rewardName = reward.name;
-        if(reward.description)
-            data.message = reward.description;
-        if(receiver_id)
+        if (message)
+            data.message = message;
+        if (receiver_id)
             data.receiver_id = receiver_id;
-        if(receiverName)
+        if (receiverName)
             data.receiverName = receiverName;
-        if(reward.rewardImage)
+        if (reward.rewardImage)
             data.rewardImage = reward.rewardImage.substring(reward.rewardImage.lastIndexOf("/") + 1);
-        if(reward.image)
+        if (reward.image)
             data.rewardImage = reward.image;
-        if(reward.points)
+        if (reward.points)
             data.rewardPoints = reward.points;
-        if(reward.expiresAt)
+        if (reward.expiresAt)
             data.rewardExpiresAt = reward.expiresAt;
-        if(receiverLocation) {
+        if (receiverLocation) {
             data.receiverLocation = receiverLocation;
         }
 
-        createFeed(data);
+
     }
 
     // create a feed for badge acknowledgment
-    if(badgeSlug) {
+    if (badgeSlug) {
         data.badgeSlug = badgeSlug;
-        if(message === 'ambassador') {
+        if (message === 'ambassador') {
             data.receiver_id = receiver_id;
             data.receiverName = receiverName;
             data.message = 'ambassador';
@@ -111,23 +113,24 @@ exports.createFeed = function (sender_id, senderName, receiver_id, receiverName,
             data.receiver_id = receiver_id;
             data.receiverLocation = receiverLocation;
             data.receiverName = receiverName;
-            if(sender_id) {
+            if (sender_id) {
                 data.sender_id = sender_id;
             }
             data.senderName = senderName;
         }
 
-        createFeed(data);
+
+
     }
 
-    if(earnedReason) {
-        if(earnedReason === 'performance') {
+    if (earnedReason) {
+        if (earnedReason === 'performance') {
             data.receiver_id = receiver_id;
             data.receiverName = receiverName;
             data.earnedPoints = earnedPoints;
             data.earnedReason = 'Desempeño';
         }
-        if(earnedReason === "upgrade") {
+        if (earnedReason === "upgrade") {
             data.receiverName = receiverName;
             data.receiver_id = receiver_id;
             data.earnedReason = earnedReason;
@@ -135,19 +138,21 @@ exports.createFeed = function (sender_id, senderName, receiver_id, receiverName,
             data.message = message;
         }
 
-        createFeed(data);
+
+
     }
+    createFeed(data);
 };
 
 let createFeedPromise = data => {
     return new Promise((resolve, reject) => {
         const feed = new Feed(data);
-        feed.save(function(err, doc) {
-            if(err) {
+        feed.save(function (err, doc) {
+            if (err) {
                 console.error('FeedsCtrl Create feed. ' + err);
                 reject(err);
             }
-            if(doc) {
+            if (doc) {
                 notificationService.newNotification(doc);
                 resolve(true);
             } else {
@@ -158,14 +163,15 @@ let createFeedPromise = data => {
 };
 
 function createFeed(data) {
-    console.log("Se crea el feed",data);
+    console.log("Se crea el feed", data);
     const feed = new Feed(data);
-    feed.save(function(err, doc) {
-        if(err) {
+    feed.save(function (err, doc) {
+        if (err) {
             console.log('FeedsCtrl Create feed. ' + err);
         }
-        if(doc) {
-            notificationService.newNotification(doc);
+        if (doc) {
+            console.log("Se crea el feed", doc);
+            //notificationService.newNotification(doc);
         }
     });
 }
@@ -179,13 +185,13 @@ exports.get = function (req, res) {
             Feed
                 .find(query)
                 .limit(20)
-                .sort({createdAt: -1})
+                .sort({ createdAt: -1 })
                 .lean()
                 .exec((err, feeds) => {
-                    if(err) {
+                    if (err) {
                         console.error(err);
                     }
-                    if(feeds.length > 0) {
+                    if (feeds.length > 0) {
                         resolve(feeds);
                     } else {
                         reject('No feeds found');
@@ -201,7 +207,7 @@ exports.get = function (req, res) {
      */
     let customFeedPromise = feeds => {
         return new Promise((resolve, reject) => {
-            if(typeof feeds !== 'undefined') {
+            if (typeof feeds !== 'undefined') {
                 let feedsPromise = [];
 
                 feeds.forEach(feed => feedsPromise.push(customFeed(feed)));
@@ -227,9 +233,9 @@ exports.get = function (req, res) {
             const today = moment().format("DD-MM-YYYY");
             const yesterday = moment().add(-1, 'day').format("DD-MM-YYYY");
 
-            if(today === moment(feed.createdAt).format("DD-MM-YYYY"))
+            if (today === moment(feed.createdAt).format("DD-MM-YYYY"))
                 customFeedData.createdAt = "Hoy";
-            else if(yesterday === moment(feed.createdAt).format("DD-MM-YYYY"))
+            else if (yesterday === moment(feed.createdAt).format("DD-MM-YYYY"))
                 customFeedData.createdAt = 'Ayer';
             else {
                 const formatL = moment.utc(feed.createdAt).locale('es').format('LL');
@@ -239,94 +245,94 @@ exports.get = function (req, res) {
 
             customFeedData._id = feed._id;
             customFeedData.count = feed.likes.count;
-            if(typeof feed.sender_id !== 'undefined') {
+            if (typeof feed.sender_id !== 'undefined') {
                 customFeedData.sender_id = feed.sender_id;
             }
-            if(typeof feed.senderName !== 'undefined') {
+            if (typeof feed.senderName !== 'undefined') {
                 customFeedData.senderName = feed.senderName.toLowerCase();
             }
-            if(typeof feed.receiver_id !== 'undefined') {
+            if (typeof feed.receiver_id !== 'undefined') {
                 customFeedData.receiver_id = feed.receiver_id;
             }
-            if(typeof feed.receiverName !== 'undefined') {
+            if (typeof feed.receiverName !== 'undefined') {
                 customFeedData.receiverName = feed.receiverName.toLowerCase();
             }
-            if(typeof feed.badgeSlug !== 'undefined') {
+            if (typeof feed.badgeSlug !== 'undefined') {
                 customFeedData.badgeSlug = feed.badgeSlug;
             }
-            if(typeof feed.reward_id !== 'undefined') {
+            if (typeof feed.reward_id !== 'undefined') {
                 customFeedData.reward_id = feed.reward_id;
             }
-            if(typeof feed.rewardName !== 'undefined') {
+            if (typeof feed.rewardName !== 'undefined') {
                 customFeedData.rewardName = feed.rewardName;
             }
-            if(typeof feed.rewardImage !== 'undefined') {
+            if (typeof feed.rewardImage !== 'undefined') {
                 customFeedData.rewardImage = feed.rewardImage;
             }
-            if(typeof feed.rewardPoints !== 'undefined') {
+            if (typeof feed.rewardPoints !== 'undefined') {
                 customFeedData.rewardPoints = feed.rewardPoints;
             }
-            if(typeof feed.earnedReason !== 'undefined') {
+            if (typeof feed.earnedReason !== 'undefined') {
                 customFeedData.earnedReason = feed.earnedReason;
             }
-            if(typeof feed.earnedPoints !== 'undefined') {
+            if (typeof feed.earnedPoints !== 'undefined') {
                 customFeedData.earnedPoints = feed.earnedPoints;
             }
-            if(typeof feed.message !== 'undefined') {
+            if (typeof feed.message !== 'undefined') {
                 customFeedData.message = feed.message;
             }
-            if(typeof feed.rewardExpiresAt !== 'undefined') {
+            if (typeof feed.rewardExpiresAt !== 'undefined') {
                 customFeedData.rewardExpiresAt = moment.utc(feed.rewardExpiresAt).locale('es').format('LL');
             }
-            if(typeof feed.comments !== 'undefined') {
+            if (typeof feed.comments !== 'undefined') {
                 customFeedData.comments = feed.comments.sort(function (a, b) {
-                    if(a.postedAt < b.postedAt)
+                    if (a.postedAt < b.postedAt)
                         return 1;
-                    if(a.postedAt > b.postedAt)
+                    if (a.postedAt > b.postedAt)
                         return -1;
                     return 0;
                 });
             }
-            if(typeof feed.senderMessage !== 'undefined') {
+            if (typeof feed.senderMessage !== 'undefined') {
                 customFeedData.senderMessage = feed.senderMessage;
             }
 
             // set the like status if the user has done it before
             const userIndex = feed.likes.collaborator_id.indexOf(collaborator_id);
-            if(userIndex > -1) {
+            if (userIndex > -1) {
                 customFeedData.likeStatus = 'active';
             }
 
-            if(customFeedData.receiver_id && (customFeedData.rewardName || customFeedData.earnedReason)) {
-                if(customFeedData.earnedReason === "Desempeño" && !customFeedData.badgeSlug) {
+            if (customFeedData.receiver_id && (customFeedData.rewardName || customFeedData.earnedReason)) {
+                if (customFeedData.earnedReason === "Desempeño" && !customFeedData.badgeSlug) {
                     //customFeedData.receiverName = feed.receiverName.toLowerCase();
                     customFeedData.badgeImage = "/assets/images/gp-desempeno.png";
                     customFeedData.type = 'imports';
                 }
-                else if(customFeedData.earnedReason === "upgrade" && !customFeedData.badgeSlug) {
+                else if (customFeedData.earnedReason === "upgrade" && !customFeedData.badgeSlug) {
                     //customFeedData.receiverName = feed.receiverName.toLowerCase();
                     customFeedData.message = feed.message;
                     customFeedData.type = 'imports';
-                    if(feed.message === 'bronce' || feed.message === 'BRONCE' || feed.message === 'Bronce')
+                    if (feed.message === 'bronce' || feed.message === 'BRONCE' || feed.message === 'Bronce')
                         customFeedData.badgeImage = "/assets/images/upgrade-bronce.png";
-                    else if(feed.message === 'plata' || feed.message === 'PLATA' || feed.message === 'Plata')
+                    else if (feed.message === 'plata' || feed.message === 'PLATA' || feed.message === 'Plata')
                         customFeedData.badgeImage = "/assets/images/upgrade-plata.png";
-                    else if(feed.message === 'oro' || feed.message === 'ORO' || feed.message === 'Oro')
+                    else if (feed.message === 'oro' || feed.message === 'ORO' || feed.message === 'Oro')
                         customFeedData.badgeImage = "/assets/images/upgrade-oro.png";
-                    else if(feed.message === 'diamante' || feed.message === 'DIAMANTE' || feed.message === 'Diamante')
+                    else if (feed.message === 'diamante' || feed.message === 'DIAMANTE' || feed.message === 'Diamante')
                         customFeedData.badgeImage = "/assets/images/upgrade-diamante.png";
                 }
-                else if(customFeedData.receiver_id && customFeedData.rewardImage && !customFeedData.badgeSlug) {
+                else if (customFeedData.receiver_id && customFeedData.rewardImage && !customFeedData.badgeSlug) {
                     customFeedData.type = 'rewardRedeemed';
                     customFeedData.rewardImage = '/assets/images/rewards/' + feed.rewardImage;
                 }
-                else if(customFeedData.earnedReason === "seniority" && !customFeedData.badgeSlug) {
+                else if (customFeedData.earnedReason === "seniority" && !customFeedData.badgeSlug) {
                     //customFeedData.receiverName = feed.receiverName.toLowerCase();
                     customFeedData.type = 'imports';
                 }
             }
 
-            if(customFeedData.reward_id && !customFeedData.receiver_id) {
+            if (customFeedData.reward_id && !customFeedData.receiver_id) {
                 customFeedData.type = 'rewardCreated';
                 customFeedData.rewardImage = "/assets/images/rewards/" + feed.rewardImage;
             }
@@ -337,7 +343,7 @@ exports.get = function (req, res) {
 
     let receiverPromise = feeds => {
         return new Promise((resolve, reject) => {
-            if(typeof feeds !== 'undefined') {
+            if (typeof feeds !== 'undefined') {
                 let usersPromise = [];
 
                 feeds.forEach(feed => usersPromise.push(getUser(feed)));
@@ -356,21 +362,21 @@ exports.get = function (req, res) {
                 .findOne(userQuery)
                 .lean()
                 .exec((err, user) => {
-                    if(err)
+                    if (err)
                         console.error(err);
-                    if(user) {
+                    if (user) {
                         let data = customFeed;
                         data.receiverName = user.completeName.toLowerCase();
-                        if(user.location === 'MEXICO') {
+                        if (user.location === 'MEXICO') {
                             data.location = 'POLANCO';
                         }
                         else {
                             data.location = user.location;
                         }
 
-                        if(customFeed.earnedReason === "seniority" && !customFeed.badgeSlug) {
+                        if (customFeed.earnedReason === "seniority" && !customFeed.badgeSlug) {
                             data.seniority = user.seniority;
-                            if(user.seniority !== 1)
+                            if (user.seniority !== 1)
                                 data.badgeImage = "/assets/images/ico_" + user.seniority + '.png';
                             else
                                 data.badgeImage = "/assets/images/aloha/aloha-a.png";
@@ -387,7 +393,7 @@ exports.get = function (req, res) {
 
     let badgePromise = customFeeds => {
         return new Promise((resolve, reject) => {
-            if(typeof customFeeds !== 'undefined') {
+            if (typeof customFeeds !== 'undefined') {
                 let badgePromise = [];
 
                 customFeeds.forEach(feed => badgePromise.push(getBadge(feed)));
@@ -403,7 +409,7 @@ exports.get = function (req, res) {
 
     function getBadge(customFeed) {
         return new Promise(resolve => {
-            if(typeof customFeed.badgeSlug !== 'undefined') {
+            if (typeof customFeed.badgeSlug !== 'undefined') {
                 const badgeQuery = { slug: customFeed.badgeSlug };
                 Badge
                     .findOne(badgeQuery)
@@ -417,7 +423,7 @@ exports.get = function (req, res) {
                             let data = customFeed;
 
                             if (typeof customFeed.message !== 'undefined') {
-                                if(customFeed.message  === 'ambassador') {
+                                if (customFeed.message === 'ambassador') {
                                     data.type = "ambassador";
                                 }
                             } else {
@@ -441,7 +447,7 @@ exports.get = function (req, res) {
 
     let senderPromise = customFeeds => {
         return new Promise(resolve => {
-            if(typeof customFeeds !== 'undefined') {
+            if (typeof customFeeds !== 'undefined') {
                 let usersPromise = [];
                 customFeeds.forEach(feed => usersPromise.push(getReceiver(feed)));
 
@@ -454,20 +460,20 @@ exports.get = function (req, res) {
 
     function getReceiver(customFeed) {
         return new Promise(resolve => {
-            if(typeof customFeed.sender_id !== 'undefined') {
+            if (typeof customFeed.sender_id !== 'undefined') {
                 const userQuery = { _id: customFeed.sender_id };
                 User
                     .findOne(userQuery)
                     .lean()
                     .exec((err, user) => {
-                        if(err) {
+                        if (err) {
                             console.error(err);
                             resolve(customFeed);
                         }
-                        if(user) {
+                        if (user) {
                             let data = customFeed;
                             data.senderName = user.completeName.toLowerCase();
-                            if(user.location === 'MEXICO') {
+                            if (user.location === 'MEXICO') {
                                 data.senderlocation = 'POLANCO';
                             }
                             else {
@@ -494,7 +500,7 @@ exports.get = function (req, res) {
             feeds: []
         };
 
-        if(typeof feeds !== 'undefined') {
+        if (typeof feeds !== 'undefined') {
             resData.feeds = feeds;
             res.status(200).json(resData);
         } else {
@@ -508,13 +514,13 @@ exports.get = function (req, res) {
         isActive: true
     };
 
-    if(req.query.type === 'byId') {
+    if (req.query.type === 'byId') {
         query.receiver_id = collaborator_id;
     }
-    if(req.query._id) {
-        query._id = {$lt: req.query._id};
+    if (req.query._id) {
+        query._id = { $lt: req.query._id };
     }
-    if(req.query.type === 'byFeedId') {
+    if (req.query.type === 'byFeedId') {
         query._id = req.query._id;
     }
 
@@ -532,22 +538,22 @@ exports.putFeedLike = function (req, res) {
         collaborator_id: jwtValidation.getUserId(req.headers['x-access-token'])
     };
     const query = {
-        likes: {$nin: [data.collaborator_id]}
+        likes: { $nin: [data.collaborator_id] }
     };
 
-    if(req.query.feed_id)
+    if (req.query.feed_id)
         query._id = req.query.feed_id;
 
-    Feed.findOneAndUpdate(query, {$addToSet: {"likes.collaborator_id": data.collaborator_id}, $inc: {"likes.count": 1}}, {new: true}, function (err, updatedFeed) {
-        if(err)
+    Feed.findOneAndUpdate(query, { $addToSet: { "likes.collaborator_id": data.collaborator_id }, $inc: { "likes.count": 1 } }, { new: true }, function (err, updatedFeed) {
+        if (err)
             console.log('Error at adding like to feed. ' + err);
-        if(updatedFeed) {
+        if (updatedFeed) {
             updatedFeed.likeSender_id = data.collaborator_id;
-            res.status(201).json({success: true});
+            res.status(201).json({ success: true });
 
             helpers.getUserById(data.collaborator_id)
                 .then(user => {
-                    if(typeof user !== 'undefined') {
+                    if (typeof user !== 'undefined') {
                         const customFeed = updatedFeed;
 
                         customFeed.sender_id = user._id;
@@ -566,7 +572,7 @@ exports.putFeedLike = function (req, res) {
                     console.log('Promise fail. ' + error);
                 })
                 .done(function (emailData) {
-                    if(emailData) {
+                    if (emailData) {
                         //sendEmailNotification(emailData);
                     }
                 });
@@ -583,23 +589,23 @@ exports.putFeedLike = function (req, res) {
 
     function validateNotification(feed) {
         let dfd = Q.defer();
-        if(feed && (feed.receiver_id !== feed.likeSender_id)) {
+        if (feed && (feed.receiver_id !== feed.likeSender_id)) {
             helpers.validateNotifications(feed.receiver_id, function (userData) {
-                if(!!userData) {
-                    if(!!userData.notifications.feedLike) {
+                if (!!userData) {
+                    if (!!userData.notifications.feedLike) {
                         let data = {
                             email: userData.email,
                             likeSender_id: feed.likeSender_id
                         };
-                        if(feed.badgeSlug)
+                        if (feed.badgeSlug)
                             data.badgeSlug = feed.badgeSlug;
-                        if(feed.earnedReason)
+                        if (feed.earnedReason)
                             data.earnedReason = feed.earnedReason;
-                        if(feed.rewardName)
+                        if (feed.rewardName)
                             data.earnedReason = 'reward';
-                        if(feed.message === 'ambassador')
+                        if (feed.message === 'ambassador')
                             data.earnedReason = 'ambassador';
-                        if(feed.message !== 'ambassdor' && feed.badgeSlug)
+                        if (feed.message !== 'ambassdor' && feed.badgeSlug)
                             data.earnedReason = 'badge';
 
                         dfd.resolve(data);
@@ -616,11 +622,11 @@ exports.putFeedLike = function (req, res) {
 
     function searchLikeSender(data) {
         let dfd = Q.defer();
-        if(data.likeSender_id) {
-            User.findOne({_id: data.likeSender_id}, function (err, userLikeSender) {
-                if(err)
+        if (data.likeSender_id) {
+            User.findOne({ _id: data.likeSender_id }, function (err, userLikeSender) {
+                if (err)
                     console.log('Error at finding user. ' + err);
-                if(userLikeSender) {
+                if (userLikeSender) {
                     let info = data;
                     info.likeSenderName = userLikeSender.completeName;
                     dfd.resolve(info);
@@ -636,11 +642,11 @@ exports.putFeedLike = function (req, res) {
 
     function searchBadgeName(data) {
         let dfd = Q.defer();
-        if(data && data.badgeSlug) {
-            Badge.findOne({slug: data.badgeSlug}, function (err, badge) {
-                if(err)
+        if (data && data.badgeSlug) {
+            Badge.findOne({ slug: data.badgeSlug }, function (err, badge) {
+                if (err)
                     console.log('Error at finding badge slug. ' + err);
-                if(badge) {
+                if (badge) {
                     let info = data;
                     info.badgeName = badge.name;
                     dfd.resolve(info);
@@ -668,17 +674,17 @@ exports.deleteFeedLike = function (req, res) {
     };
     var query = {};
 
-    if(req.query.feed_id)
+    if (req.query.feed_id)
         query._id = req.query.feed_id;
 
-    Feed.update(query, {$pull: {"likes.collaborator_id": {$in: [data.collaborator_id]}}, $inc: {"likes.count": -1}}, function (err) {
-        if(err) {
+    Feed.update(query, { $pull: { "likes.collaborator_id": { $in: [data.collaborator_id] } }, $inc: { "likes.count": -1 } }, function (err) {
+        if (err) {
             console.log(err);
-            res.status(500).json({success: false, error: err});
+            res.status(500).json({ success: false, error: err });
             res.end();
         }
         else {
-            res.status(201).json({success: true});
+            res.status(201).json({ success: true });
             res.end();
         }
     });
@@ -688,16 +694,16 @@ exports.adminGet = function (req, res) {
     let query = {
         isActive: true
     };
-    if(req.query.lastId)
-        query._id = {$lt: req.query.lastId};
+    if (req.query.lastId)
+        query._id = { $lt: req.query.lastId };
 
     Feed.find(query)
-        .sort({createdAt: -1})
+        .sort({ createdAt: -1 })
         .limit(100)
         .exec(function (err, feeds) {
-            if(err)
+            if (err)
                 console.log('FeedsCtrl - get. ' + err);
-            if(feeds) {
+            if (feeds) {
                 const feedsEdited = feeds.map(function (feed) {
                     return {
                         createdAt: moment(feed.createdAt).format('YYYY-MM-DD'),
@@ -729,16 +735,16 @@ exports.adminDelete = function (req, res) {
     };
 
     Feed
-        .update(query, {$set: {isActive: false}})
+        .update(query, { $set: { isActive: false } })
         .exec(function (err, result) {
-            if(err)
+            if (err)
                 console.log('FeedsCtrl adminDelete. ' + err);
-            if(result) {
-                res.status(200).json({success: true});
+            if (result) {
+                res.status(200).json({ success: true });
                 res.end();
             }
             else {
-                res.status(400).json({success: false});
+                res.status(400).json({ success: false });
                 res.end();
             }
         })
@@ -753,18 +759,18 @@ exports.getLikes = (req, res) => {
         feeds: []
     };
 
-    if(typeof req.query.dateFrom !== 'undefined' && typeof req.query.dateTo !== 'undefined') {
+    if (typeof req.query.dateFrom !== 'undefined' && typeof req.query.dateTo !== 'undefined') {
         let feedsPromise = query => {
             return new Promise((resolve, reject) => {
                 Feed
                     .find(query)
-                    .sort({createdAt: -1})
+                    .sort({ createdAt: -1 })
                     .lean()
                     .exec((err, feeds) => {
-                        if(err) {
+                        if (err) {
                             console.error(err);
                         }
-                        if(feeds.length > 0) {
+                        if (feeds.length > 0) {
                             resolve(feeds);
                         } else {
                             reject('Data not found');
@@ -854,10 +860,10 @@ exports.getLikes = (req, res) => {
     }
 
     function sendResponse(feeds) {
-        if(typeof feeds !== 'undefined') {
-            if(req.query.type === 'csv') {
+        if (typeof feeds !== 'undefined') {
+            if (req.query.type === 'csv') {
                 try {
-                    json2csv({ data: rows, fields: fields }, function(err, csv) {
+                    json2csv({ data: rows, fields: fields }, function (err, csv) {
                         if (err) {
                             console.error(err);
                         }
@@ -883,24 +889,26 @@ exports.getById = (req, res) => {
     const collaborator_id = jwtValidation.getUserId(req.headers['x-access-token']);
     let feedPromise = query => {
         return new Promise((resolve, reject) => {
-            const projection = { createdAt: 1, type: 1, badgeSlug: 1, receiver_id: 1, receiverName:1, receiverLocation: 1,
+            const projection = {
+                createdAt: 1, type: 1, badgeSlug: 1, receiver_id: 1, receiverName: 1, receiverLocation: 1,
                 sender_id: 1, senderName: 1, senderLocation: 1, senderMessage: 1, comments: 1, likes: 1, earnedReason: 1,
-                earnedPoints: 1, reward_id: 1, rewardName: 1, rewardImage: 1, rewardPoints: 1 };
+                earnedPoints: 1, reward_id: 1, rewardName: 1, rewardImage: 1, rewardPoints: 1
+            };
             Feed
                 .findOne(query, projection)
                 .lean()
                 .exec((err, feed) => {
-                    if(err) {
+                    if (err) {
                         console.error(err);
                     }
-                    if(feed) {
+                    if (feed) {
                         let customFeedData = {};
                         const today = moment().format("DD-MM-YYYY");
                         const yesterday = moment().add(-1, 'day').format("DD-MM-YYYY");
 
-                        if(today === moment(feed.createdAt).format("DD-MM-YYYY"))
+                        if (today === moment(feed.createdAt).format("DD-MM-YYYY"))
                             customFeedData.createdAt = "Hoy";
-                        else if(yesterday === moment(feed.createdAt).format("DD-MM-YYYY"))
+                        else if (yesterday === moment(feed.createdAt).format("DD-MM-YYYY"))
                             customFeedData.createdAt = 'Ayer';
                         else {
                             const formatL = moment.utc(feed.createdAt).locale('es').format('LL');
@@ -910,94 +918,94 @@ exports.getById = (req, res) => {
 
                         customFeedData._id = feed._id;
                         customFeedData.count = feed.likes.count;
-                        if(typeof feed.sender_id !== 'undefined') {
+                        if (typeof feed.sender_id !== 'undefined') {
                             customFeedData.sender_id = feed.sender_id;
                         }
-                        if(typeof feed.senderName !== 'undefined') {
+                        if (typeof feed.senderName !== 'undefined') {
                             customFeedData.senderName = feed.senderName.toLowerCase();
                         }
-                        if(typeof feed.receiver_id !== 'undefined') {
+                        if (typeof feed.receiver_id !== 'undefined') {
                             customFeedData.receiver_id = feed.receiver_id;
                         }
-                        if(typeof feed.receiverName !== 'undefined') {
+                        if (typeof feed.receiverName !== 'undefined') {
                             customFeedData.receiverName = feed.receiverName.toLowerCase();
                         }
-                        if(typeof feed.badgeSlug !== 'undefined') {
+                        if (typeof feed.badgeSlug !== 'undefined') {
                             customFeedData.badgeSlug = feed.badgeSlug;
                         }
-                        if(typeof feed.reward_id !== 'undefined') {
+                        if (typeof feed.reward_id !== 'undefined') {
                             customFeedData.reward_id = feed.reward_id;
                         }
-                        if(typeof feed.rewardName !== 'undefined') {
+                        if (typeof feed.rewardName !== 'undefined') {
                             customFeedData.rewardName = feed.rewardName;
                         }
-                        if(typeof feed.rewardImage !== 'undefined') {
+                        if (typeof feed.rewardImage !== 'undefined') {
                             customFeedData.rewardImage = feed.rewardImage;
                         }
-                        if(typeof feed.rewardPoints !== 'undefined') {
+                        if (typeof feed.rewardPoints !== 'undefined') {
                             customFeedData.rewardPoints = feed.rewardPoints;
                         }
-                        if(typeof feed.earnedReason !== 'undefined') {
+                        if (typeof feed.earnedReason !== 'undefined') {
                             customFeedData.earnedReason = feed.earnedReason;
                         }
-                        if(typeof feed.earnedPoints !== 'undefined') {
+                        if (typeof feed.earnedPoints !== 'undefined') {
                             customFeedData.earnedPoints = feed.earnedPoints;
                         }
-                        if(typeof feed.message !== 'undefined') {
+                        if (typeof feed.message !== 'undefined') {
                             customFeedData.message = feed.message;
                         }
-                        if(typeof feed.rewardExpiresAt !== 'undefined') {
+                        if (typeof feed.rewardExpiresAt !== 'undefined') {
                             customFeedData.rewardExpiresAt = moment.utc(feed.rewardExpiresAt).locale('es').format('LL');
                         }
-                        if(typeof feed.comments !== 'undefined') {
+                        if (typeof feed.comments !== 'undefined') {
                             customFeedData.comments = feed.comments.sort(function (a, b) {
-                                if(a.postedAt < b.postedAt)
+                                if (a.postedAt < b.postedAt)
                                     return 1;
-                                if(a.postedAt > b.postedAt)
+                                if (a.postedAt > b.postedAt)
                                     return -1;
                                 return 0;
                             });
                         }
-                        if(typeof feed.senderMessage !== 'undefined') {
+                        if (typeof feed.senderMessage !== 'undefined') {
                             customFeedData.senderMessage = feed.senderMessage;
                         }
 
                         // set the like status if the user has done it before
                         const userIndex = feed.likes.collaborator_id.indexOf(collaborator_id);
-                        if(userIndex > -1) {
+                        if (userIndex > -1) {
                             customFeedData.likeStatus = 'active';
                         }
 
-                        if(customFeedData.receiver_id && (customFeedData.rewardName || customFeedData.earnedReason)) {
-                            if(customFeedData.earnedReason === "Desempeño" && !customFeedData.badgeSlug) {
+                        if (customFeedData.receiver_id && (customFeedData.rewardName || customFeedData.earnedReason)) {
+                            if (customFeedData.earnedReason === "Desempeño" && !customFeedData.badgeSlug) {
                                 //customFeedData.receiverName = feed.receiverName.toLowerCase();
                                 customFeedData.badgeImage = "/assets/images/gp-desempeno.png";
                                 customFeedData.type = 'imports';
                             }
-                            else if(customFeedData.earnedReason === "upgrade" && !customFeedData.badgeSlug) {
+                            else if (customFeedData.earnedReason === "upgrade" && !customFeedData.badgeSlug) {
                                 //customFeedData.receiverName = feed.receiverName.toLowerCase();
                                 customFeedData.message = feed.message;
                                 customFeedData.type = 'imports';
-                                if(feed.message === 'bronce' || feed.message === 'BRONCE' || feed.message === 'Bronce')
+                                if (feed.message === 'bronce' || feed.message === 'BRONCE' || feed.message === 'Bronce')
                                     customFeedData.badgeImage = "/assets/images/upgrade-bronce.png";
-                                else if(feed.message === 'plata' || feed.message === 'PLATA' || feed.message === 'Plata')
+                                else if (feed.message === 'plata' || feed.message === 'PLATA' || feed.message === 'Plata')
                                     customFeedData.badgeImage = "/assets/images/upgrade-plata.png";
-                                else if(feed.message === 'oro' || feed.message === 'ORO' || feed.message === 'Oro')
+                                else if (feed.message === 'oro' || feed.message === 'ORO' || feed.message === 'Oro')
                                     customFeedData.badgeImage = "/assets/images/upgrade-oro.png";
-                                else if(feed.message === 'diamante' || feed.message === 'DIAMANTE' || feed.message === 'Diamante')
+                                else if (feed.message === 'diamante' || feed.message === 'DIAMANTE' || feed.message === 'Diamante')
                                     customFeedData.badgeImage = "/assets/images/upgrade-diamante.png";
                             }
-                            else if(customFeedData.receiver_id && customFeedData.rewardImage && !customFeedData.badgeSlug) {
+                            else if (customFeedData.receiver_id && customFeedData.rewardImage && !customFeedData.badgeSlug) {
                                 customFeedData.type = 'rewardRedeemed';
                                 customFeedData.rewardImage = '/assets/images/rewards/' + feed.rewardImage;
                             }
-                            else if(customFeedData.earnedReason === "seniority" && !customFeedData.badgeSlug) {
+                            else if (customFeedData.earnedReason === "seniority" && !customFeedData.badgeSlug) {
                                 //customFeedData.receiverName = feed.receiverName.toLowerCase();
                                 customFeedData.type = 'imports';
                             }
                         }
 
-                        if(customFeedData.reward_id && !customFeedData.receiver_id) {
+                        if (customFeedData.reward_id && !customFeedData.receiver_id) {
                             customFeedData.type = 'rewardCreated';
                             customFeedData.rewardImage = "/assets/images/rewards/" + feed.rewardImage;
                         }
@@ -1018,21 +1026,21 @@ exports.getById = (req, res) => {
                 .findOne(userQuery, projection)
                 .lean()
                 .exec((err, user) => {
-                    if(err)
+                    if (err)
                         console.error(err);
-                    if(user) {
+                    if (user) {
                         let data = customFeed;
                         data.receiverName = user.completeName.toLowerCase();
-                        if(user.location === 'MEXICO') {
+                        if (user.location === 'MEXICO') {
                             data.location = 'POLANCO';
                         }
                         else {
                             data.location = user.location;
                         }
 
-                        if(customFeed.earnedReason === "seniority" && !customFeed.badgeSlug) {
+                        if (customFeed.earnedReason === "seniority" && !customFeed.badgeSlug) {
                             data.seniority = user.seniority;
-                            if(user.seniority !== 1)
+                            if (user.seniority !== 1)
                                 data.badgeImage = "/assets/images/ico_" + user.seniority + '.png';
                             else
                                 data.badgeImage = "/assets/images/logo-valora-icono.png";
@@ -1049,7 +1057,7 @@ exports.getById = (req, res) => {
 
     let badgePromise = customFeed => {
         return new Promise(resolve => {
-            if(typeof customFeed.badgeSlug !== 'undefined') {
+            if (typeof customFeed.badgeSlug !== 'undefined') {
                 const badgeQuery = { slug: customFeed.badgeSlug };
                 Badge
                     .findOne(badgeQuery, { name: 1, image: 1 })
@@ -1061,7 +1069,7 @@ exports.getById = (req, res) => {
                             let data = customFeed;
 
                             if (typeof customFeed.message !== 'undefined') {
-                                if(customFeed.message  === 'ambassador') {
+                                if (customFeed.message === 'ambassador') {
                                     data.type = "ambassador";
                                 }
                             } else {
@@ -1083,20 +1091,20 @@ exports.getById = (req, res) => {
 
     let senderPromise = customFeed => {
         return new Promise(resolve => {
-            if(typeof customFeed.sender_id !== 'undefined') {
+            if (typeof customFeed.sender_id !== 'undefined') {
                 const userQuery = { _id: customFeed.sender_id };
                 const projection = { completeName: 1, location: 1, seniority: 1 };
                 User
                     .findOne(userQuery, projection)
                     .lean()
                     .exec((err, user) => {
-                        if(err) {
+                        if (err) {
                             console.error(err);
                         }
-                        if(user) {
+                        if (user) {
                             let data = customFeed;
                             data.senderName = user.completeName.toLowerCase();
-                            if(user.location === 'MEXICO') {
+                            if (user.location === 'MEXICO') {
                                 data.senderlocation = 'POLANCO';
                             }
                             else {
@@ -1120,7 +1128,7 @@ exports.getById = (req, res) => {
             feed: {}
         };
 
-        if(typeof customFeed !== 'undefined') {
+        if (typeof customFeed !== 'undefined') {
             resData.feed = customFeed;
             res.status(200).json(resData);
         } else {
@@ -1131,7 +1139,7 @@ exports.getById = (req, res) => {
     }
 
     let query = {};
-    if(req.params.feed_id) {
+    if (req.params.feed_id) {
         query._id = req.params.feed_id;
     }
 
