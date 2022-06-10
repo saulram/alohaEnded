@@ -11,7 +11,7 @@
         <p ng-show="feed.badgeName">
             <strong class="text-capitalize">{{feed.receiverName}}</strong> de
             <strong class="text-capitalize">{{feed.location}}</strong> ha recibido una insignia de <strong>
-            {{feed.badgeName}}</strong> de parte de <strong class="text-capitalize">{{feed.senderName}}</strong>
+            {{feed.badgeName}}</strong> de parte de <strong class="text-capitalize">{{feed.senderName}}</strong>   -<q>{{feed.message}}</q>
         </p>
         <p ng-show="feed.senderMessage" class="personal-message">Mensaje de <span class="text-capitalize">{{feed.senderName}}</span>: "{{feed.senderMessage}}"</p>
     </div>
