@@ -64,7 +64,7 @@ app.directive('chartactiveusers', ["$interval", function ($interval) {
                 type: 'line',
                 backgroundColor: '#000',
                 data: {
-                    labels: ['Noviembre 2019', 'Diciembre 2019', 'Enero 2020', 'Febrero 2020', 'Marzo 2020', 'Abril 2020'],
+                    labels: ['Enero 2022', 'Febrero 2022', 'Marzo 2022', 'Abril 2022', 'Mayo 2022', 'Junio 2022'],
                     datasets: [{
                         label: '# Usuarios',
                         fill: false,
