@@ -97,20 +97,20 @@ exports.post = function (req, res) {
                                                     }
                                                 }
                                             });
-                                            
-                                           
+
+
                                             feedCtrl.createFeed(
-                                                senderUser._id, 
+                                                senderUser._id,
                                                 senderUser.completeName,
-                                                 req.body.receiver_id,
-                                                  req.body.completeName,
-                                                   req.body.badgeSlug,
-                                                    req.body.badgePoints, 
-                                                    req.body.badgeName,
-                                                     req.body.badgePoints,
-                                                      req.body.senderMessage, 
-                                                      'badgeAcknowledge',
-                                                       req.body.receiverLocation);
+                                                req.body.receiver_id,
+                                                req.body.completeName,
+                                                req.body.badgeSlug,
+                                                req.body.badgePoints,
+                                                req.body.badgeName,
+                                                req.body.badgePoints,
+                                                req.body.senderMessage,
+                                                'badgeAcknowledge',
+                                                req.body.receiverLocation);
 
                                             res.status(200).json({ success: true });
                                             res.end();
@@ -211,7 +211,9 @@ exports.post = function (req, res) {
     }
 
     function incrementUserPoints(user_id, points) {
-        userCtrl.incCurrentPoints(user_id, points, function (docs) { });
+        userCtrl.incCurrentPoints(user_id, points, function (docs) {
+            console.log('Points incremented', docs);
+        });
     }
 
     function isBecomingAmbassador(query, badgeCategory, receiver_id, senderUser_id, badgeId) {
