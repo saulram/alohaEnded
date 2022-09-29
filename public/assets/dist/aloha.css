@@ -195,7 +195,7 @@ html,body{
         height:240px
     }
     .navbar-default .navbar-collapse {
-        background: #ffffff;
+        background: #ffffff!important;
         position: relative;
         z-index: 2;
     }
