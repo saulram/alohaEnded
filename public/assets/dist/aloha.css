@@ -190,7 +190,7 @@ html,body{
 .carousel .right{
     background:url(../images/valora-sprites.png) no-repeat -74px 0
 }
-@media (min-width:380px) and (max-width:767px){
+@media (min-width:320px) and (max-width:767px){
     .carousel,.carousel-inner,.item{
         height:240px
     }
