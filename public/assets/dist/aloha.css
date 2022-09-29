@@ -194,6 +194,11 @@ html,body{
     .carousel,.carousel-inner,.item{
         height:240px
     }
+    .navbar-default .navbar-collapse {
+        background: #ffffff;
+        position: relative;
+        z-index: 2;
+    }
     .navbar-default .navbar-header .navbar-brand .logo {
         background-position: center;
         background-repeat: no-repeat;
