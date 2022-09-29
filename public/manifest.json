@@ -1,0 +1,21 @@
+{ 
+
+  "name": "Bondly", 
+
+  "short_name": "Bondly", 
+
+  "start_url": "https://demo.bondly.mx/", 
+
+  "display": "standalone", 
+
+  "icons": [{ 
+
+    "src": "assets/logo.png", 
+
+    "sizes": "512x512", 
+
+    "type": "image/png" 
+
+  }] 
+
+}
